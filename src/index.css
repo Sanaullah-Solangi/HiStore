@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*!=== NAVIGATION BAR ===*/
+
+.rightNavigation > .rightSideLink::after {
+  font-size: 0.8rem;
+  position: absolute;
+
+  top: -110%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rightNavigation > .rightSideLink:hover::after {
+  color: white;
+}
+
+.rightNavigation > .rightSideLink:nth-child(1)::after {
+  content: "New";
+  width: 4rem;
+  height: 1.3rem;
+  background-color: rgb(18, 180, 110);
+  right: 10%;
+}
+
+.rightNavigation > .rightSideLink:nth-child(2)::after {
+  content: "Sale";
+  width: 2.9rem;
+  height: 1.3rem;
+  background-color: rgb(244, 55, 55);
+  right: 0%;
+}
+
+.rightNavigation > .rightSideLink::before {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  top: -25%;
+  border-width: 8px;
+  border-style: solid;
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+}
+.rightNavigation > .rightSideLink:nth-child(1)::before {
+  right: 40%;
+  border-color: transparent transparent rgb(18, 180, 110) transparent;
+}
+
+.rightNavigation > .rightSideLink:nth-child(2)::before {
+  right: 25%;
+  border-color: transparent transparent rgb(244, 55, 55) transparent;
+}
+
+/*!=== HERO SECTION ===*/
+
+.heroContainer {
+  background-image: url("./assets/images/sample-3.jpg");
+  background-size: 100% 100%;
+  height: 500px;
+}
+
+/*!=== SERVICES SECTION ===*/
+.servicesCard {
+  flex: 1 1 30%;
+}
+
+.servicesCard:hover {
+  border-color: rgb(234 88 12);
+}
+.servicesCard:hover > .serviceIconCover {
+  background-color: rgb(246, 136, 77);
+  border-color: rgb(234 88 12);
+}
+
+.servicesCard:hover > .serviceIconCover > .serviceIcon {
+  color: white;
+}
+
+.servicesCard:hover .serviceHeading {
+  color: rgb(234 88 12);
+}
+
+/*!=== FEATURED PRODUCTS SECTION ===*/
+.catogariesHeading::after {
+  content: "";
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translate(-50%);
+  -webkit-transform: translate(-50%);
+  -moz-transform: translate(-50%);
+  -ms-transform: translate(-50%);
+  -o-transform: translate(-50%);
+  width: 50%;
+  height: 3px;
+  background-color: rgb(234 88 12);
+}
+.catogariesSubHeading {
+  font-size: 1.2rem;
+}
+.catogariesCard:hover .catogariesSubHeading {
+  color: rgb(234, 88, 12);
+}
+
+.catogariesImgCover > img {
+  filter: brightness(0.9);
+  -webkit-filter: brightness(0.9);
+}
+
+:is(.catogariesImgCover, .FeaturedProdsImgCover):hover > img {
+  filter: brightness(1);
+  -webkit-filter: brightness(1);
+}
+
+.FeaturedProdsImgCover {
+  background-color: rgb(245, 245, 245);
+}
+
+.featuredProdsItemHeading {
+  font-size: 18px;
+}
+.FeaturedProdsDesc{
+  font-size: 16px;
+}

@@ -22,7 +22,7 @@ function Navigations() {
             SERVICES
           </Link>
           <Link
-            to={"/catogaries"}
+            to={"/categories"}
             className="mr-5  hover:text-orange-500 cursor-pointer font-medium "
           >
             CATOGARIES

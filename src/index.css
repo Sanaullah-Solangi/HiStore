@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/*!=== ALL MAIN HEADING BELOW BORDER ===*/
+.mainHeading::after {
+  content: "";
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translate(-50%);
+  -webkit-transform: translate(-50%);
+  -moz-transform: translate(-50%);
+  -ms-transform: translate(-50%);
+  -o-transform: translate(-50%);
+  width: 50%;
+  height: 3px;
+  background-color: rgb(234 88 12);
+}
+
 /*!=== NAVIGATION BAR ===*/
 
 .rightNavigation > .rightSideLink::after {
@@ -78,44 +94,26 @@
   color: rgb(234 88 12);
 }
 
-
-/*!=== ALL MAIN HEADING BELOW BORDER ===*/
-.mainHeading::after {
-  content: "";
-  position: absolute;
-  bottom: -50%;
-  left: 50%;
-  transform: translate(-50%);
-  -webkit-transform: translate(-50%);
-  -moz-transform: translate(-50%);
-  -ms-transform: translate(-50%);
-  -o-transform: translate(-50%);
-  width: 50%;
-  height: 3px;
-  background-color: rgb(234 88 12);
-}
 /*!=== CATEGORY SECTION ===*/
 
-.catogariesSubHeading {
+.categoriesSubHeading {
   font-size: 1.2rem;
 }
-.catogariesCard:hover .catogariesSubHeading {
+.categoriesCard:hover .categoriesSubHeading {
   color: rgb(234, 88, 12);
 }
 
-.catogariesImgCover > img {
+.categoriesImgCover > img {
   filter: brightness(0.9);
   -webkit-filter: brightness(0.9);
 }
 
-:is(.catogariesImgCover, .FeaturedProdsImgCover):hover > img {
+:is(.categoriesImgCover, .FeaturedProdsImgCover):hover > img {
   filter: brightness(1);
   -webkit-filter: brightness(1);
 }
 
-.FeaturedProdsImgCover {
-  background-color: rgb(245, 245, 245);
-}
+/*!=== FEATURED PRODUCTS & PRODUCTS DETAIL SECTION ===*/
 
 .featuredProdsItemHeading {
   font-size: 18px;
@@ -124,7 +122,12 @@
   font-size: 16px;
 }
 
+.FeaturedProdsImgCover,
+.prodDetailImg {
+  background-color: rgb(245, 245, 245);
+}
+/*!=== LOADER ===*/
 
-.loader{
+.loader {
   background-color: rgba(172, 172, 172, 0.9);
 }

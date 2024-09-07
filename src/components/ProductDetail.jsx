@@ -33,13 +33,13 @@ function ProductDetail() {
   ) : notFound ? (
     <NotFound />
   ) : (
-    <section className="text-gray-600 body-font overflow-hidden ">
+    <section className="prodDetailContainer text-gray-600 body-font overflow-hidden ">
       <div className="container px-5 py-24 mx-auto ">
-        <div className="lg:w-4/5 mx-auto flex flex-wrap ">
+        <div className="lg:w-4/5 mx-auto flex flex-wrap prodDetailCover p-5 rounded-xl">
           {/*================ PRODUCT IMAGE ================*/}
           <img
             alt="ecommerce"
-            className="lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded"
+            className="prodDetailImg lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded"
             src={
               Array.isArray(productInfo.images)
                 ? productInfo.images[0]

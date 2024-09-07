@@ -79,11 +79,14 @@ function FeaturedProds() {
               return (
                 <SwiperSlide
                   key={data?.id}
-                  className=" p-4 lg:w-1/4 sm:w-1/2 w-full"
+                  className="lg:w-1/4 sm:w-1/2 w-full"
                 >
                   <Link to={`/ProductDetail/${data.id}`}>
-                    <div className="FeaturedProdsCard cursor-grab ">
-                      <div className="FeaturedProdsImgCover mb-2 rounded-lg h-80 overflow-hidden">
+                    <div
+                      onClick={() => {}}
+                      className="FeaturedProdsCard cursor-grab "
+                    >
+                      <div className="FeaturedProdsImgCover mb-2 rounded-lg h-96 overflow-hidden">
                         <img
                           alt="content"
                           className="object-contain object-center h-full w-full transition-all duration-100 ease-linear "

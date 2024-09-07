@@ -36,7 +36,7 @@ function FeaturedProds() {
       <div className="container px-5 py-16 mx-auto">
         {/* MAIN HEADING */}
         <div className="text-center mb-10 flex justify-center items-center flex-col">
-          <h1 className="FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7">
+          <h1 className="mainHeading FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7">
             Featured Products
           </h1>
         </div>
@@ -93,8 +93,8 @@ function FeaturedProds() {
                       <p className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase  ">
                         {data.title}
                       </p>
-                      <span className="FeaturedProdsDesc capitalize title-font text-black  mt-6 mb-1">
-                        {data.description}
+                      <span className="FeaturedProdsWarranty capitalize title-font text-black  mt-6 mb-1">
+                        {data.warrantyInformation}
                       </span>
                       <br />
                       <span className="text-orange-500">${data.price}</span>

@@ -8,7 +8,7 @@ function Catogaries() {
       <div className="container px-5 py-16 mx-auto">
         {/* MAIN HEADING */}
         <div className="text-center mb-10 flex justify-center items-center flex-col">
-          <h1 className="catogariesHeading capitalize relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7">
+          <h1 className="mainHeading catogariesHeading capitalize relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7">
             Shop by categories
           </h1>
           <p className="catogariesPara text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">

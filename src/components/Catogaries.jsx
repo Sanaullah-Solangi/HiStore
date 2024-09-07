@@ -1,3 +1,7 @@
+import category1 from "../assets/images/category1.jpg"
+import category2 from "../assets/images/category2.jpg"
+import category3 from "../assets/images/category3.jpg"
+import category4 from "../assets/images/category4.jpg"
 function Catogaries() {
   return (
     <section className="text-gray-600 body-font">
@@ -21,7 +25,7 @@ function Catogaries() {
               <img
                 alt="content"
                 className="object-cover object-center h-full w-full transition-all duration-100 ease-linear "
-                src="http://ps.magentech.com/themes/sp_histore/c/113-category_default/skirts-dresses.jpg"
+                src={category1}
               />
             </div>
             <h2 className="catogariesSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1">
@@ -35,7 +39,7 @@ function Catogaries() {
               <img
                 alt="content"
                 className="object-cover object-center h-full w-full transition-all duration-100 ease-linear "
-                src="http://ps.magentech.com/themes/sp_histore/c/139-category_default/trousers-jeans.jpg"
+                src={category2}
               />
             </div>
             <h2 className="catogariesSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1">
@@ -49,7 +53,7 @@ function Catogaries() {
               <img
                 alt="content"
                 className="object-cover object-center h-full w-full transition-all duration-100 ease-linear "
-                src="http://ps.magentech.com/themes/sp_histore/c/140-category_default/bag-backpacks.jpg"
+                src={category3}
               />
             </div>
             <h2 className="catogariesSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1">
@@ -63,7 +67,7 @@ function Catogaries() {
               <img
                 alt="content"
                 className="object-cover object-center h-full w-full transition-all duration-100 ease-linear "
-                src="http://ps.magentech.com/themes/sp_histore/c/141-category_default/shoes-sandals.jpg"
+                src={category4}
               />
             </div>
             <h2 className="catogariesSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1">

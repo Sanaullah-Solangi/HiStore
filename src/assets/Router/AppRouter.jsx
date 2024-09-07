@@ -7,6 +7,7 @@ import Footer from "../../components/Footer";
 import Catogaries from "../../components/Catogaries";
 import FeaturedProds from "../../components/FeaturedProds";
 import ProductDetail from "../../components/ProductDetail";
+import NotFound from "../../components/NotFound";
 
 function AppRouter() {
   return (
@@ -19,6 +20,7 @@ function AppRouter() {
         <Route path="/catogaries" element={<Catogaries />} />
         <Route path="/FeaturedProds" element={<FeaturedProds />} />
         <Route path="/ProductDetail/:id" element={<ProductDetail />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </BrowserRouter>

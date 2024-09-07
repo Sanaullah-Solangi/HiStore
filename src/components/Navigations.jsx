@@ -34,19 +34,19 @@ function Navigations() {
             FEATURED PROD
           </Link>
           <Link
-            to={""}
+            to={"/asdf"}
             className="mr-5  hover:text-orange-500 cursor-pointer font-medium "
           >
             BLOGS
           </Link>
           <Link
-            to={""}
+            to={"/blogs"}
             className="mr-5  hover:text-orange-500 cursor-pointer font-medium "
           >
             ABOUT US
           </Link>
           <Link
-            to={""}
+            to={"/asdf"}
             className="mr-5  hover:text-orange-500 cursor-pointer font-medium "
           >
             CONTACT
@@ -55,13 +55,13 @@ function Navigations() {
         {/* RIGHT SIDE NAVIGATIONS */}
         <nav className="rightNavigation  inline-flex items-center   mt-4 md:mt-0">
           <Link
-            to={""}
+            to={"/asdf"}
             className="rightSideLink relative mr-5  hover:text-orange-500 cursor-pointer font-medium "
           >
             NEW ARRIVALS
           </Link>
           <Link
-            to={""}
+            to={"/asdf"}
             className="rightSideLink relative mr-5  hover:text-orange-500 cursor-pointer font-medium "
           >
             HOT SALE

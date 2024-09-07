@@ -1,18 +1,18 @@
+import { useContext, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FiShoppingCart } from "react-icons/fi";
 import { HiOutlineUser } from "react-icons/hi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { PiHandbagSimpleLight } from "react-icons/pi";
+import { LogoUrl } from "../assets/contexts/LogoContext";
 
 function Header() {
+  const { imgUrl } = useContext(LogoUrl);
   return (
     <header className="text-gray-600 body-font ">
       <div className="container mx-auto flex flex-wrap px-5 py-8 flex-col md:flex-row items-center">
         <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-          <img
-            src="http://ps.magentech.com/themes/sp_histore/img/logo.png"
-            alt=""
-          />
+          <img src={imgUrl.current} alt="" />
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center gap-4 text-base justify-center">
           <label className="inputCover border border-gray-300 px-4 py-1 rounded-full flex justify-between items-center ">

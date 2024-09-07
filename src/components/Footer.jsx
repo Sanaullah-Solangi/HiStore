@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { LogoUrl } from "../assets/contexts/LogoContext";
+
 function Footer() {
+  const { imgUrl } = useContext(LogoUrl);
   return (
     <footer className="text-gray-600 body-font">
       <div className="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
@@ -6,10 +10,7 @@ function Footer() {
         <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
           {/* LOGO */}
           <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-            <img
-              src="http://ps.magentech.com/themes/sp_histore/img/logo.png"
-              alt=""
-            />
+            <img src={imgUrl.current} alt="" />
           </a>
           {/* PARAGRAPHR */}
           <p className="mt-5 text-sm text-gray-500">

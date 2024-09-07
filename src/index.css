@@ -57,14 +57,6 @@
   border-color: transparent transparent rgb(244, 55, 55) transparent;
 }
 
-/*!=== HERO SECTION ===*/
-
-.heroContainer {
-  background-image: url("./assets/images/sample-3.jpg");
-  background-size: 100% 100%;
-  height: 500px;
-}
-
 /*!=== SERVICES SECTION ===*/
 .servicesCard {
   flex: 1 1 30%;
@@ -86,8 +78,9 @@
   color: rgb(234 88 12);
 }
 
-/*!=== FEATURED PRODUCTS SECTION ===*/
-.catogariesHeading::after {
+
+/*!=== ALL MAIN HEADING BELOW BORDER ===*/
+.mainHeading::after {
   content: "";
   position: absolute;
   bottom: -50%;
@@ -101,6 +94,8 @@
   height: 3px;
   background-color: rgb(234 88 12);
 }
+/*!=== CATEGORY SECTION ===*/
+
 .catogariesSubHeading {
   font-size: 1.2rem;
 }
@@ -125,6 +120,11 @@
 .featuredProdsItemHeading {
   font-size: 18px;
 }
-.FeaturedProdsDesc{
+.FeaturedProdsWarranty {
   font-size: 16px;
+}
+
+
+.loader{
+  background-color: rgba(172, 172, 172, 0.9);
 }

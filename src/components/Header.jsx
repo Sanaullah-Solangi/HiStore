@@ -12,7 +12,7 @@ function Header() {
     <header className="text-gray-600 body-font ">
       <div className="container mx-auto flex flex-wrap px-5 py-8 flex-col md:flex-row items-center">
         <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-          <img src={imgUrl.current} alt="" />
+          <img src="../assets/images/logo.png" alt="" />
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center gap-4 text-base justify-center">
           <label className="inputCover border border-gray-300 px-4 py-1 rounded-full flex justify-between items-center ">

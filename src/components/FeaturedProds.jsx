@@ -1,5 +1,11 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -30,22 +36,21 @@ function FeaturedProds() {
       <div className="container px-5 py-16 mx-auto">
         {/* MAIN HEADING */}
         <div className="text-center mb-10 flex justify-center items-center flex-col">
-          <h1 className="FeaturedProdsHeading capitalize relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7">
-            Shop by categories
+          <h1 className="FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7">
+            Featured Products
           </h1>
-          <p className="FeaturedProdsPara text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
-            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
-            pug.
-          </p>
         </div>
         {/* FEATURED CARDS */}
         <div className="flex flex-wrap -m-4">
           <Swiper
-            modules={[Navigation, Pagination, Scrollbar, A11y]}
+            modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
             spaceBetween={1}
             slidesPerView={4}
             navigation
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
             // pagination={{ clickable: true }}
             // scrollbar={{ draggable: true }}
             breakpoints={{

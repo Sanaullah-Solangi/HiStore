@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+section {
+  transition: all linear 0.1s;
+  -webkit-transition: all linear 0.1s;
+  -moz-transition: all linear 0.1s;
+  -ms-transition: all linear 0.1s;
+  -o-transition: all linear 0.1s;
+}
+
 /*!=== ALL MAIN HEADING BELOW BORDER ===*/
 .mainHeading::after {
   content: "";
@@ -15,7 +23,7 @@
   -o-transform: translate(-50%);
   width: 50%;
   height: 3px;
-  background-color: rgb(234 88 12);
+  background-color: rgb(246, 136, 77);
 }
 
 /*!=== NAVIGATION BAR ===*/
@@ -79,11 +87,11 @@
 }
 
 .servicesCard:hover {
-  border-color: rgb(234 88 12);
+  border-color: rgb(246, 136, 77);
 }
 .servicesCard:hover > .serviceIconCover {
   background-color: rgb(246, 136, 77);
-  border-color: rgb(234 88 12);
+  border-color: rgb(246, 136, 77);
 }
 
 .servicesCard:hover > .serviceIconCover > .serviceIcon {
@@ -91,7 +99,7 @@
 }
 
 .servicesCard:hover .serviceHeading {
-  color: rgb(234 88 12);
+  color: rgb(246, 136, 77) !important;
 }
 
 /*!=== CATEGORY SECTION ===*/
@@ -100,7 +108,7 @@
   font-size: 1.2rem;
 }
 .categoriesCard:hover .categoriesSubHeading {
-  color: rgb(234, 88, 12);
+  color: rgb(234, 88, 12) !important;
 }
 
 .categoriesImgCover > img {
@@ -130,4 +138,9 @@
 
 .loader {
   background-color: rgba(172, 172, 172, 0.9);
+}
+
+/*!=== PRODUCTS DETAILS MODAL ===*/
+.ProdDetailModal {
+  background-color: rgba(0, 0, 0, 0.8);
 }

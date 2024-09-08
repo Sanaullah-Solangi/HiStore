@@ -10,13 +10,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../assets/contexts/ThemeContext";
 
 function FeaturedProds() {
+  const { theme, setTheme } = useContext(ThemeContext);
   const [productsObj, setProducts] = useState({});
   const { products } = productsObj;
-  console.log(products);
   useEffect(() => {
     getProducts();
   }, []);
@@ -32,11 +33,22 @@ function FeaturedProds() {
   };
 
   return (
-    <section className="text-gray-600 body-font">
+    <section
+      className="text-gray-600 body-font"
+      style={{
+        color: `${theme == "light" ? "#4b5563" : "white"}`,
+        backgroundColor: `${theme == "light" ? "white" : "black"}`,
+      }}
+    >
       <div className="container px-5 py-16 mx-auto">
         {/* MAIN HEADING */}
         <div className="text-center mb-10 flex justify-center items-center flex-col">
-          <h1 className="mainHeading FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7">
+          <h1
+            className="mainHeading FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7"
+            style={{
+              color: `${theme == "light" ? "#4b5563" : "white"}`,
+            }}
+          >
             Featured Products
           </h1>
         </div>
@@ -71,21 +83,18 @@ function FeaturedProds() {
                 spaceBetween: 40,
               },
             }}
-            onSwiper={(swiper) => console.log(swiper)}
-            onSlideChange={() => console.log("slide change")}
+            // onSwiper={(swiper) => console.log(swiper)}
+            // onSlideChange={() => console.log("slide change")}
           >
             {products?.map((data) => {
-              console.log(data);
+              // console.log(data);
               return (
                 <SwiperSlide
                   key={data?.id}
                   className="lg:w-1/4 sm:w-1/2 w-full"
                 >
                   <Link to={`/ProductDetail/${data.id}`}>
-                    <div
-                      onClick={() => {}}
-                      className="FeaturedProdsCard cursor-grab "
-                    >
+                    <div className="FeaturedProdsCard cursor-grab ">
                       <div className="FeaturedProdsImgCover mb-2 rounded-lg h-96 overflow-hidden">
                         <img
                           alt="content"
@@ -93,10 +102,20 @@ function FeaturedProds() {
                           src={data?.images[0]}
                         />
                       </div>
-                      <p className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase  ">
+                      <p
+                        className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase "
+                        style={{
+                          color: `${theme == "light" ? "#4b5563" : "white"}`,
+                        }}
+                      >
                         {data.title}
                       </p>
-                      <span className="FeaturedProdsWarranty capitalize title-font text-black  mt-6 mb-1">
+                      <span
+                        className="FeaturedProdsWarranty capitalize title-font text-black  mt-6 mb-1"
+                        style={{
+                          color: `${theme == "light" ? "black" : "white"}`,
+                        }}
+                      >
                         {data.warrantyInformation}
                       </span>
                       <br />
@@ -106,80 +125,6 @@ function FeaturedProds() {
                 </SwiperSlide>
               );
             })}
-
-            {/* 1ST */}
-            {/* <SwiperSlide className="p-4 lg:w-1/4 sm:w-1/2 w-full">
-              <div className="FeaturedProdsCard cursor-grab ">
-                <div className="FeaturedProdsImgCover rounded-lg h-80 overflow-hidden">
-                  <img
-                    alt="content"
-                    className="object-contain object-center h-full w-full transition-all duration-100 ease-linear "
-                    src="http://ps.magentech.com/themes/sp_histore/c/113-category_default/skirts-dresses.jpg"
-                  />
-                </div>
-                <span className="FeaturedProdsShopAddress uppercase title-font text-gray-500 text-xs mt-6 mb-1">
-                  Shop , Fashion , Men Fashion
-                </span>
-                <p className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase  ">
-                  Blanca lorem reiciendis voluibus
-                </p>
-                <span className="text-orange-500">$125.12</span>
-              </div>
-            </SwiperSlide> */}
-            {/* 2ND */}
-            {/* <SwiperSlide className="p-4 lg:w-1/4 sm:w-1/2 w-full">
-              <div className="FeaturedProdsCard cursor-grab ">
-                <div className="FeaturedProdsImgCover rounded-lg h-80 overflow-hidden">
-                  <img
-                    alt="content"
-                    className="object-contain object-center h-full w-full transition-all duration-100 ease-linear "
-                    src="http://ps.magentech.com/themes/sp_histore/c/139-category_default/trousers-jeans.jpg"
-                  />
-                </div>
-                <h2 className="FeaturedProdsSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1">
-                  Trousers & Jeans
-                </h2>
-                <p className="leading-relaxed text-base text-center">
-                  9 Products
-                </p>
-              </div>
-            </SwiperSlide> */}
-            {/* 3RD */}
-            {/* <SwiperSlide className="p-4 lg:w-1/4 sm:w-1/2 w-full">
-              <div className="FeaturedProdsCard cursor-grab ">
-                <div className="FeaturedProdsImgCover rounded-lg h-80 overflow-hidden">
-                  <img
-                    alt="content"
-                    className="object-contain object-center h-full w-full transition-all duration-100 ease-linear "
-                    src="http://ps.magentech.com/themes/sp_histore/c/140-category_default/bag-backpacks.jpg"
-                  />
-                </div>
-                <h2 className="FeaturedProdsSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1">
-                  Bag & Backpacks
-                </h2>
-                <p className="leading-relaxed text-base text-center">
-                  9 Products
-                </p>
-              </div>
-            </SwiperSlide> */}
-            {/* 4RTH */}
-            {/* <SwiperSlide className="p-4 lg:w-1/4 sm:w-1/2 w-full">
-              <div className="FeaturedProdsCard  cursor-grab ">
-                <div className="FeaturedProdsImgCover rounded-lg h-80 overflow-hidden">
-                  <img
-                    alt="content"
-                    className="object-contain object-center h-full w-full transition-all duration-100 ease-linear "
-                    src="http://ps.magentech.com/themes/sp_histore/c/141-category_default/shoes-sandals.jpg"
-                  />
-                </div>
-                <h2 className="FeaturedProdsSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1">
-                  Shoes & Sandals
-                </h2>
-                <p className="leading-relaxed text-base text-center">
-                  9 Products
-                </p>
-              </div>
-            </SwiperSlide> */}
           </Swiper>
         </div>
       </div>

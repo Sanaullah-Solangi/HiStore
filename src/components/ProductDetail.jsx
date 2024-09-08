@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "./Loader";
 import NotFound from "./NotFound";
+import { ThemeContext } from "../assets/contexts/ThemeContext";
 function ProductDetail() {
+  const { theme, setTheme } = useContext(ThemeContext);
   const { id } = useParams();
   const [productInfo, setProductIfo] = useState({});
   const [loader, setLoader] = useState(true);
@@ -33,7 +35,13 @@ function ProductDetail() {
   ) : notFound ? (
     <NotFound />
   ) : (
-    <section className="prodDetailContainer text-gray-600 body-font overflow-hidden ">
+    <section
+      style={{
+        color: `${theme == "light" ? "#4b5563" : "white"}`,
+        backgroundColor: `${theme == "light" ? "white" : "black"}`,
+      }}
+      className="prodDetailContainer text-gray-600 body-font overflow-hidden "
+    >
       <div className="container px-5 py-24 mx-auto ">
         <div className="lg:w-4/5 mx-auto flex flex-wrap prodDetailCover p-5 rounded-xl">
           {/*================ PRODUCT IMAGE ================*/}
@@ -48,15 +56,30 @@ function ProductDetail() {
           />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             {/*================ BRAND NAME ================*/}
-            <h2 className="text-sm title-font text-gray-500 tracking-widest">
+            <h2
+              style={{
+                color: `${theme == "light" ? "#4b5563" : "white"}`,
+              }}
+              className="text-sm title-font text-gray-500 tracking-widest"
+            >
               {productInfo.brand}
             </h2>
             {/*================ PRODUCT TITLE ================*/}
-            <h1 className="text-gray-900 text-3xl  title-font font-medium mt-2 mb-6">
+            <h1
+              style={{
+                color: `${theme == "light" ? "#4b5563" : "white"}`,
+              }}
+              className="text-gray-900 text-3xl  title-font font-medium mt-2 mb-6"
+            >
               {productInfo.title}
             </h1>
             {/*================ PRODUCT PRICE ================*/}
-            <span className="title-font font-medium flex text-2xl text-gray-900 mb-6">
+            <span
+              style={{
+                color: `${theme == "light" ? "#4b5563" : "white"}`,
+              }}
+              className="title-font font-medium flex text-2xl text-gray-900 mb-6"
+            >
               $ {productInfo.price}
             </span>
 

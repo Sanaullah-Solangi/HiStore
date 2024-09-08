@@ -5,8 +5,12 @@ import { HiOutlineUser } from "react-icons/hi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { PiHandbagSimpleLight } from "react-icons/pi";
 import { LogoUrl } from "../assets/contexts/LogoContext";
+import { MdDarkMode } from "react-icons/md";
+import { MdSunny } from "react-icons/md";
+import { ThemeContext } from "../assets/contexts/ThemeContext";
 
 function Header() {
+  const { theme, setTheme } = useContext(ThemeContext);
   const { imgUrl } = useContext(LogoUrl);
   return (
     <header className="text-gray-600 body-font ">
@@ -35,6 +39,23 @@ function Header() {
             fontSize={"1.8rem"}
             className="hover:text-orange-600 cursor-pointer"
           />
+          {theme == "light" ? (
+            <MdDarkMode
+              onClick={() => {
+                setTheme("black");
+              }}
+              fontSize={"1.8rem"}
+              className="hover:text-orange-600 cursor-pointer transition-all duration-150 ease-linear"
+            />
+          ) : (
+            <MdSunny
+              onClick={() => {
+                setTheme("light");
+              }}
+              fontSize={"1.8rem"}
+              className="hover:text-orange-600 cursor-pointer transition-all duration-150 ease-linear"
+            />
+          )}
         </nav>
       </div>
     </header>

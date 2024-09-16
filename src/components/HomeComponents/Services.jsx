@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { FaTruck } from "react-icons/fa";
 import { FaDollarSign } from "react-icons/fa";
 import { IoFootball } from "react-icons/io5";
-import { ThemeContext } from "../assets/contexts/ThemeContext";
+import { ThemeContext } from "../../contexts/ThemeContext";
 function Services() {
   const { theme, setTheme } = useContext(ThemeContext);
   return (
@@ -15,9 +15,9 @@ function Services() {
     >
       <div className="container px-5 py-24 mx-auto">
         {/* MAIN CONTAINER */}
-        <div className="servicesContainer flex flex-wrap gap-4 sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+        <div className="servicesContainer flex justify-start items-center flex-wrap gap-4 sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
           {/* 1ST SERVICE */}
-          <div className="servicesCard cursor-pointer transition-all ease-linear duration-200 border border-gray-400 px-4 py-6  flex flex-col text-center items-center">
+          <div className="servicesCard h-80  cursor-pointer transition-all ease-linear duration-200 border border-gray-400 px-4 py-6  flex flex-col text-center items-center">
             <div className="serviceIconCover transition-all ease-linear duration-200 w-20 h-20 inline-flex items-center justify-center rounded-full border border-gray-400 text-gray-800 mb-5 flex-shrink-0">
               <FaTruck
                 style={{
@@ -43,7 +43,7 @@ function Services() {
             </div>
           </div>
           {/* 2ND SERVICE */}
-          <div className="servicesCard cursor-pointer transition-all ease-linear duration-200 border border-gray-400 px-4 py-6  flex flex-col text-center items-center">
+          <div className="servicesCard h-80 cursor-pointer transition-all ease-linear duration-200 border border-gray-400 px-4 py-6  flex flex-col text-center items-center">
             <div className="serviceIconCover transition-all ease-linear duration-200  w-20 h-20 inline-flex items-center justify-center rounded-full border border-gray-400 text-gray-800 mb-5 flex-shrink-0">
               <FaDollarSign
                 style={{
@@ -68,7 +68,7 @@ function Services() {
             </div>
           </div>
           {/* 3RD SERVICE */}
-          <div className="servicesCard cursor-pointer transition-all ease-linear duration-200 border border-gray-400 px-4 py-6  flex flex-col text-center items-center">
+          <div className="servicesCard h-80 cursor-pointer transition-all ease-linear duration-200 border border-gray-400 px-4 py-6  flex flex-col text-center items-center">
             <div className="serviceIconCover transition-all ease-linear duration-200 w-20 h-20 inline-flex items-center justify-center rounded-full border border-gray-400 text-gray-800 mb-5 flex-shrink-0">
               <IoFootball
                 style={{

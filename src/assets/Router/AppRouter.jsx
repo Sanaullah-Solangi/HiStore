@@ -1,13 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Hero from "../../components/Hero";
-import Header from "../../components/Header";
-import Navigations from "../../components/Navigations";
-import Services from "../../components/Services";
-import Footer from "../../components/Footer";
-import Categories from "../../components/Categories";
-import FeaturedProds from "../../components/FeaturedProds";
-import ProductDetail from "../../components/ProductDetail";
-import NotFound from "../../components/NotFound";
+import Hero from "../../components/HomeComponents/Hero";
+import Header from "../../components/GlobalComponents/Header";
+import Navigations from "../../components/GlobalComponents/Navigations";
+import Services from "../../components/HomeComponents/Services";
+import Footer from "../../components/GlobalComponents/Footer";
+import Categories from "../../components/HomeComponents/Categories";
+import FeaturedProds from "../../components/HomeComponents/FeaturedProds";
+import ProductDetail from "../../components/HomeComponents/ProductDetail";
+import NotFound from "../../components/GlobalComponents/NotFound";
+import HomePage from "../pages/Home";
+import CartItems from "../../components/GlobalComponents/CartItems";
 
 function AppRouter() {
   return (
@@ -15,11 +17,13 @@ function AppRouter() {
       <Header />
       <Navigations />
       <Routes>
-        <Route path="/" element={<Hero />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/hero" element={<Hero />} />
         <Route path="/services" element={<Services />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/FeaturedProds" element={<FeaturedProds />} />
         <Route path="/ProductDetail/:id" element={<ProductDetail />} />
+        <Route path="/CartItems" element={<CartItems />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

@@ -4,14 +4,17 @@ import { FiShoppingCart } from "react-icons/fi";
 import { HiOutlineUser } from "react-icons/hi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { PiHandbagSimpleLight } from "react-icons/pi";
-import { LogoUrl } from "../assets/contexts/LogoContext";
+import { LogoUrl } from "../../contexts/LogoContext";
 import { MdDarkMode } from "react-icons/md";
 import { MdSunny } from "react-icons/md";
-import { ThemeContext } from "../assets/contexts/ThemeContext";
-
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { Badge } from "antd";
+import { CartContext } from "../../contexts/CartContext";
+import { Link } from "react-router-dom";
 function Header() {
   const { theme, setTheme } = useContext(ThemeContext);
   const { imgUrl } = useContext(LogoUrl);
+  const { cartItems } = useContext(CartContext);
   return (
     <header className="text-gray-600 body-font ">
       <div className="container mx-auto flex flex-wrap px-5 py-8 flex-col md:flex-row items-center">
@@ -27,10 +30,15 @@ function Header() {
             />
             <CiSearch className="text-gray-900" fontSize={"1.5rem"} />
           </label>
-          <FiShoppingCart
-            fontSize={"1.8rem"}
-            className="hover:text-orange-600 cursor-pointer"
-          />
+          <Link to={"/CartItems"}>
+            <Badge count={cartItems.length} color="orange">
+              <FiShoppingCart
+                fontSize={"1.8rem"}
+                className="hover:text-orange-600 cursor-pointer"
+              />
+            </Badge>
+          </Link>
+
           <HiOutlineUser
             fontSize={"1.8rem"}
             className="hover:text-orange-600 cursor-pointer"

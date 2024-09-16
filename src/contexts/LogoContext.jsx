@@ -1,5 +1,5 @@
 import { createContext, useRef } from "react";
-import logo from "../images/logo.png";
+import logo from "../assets/images/logo.png";
 
 export const LogoUrl = createContext();
 function LogoUrlProvider({ children }) {

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Button, Result } from "antd";
-import { ThemeContext } from "../assets/contexts/ThemeContext";
+import { ThemeContext } from "../../contexts/ThemeContext";
 function NotFound() {
   const { theme, setTheme } = useContext(ThemeContext);
   return (

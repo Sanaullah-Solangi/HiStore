@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { LogoUrl } from "../assets/contexts/LogoContext";
+import { LogoUrl } from "../../contexts/LogoContext";
 
 function Footer() {
   const { imgUrl } = useContext(LogoUrl);

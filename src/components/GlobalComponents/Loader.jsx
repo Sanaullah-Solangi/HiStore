@@ -1,4 +1,4 @@
-import LoaderImg from "../assets/images/output-onlinegiftools (1).gif";
+import LoaderImg from "../../assets/images/output-onlinegiftools (1).gif";
 
 function Loader() {
   return (

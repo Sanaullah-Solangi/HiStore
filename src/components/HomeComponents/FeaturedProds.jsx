@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ThemeContext } from "../assets/contexts/ThemeContext";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 function FeaturedProds() {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -23,11 +23,10 @@ function FeaturedProds() {
   }, []);
 
   const getProducts = () => {
-    console.log("men chala");
     fetch("https://dummyjson.com/products")
       .then((res) => res.json())
       .then((res) => {
-        console.log("res->", res);
+        // console.log("res->", res);
         setProducts(res);
       });
   };

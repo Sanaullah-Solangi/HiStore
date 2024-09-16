@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 function Navigations() {
@@ -7,7 +8,7 @@ function Navigations() {
         {/* LEFT SIDE NAVIGATION  */}
         <nav
           style={{ fontSize: "16px" }}
-          className="md:mr-auto md:ml-4 md:py-1 md:pl-4 flex flex-wrap items-center text-base justify-center"
+          className="md:mr-auto md:ml-4 md:py-1 md:pl-4 w-full flex flex-wrap items-center text-base justify-center"
         >
           <Link
             to={"/"}
@@ -33,18 +34,7 @@ function Navigations() {
           >
             FEATURED PROD
           </Link>
-          <Link
-            to={"/asdf"}
-            className="mr-5  hover:text-orange-500 cursor-pointer font-medium "
-          >
-            BLOGS
-          </Link>
-          <Link
-            to={"/blogs"}
-            className="mr-5  hover:text-orange-500 cursor-pointer font-medium "
-          >
-            ABOUT US
-          </Link>
+
           <Link
             to={"/asdf"}
             className="mr-5  hover:text-orange-500 cursor-pointer font-medium "
@@ -53,7 +43,7 @@ function Navigations() {
           </Link>
         </nav>
         {/* RIGHT SIDE NAVIGATIONS */}
-        <nav className="rightNavigation  inline-flex items-center   mt-4 md:mt-0">
+        {/* <nav className="rightNavigation  inline-flex items-center   mt-4 md:mt-0">
           <Link
             to={"/asdf"}
             className="rightSideLink relative mr-5  hover:text-orange-500 cursor-pointer font-medium "
@@ -66,7 +56,7 @@ function Navigations() {
           >
             HOT SALE
           </Link>
-        </nav>
+        </nav> */}
       </div>
     </header>
   );

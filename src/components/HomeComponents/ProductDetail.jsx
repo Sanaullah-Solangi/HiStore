@@ -1,10 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Loader from "./Loader";
-import NotFound from "./NotFound";
-import { ThemeContext } from "../assets/contexts/ThemeContext";
+import Loader from "../GlobalComponents/Loader";
+import NotFound from "../GlobalComponents/NotFound";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { Image } from "antd";
+import { FiShoppingCart } from "react-icons/fi";
+import { CartContext } from "../../contexts/CartContext";
+
 function ProductDetail() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { cartItems, addItemToCart, isProductExist } = useContext(CartContext);
+  const { theme } = useContext(ThemeContext);
   const { id } = useParams();
   const [productInfo, setProductIfo] = useState({});
   const [loader, setLoader] = useState(true);
@@ -21,7 +26,6 @@ function ProductDetail() {
         setProductIfo(res);
 
         setLoader(false);
-        console.log("res->", res);
         res.message ? setNotFound(true) : setNotFound(false);
       })
       .catch((err) => {
@@ -45,15 +49,20 @@ function ProductDetail() {
       <div className="container px-5 py-24 mx-auto ">
         <div className="lg:w-4/5 mx-auto flex flex-wrap prodDetailCover p-5 rounded-xl">
           {/*================ PRODUCT IMAGE ================*/}
-          <img
-            alt="ecommerce"
-            className="prodDetailImg lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded"
-            src={
-              Array.isArray(productInfo.images)
-                ? productInfo.images[0]
-                : productInfo.images
-            }
-          />
+          <div className="prodDetailImg lg:w-1/2 w-full lg:h-auto h-64  rounded">
+            <Image
+              alt="ecommerce"
+              width={"100%"}
+              height={"100%"}
+              style={{ objectFit: "contain" }}
+              src={
+                Array.isArray(productInfo.images)
+                  ? productInfo.images[0]
+                  : productInfo.images
+              }
+            />
+          </div>
+
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             {/*================ BRAND NAME ================*/}
             <h2
@@ -102,15 +111,30 @@ function ProductDetail() {
                 <span>{productInfo.minimumOrderQuantity}</span>
               </div>
             </div>
-            {/*================ BUTTONS WRRAPER ================*/}
-            <div className="flex mb-10">
-              {/* LEFT BTN */}
-              <button className="flex items-center justify-center bg-transparent border border-gray-500 py-2 px-6 focus:outline-none  rounded">
-                1
-              </button>
+            {/*================ ADD TO CART BUTTON ================*/}
+            <div className="flex justify-between items-center flex-wrap gap-4 mb-10">
               {/* ADD TO CART BTN */}
-              <button className="flex ml-auto text-white bg-gray-800 border-0 py-2 px-16 focus:outline-none hover:bg-orange-600 rounded">
-                ADD TO CART
+              <button
+                onClick={() => {
+                  addItemToCart({ ...productInfo, quantity: 1 });
+                }}
+                className="flex justify-center items-center gap-4   text-white bg-gray-800 border-0 py-3 w-72 focus:outline-none hover:bg-orange-600 rounded"
+              >
+                ADD TO CART <FiShoppingCart size={22} />
+              </button>
+              {/* CART COUNT */}
+              <button
+                style={{
+                  backgroundColor: `${
+                    isProductExist(productInfo.id) ? "rgb(234,88,12)" : ""
+                  }`,
+                  color: `${isProductExist(productInfo.id) ? "white" : ""}`,
+                }}
+                className="flex items-center justify-center bg-transparent border border-gray-500 py-2 px-6 focus:outline-none text-md font-medium   rounded"
+              >
+                {isProductExist(productInfo.id)
+                  ? isProductExist(productInfo.id).quantity
+                  : 0}
               </button>
               {/* LIKE BTN */}
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">

@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import category1 from "../assets/images/category1.jpg";
-import category2 from "../assets/images/category2.jpg";
-import category3 from "../assets/images/category3.jpg";
-import category4 from "../assets/images/category4.jpg";
-import { ThemeContext } from "../assets/contexts/ThemeContext";
+import category1 from "../../assets/images/category1.jpg";
+import category2 from "../../assets/images/category2.jpg";
+import category3 from "../../assets/images/category3.jpg";
+import category4 from "../../assets/images/category4.jpg";
+import { ThemeContext } from "../../contexts/ThemeContext";
 function Categories() {
   const { theme, setTheme } = useContext(ThemeContext);
   return (

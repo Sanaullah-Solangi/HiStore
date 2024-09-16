@@ -5,7 +5,8 @@ function CartContextProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("cartItems"));
-    if (data.length != 0) {
+    if (Array.isArray(data) && data.length != 0) {
+      console.log(Array.isArray(data));
       setCartItems([...data]);
     }
   }, []);

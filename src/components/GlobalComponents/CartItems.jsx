@@ -1,13 +1,16 @@
 import { useContext } from "react";
 import { CartContext } from "../../contexts/CartContext";
 import { FaDollarSign } from "react-icons/fa";
-
 import { RiNumbersFill } from "react-icons/ri";
-
+import EmptyData from "./EmptyData";
 import {
   DeleteFilled,
   DollarOutlined,
   DeliveredProcedureOutlined,
+  ProductOutlined,
+  CheckCircleOutlined,
+  CheckOutlined,
+  CreditCardOutlined,
 } from "@ant-design/icons";
 
 function CartItems() {
@@ -23,39 +26,9 @@ function CartItems() {
     0
   );
 
-  console.log(totalQuantity);
-  return (
+  return cartItems.length != 0 ? (
     <section className="text-gray-600 body-font ">
-      <div className="container pb-24 mx-auto ">
-        {/* === HEADING SECTION === */}
-        <div className="container mx-auto flex flex-wrap py-5  md:flex-row items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center  text-xl">
-              <FaDollarSign />{" "}
-              <span style={{ fontSize: "22px" }}>{totalAmount}</span>
-            </div>
-            <div className="flex items-center  text-xl">
-              <FaDollarSign />{" "}
-              <span style={{ fontSize: "22px" }}>{totalQuantity}</span>
-            </div>
-          </div>
-
-          <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-            Button
-            <svg
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              className="w-4 h-4 ml-1"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
-
+      <div className="container relative pb-24 mx-auto ">
         {/* === CONTENT SECTION === */}
         <div className="grid gap-4 px-5  -m-4">
           {cartItems.map((item, ind) => {
@@ -106,8 +79,44 @@ function CartItems() {
             console.log(item);
           })}
         </div>
+        {/* === ORDER SUMMARY === */}
+        <div className="fixed bottom-0 left-0  h-16 border border-y-2 w-screen bg-white flex flex-wrap   md:flex-row items-center justify-between">
+          {/* SUMMARY OF AMOUNT & QUANTITY */}
+          <div className="flex items-center h-full ">
+            {/* TOTAL AMOUNT */}
+            <div className="flex items-center flex-wrap text-xl h-full">
+              <span
+                style={{ fontSize: "22px" }}
+                className="flex items-center bg-green-600 px-10 text-white h-full"
+              >
+                <FaDollarSign /> Total Amount
+                <span className="ml-5 font-bold">{totalAmount}</span>
+              </span>
+            </div>
+            {/* TOTAL QUANTITY */}
+            <div className="flex items-center flex-wrap text-xl h-full">
+              <span
+                style={{ fontSize: "22px" }}
+                className="flex items-center bg-blue-600 px-10 text-white h-full"
+              >
+                <ProductOutlined className="mr-2" /> Total Quantity
+                <span className="ml-5 font-bold">{totalQuantity}</span>
+              </span>
+            </div>
+          </div>
+          {/* BUTTON TO PROCESS NEXT */}
+          <button
+            style={{ fontSize: "22px" }}
+            className="flex items-center gap-4 bg-red-500 h-full  border-0 px-6 focus:outline-none capitalize text-white  hover:bg-red-800  text-base "
+          >
+            place order
+            <CreditCardOutlined />
+          </button>
+        </div>
       </div>
     </section>
+  ) : (
+    <EmptyData />
   );
 }
 export default CartItems;

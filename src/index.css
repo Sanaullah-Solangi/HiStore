@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "poppins";
+  src: url(./assets/fonts/Poppins-Regular.ttf);
+}
+
+* {
+  font-family: "poppins", sans-serif !important;
+}
+
 section {
   transition: all linear 0.1s;
   -webkit-transition: all linear 0.1s;
@@ -151,30 +160,62 @@ section {
   font-size: 20px;
   border-bottom-left-radius: 10px;
 }
-.cartItemCard {
-  flex: 1 1 33%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  min-height: 500px;
+
+.orderSummary {
+  min-height: 60px;
+  height: 60px;
 }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.orderSummary :is(div, span, button) {
+  min-height: 100%;
+  height: 100%;
 }
 
-@media (width <=1180px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
+.cartItemCard {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.quantityBtn {
+  border: none !important;
+  outline: none !important;
+}
+
+.quantityBtn:nth-child(1):hover {
+  background-color: rgb(30, 128, 247) !important;
+}
+
+.quantityBtn:nth-child(2):hover {
+  background-color: rgb(248, 73, 73) !important;
+}
+.quantityBtn:nth-child(2):disabled {
+  border: 1px solid white !important;
+}
+
+.cartImg {
+  height: 15rem;
+  width: 15rem;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+@media (width <=955px) {
+  .cartItemCard {
+    flex-direction: column;
   }
+  .cartImg {
+    width: 100%;
+  }
+}
+
+/* .grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 @media (width <=770px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (width <=530px) {
-  .grid {
     grid-template-columns: repeat(1, 1fr);
   }
-}
+} */

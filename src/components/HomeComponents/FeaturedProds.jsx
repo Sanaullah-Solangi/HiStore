@@ -13,9 +13,12 @@ import "swiper/css/scrollbar";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { CartContext } from "../../contexts/CartContext";
 
 function FeaturedProds() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
+  const { isProductExist } = useContext(CartContext);
   const [productsObj, setProducts] = useState({});
   const { products } = productsObj;
   useEffect(() => {
@@ -101,24 +104,46 @@ function FeaturedProds() {
                           src={data?.images[0]}
                         />
                       </div>
-                      <p
-                        className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase "
-                        style={{
-                          color: `${theme == "light" ? "#4b5563" : "white"}`,
-                        }}
-                      >
-                        {data.title}
-                      </p>
-                      <span
-                        className="FeaturedProdsWarranty capitalize title-font text-black  mt-6 mb-1"
-                        style={{
-                          color: `${theme == "light" ? "black" : "white"}`,
-                        }}
-                      >
-                        {data.warrantyInformation}
-                      </span>
-                      <br />
-                      <span className="text-orange-500">${data.price}</span>
+                      <div className="flex justify-between">
+                        {/* PRODUCT SHORT INFO */}
+                        <div>
+                          <p
+                            className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase "
+                            style={{
+                              color: `${
+                                theme == "light" ? "#4b5563" : "white"
+                              }`,
+                            }}
+                          >
+                            {data.title}
+                          </p>
+                          <span
+                            className="FeaturedProdsWarranty capitalize title-font text-black  mt-6 mb-1"
+                            style={{
+                              color: `${theme == "light" ? "black" : "white"}`,
+                            }}
+                          >
+                            {data.warrantyInformation}
+                          </span>
+                          <br />
+                          <span className="text-orange-500">${data.price}</span>
+                        </div>
+                        {/* ICON TO INDICATE THIS ITEM IS CARTED */}
+                        <div>
+                          {isProductExist(data.id) ? (
+                            <ShoppingCartOutlined
+                              style={{
+                                color: `${
+                                  theme == "light" ? "black" : "orange"
+                                }`,
+                              }}
+                              className="text-2xl"
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 </SwiperSlide>

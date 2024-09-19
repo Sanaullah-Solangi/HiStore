@@ -1,16 +1,15 @@
 import { createContext, useEffect, useState } from "react";
-
 export const CartContext = createContext();
 function CartContextProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  // GETTING ALL ITEMS FROM STORAGE
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("cartItems"));
     if (Array.isArray(data) && data.length != 0) {
-      console.log(Array.isArray(data));
       setCartItems([...data]);
     }
   }, []);
-
+  // SETTING ITEMS TO CART LIST
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
@@ -35,6 +34,13 @@ function CartContextProvider({ children }) {
     setCartItems([...arr]);
   }
 
+  function decreaseItemQuantity(id) {
+    const arr = cartItems;
+    const productInd = cartItems.findIndex((item) => item.id == id);
+    arr[productInd].quantity--;
+    setCartItems([...arr]);
+  }
+
   // FUNCTION TO CHECK WHETHER ITEM EXITS OR NOT
   function isProductExist(id) {
     const productInd = cartItems.findIndex((item) => item.id == id);
@@ -52,6 +58,7 @@ function CartContextProvider({ children }) {
         addItemToCart,
         removeItemFromCartList,
         isProductExist,
+        decreaseItemQuantity,
       }}
     >
       {children}

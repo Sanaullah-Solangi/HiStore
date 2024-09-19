@@ -1,13 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../GlobalComponents/Loader";
 import NotFound from "../GlobalComponents/NotFound";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Image } from "antd";
 import { FiShoppingCart } from "react-icons/fi";
 import { CartContext } from "../../contexts/CartContext";
+import { UserContext } from "../../contexts/userContext";
 
 function ProductDetail() {
+  const { isUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const { cartItems, addItemToCart, isProductExist } = useContext(CartContext);
   const { theme } = useContext(ThemeContext);
   const { id } = useParams();
@@ -116,11 +119,20 @@ function ProductDetail() {
               {/* ADD TO CART BTN */}
               <button
                 onClick={() => {
-                  addItemToCart({ ...productInfo, quantity: 1 });
+                  isUser
+                    ? addItemToCart({ ...productInfo, quantity: 1 })
+                    : navigate("/LogInPage");
                 }}
                 className="flex justify-center items-center gap-4   text-white bg-gray-800 border-0 py-3 w-72 focus:outline-none hover:bg-orange-600 rounded"
               >
-                ADD TO CART <FiShoppingCart size={22} />
+                {isProductExist(productInfo.id) ? (
+                  "Increase Quantity"
+                ) : (
+                  <>
+                    Add To Cart
+                    <FiShoppingCart size={22} />
+                  </>
+                )}
               </button>
               {/* CART COUNT */}
               <button

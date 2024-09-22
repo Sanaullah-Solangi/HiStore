@@ -1,0 +1,23 @@
+/*!=== RESPONSIVE STYLE ===*/
+
+@media (width <=1030px) {
+  /*!=== PRODUCTS LISTING STYLING ===*/
+
+  .productListingCard {
+    flex: 1 1 50% !important;
+  }
+}
+
+@media (width <=955px) {
+  .cartItemCard {
+    flex-direction: column;
+  }
+  .cartImg {
+    width: 100%;
+  }
+}
+@media (width <=710px) {
+  .orderSummary {
+    display: none;
+  }
+}

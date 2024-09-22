@@ -1,4 +1,14 @@
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { CartContext } from "../../contexts/CartContext";
+import Button from "@mui/material/Button";
 import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 import {
   Navigation,
   Pagination,
@@ -6,16 +16,9 @@ import {
   A11y,
   Autoplay,
 } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { ShoppingCartOutlined } from "@ant-design/icons";
-import { CartContext } from "../../contexts/CartContext";
+import outlined from "@material-tailwind/react/theme/components/timeline/timelineIconColors/outlined";
 
+// FEATURED PRODUCTS COMPONENT
 function FeaturedProds() {
   const { theme } = useContext(ThemeContext);
   const { isProductExist } = useContext(CartContext);
@@ -31,6 +34,9 @@ function FeaturedProds() {
       .then((res) => {
         // console.log("res->", res);
         setProducts(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -42,7 +48,7 @@ function FeaturedProds() {
         backgroundColor: `${theme == "light" ? "white" : "black"}`,
       }}
     >
-      <div className="container px-5 py-16 mx-auto">
+      <div className="container featuredProdsContainer relative px-5 pt-16 mx-auto">
         {/* MAIN HEADING */}
         <div className="text-center mb-10 flex justify-center items-center flex-col">
           <h1
@@ -89,7 +95,6 @@ function FeaturedProds() {
             // onSlideChange={() => console.log("slide change")}
           >
             {products?.map((data) => {
-              // console.log(data);
               return (
                 <SwiperSlide
                   key={data?.id}
@@ -151,6 +156,20 @@ function FeaturedProds() {
             })}
           </Swiper>
         </div>
+        {/* VIEW ALL PRODUCTS */}
+        <Link to={"/ProductListing"}>
+          <Button
+            variant={`${theme == "black" ? "outlined" : "contained"}`}
+            style={{
+              backgroundColor: `${theme == "black" ? "" : "black"}`,
+              color: `${theme == "black" ? "white" : ""}`,
+              border: `${theme == "black" ? "2px solid white" : ""}`,
+            }}
+            className="viewAllProductsBtn"
+          >
+            View All Products
+          </Button>
+        </Link>
       </div>
     </section>
   );

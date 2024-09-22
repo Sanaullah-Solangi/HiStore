@@ -9,14 +9,15 @@ function UserContextProvider({ children }) {
     const subscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsUser(true);
-        console.log(user);
       } else {
         setIsUser(false);
         console.log("user log in nhi hai");
       }
     });
 
-    return subscribe;
+    return () => {
+      subscribe;
+    };
   }, []);
   // console.log("isUser=>", isUser);
 

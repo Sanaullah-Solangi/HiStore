@@ -6,10 +6,6 @@ import { Label, FloatingLabel } from "flowbite-react";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-// FUNCTION TO GET VALUES FROM INPUTS
-// const onFinish = (values) => {
-//   console.log("Success:", values);
-// };
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -113,7 +109,7 @@ const LogInForm = ({ logIn }) => {
         </Form.Item>
         <p style={{ color: `${theme == "light" ? "black" : "white"}` }}>
           Don't have an account{" "}
-          <Link to="/SignUpPage" className="text-blue-500 font-bold">
+          <Link to="/auth/SignUpPage" className="text-blue-500 font-bold">
             Sign Up
           </Link>
         </p>

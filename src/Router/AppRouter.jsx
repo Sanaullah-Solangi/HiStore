@@ -1,4 +1,12 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
+import { UserContext } from "../contexts/userContext";
+import { useContext } from "react";
 import Hero from "../components/HomeComponents/Hero";
 import Header from "../components/GlobalComponents/Header";
 import Navigations from "../components/GlobalComponents/Navigations";
@@ -12,37 +20,51 @@ import CartItems from "../components/GlobalComponents/CartItems";
 import HomePage from "../pages/Home";
 import SignUpPage from "../pages/SignUpPage";
 import LogInPage from "../pages/LogInPage";
-import { UserContext } from "../contexts/userContext";
-import { useContext } from "react";
+import ProductListing from "../components/ProductListing";
+import ScrollTop from "../components/GlobalComponents/ScrollTop";
 
 function AppRouter() {
   const { isUser } = useContext(UserContext);
   return (
     <BrowserRouter>
-      <Header />
-      <Navigations />
+      <ScrollTop />
       <Routes>
+        {/* AUTH ROUTES STACK */}
         <Route
-          path="/SignUpPage"
-          element={isUser ? <Navigate to={"/"} /> : <SignUpPage />}
-        />
-        <Route
-          path="/LogInPage"
-          element={isUser ? <Navigate to={"/"} /> : <LogInPage />}
-        />
+          path="/auth"
+          element={
+            <>
+              <Outlet />
+            </>
+          }
+        >
+          <Route path="SignUpPage" element={<SignUpPage />} />
+          <Route path="LogInPage" element={<LogInPage />} />
+        </Route>
+        {/* HOME ROUTES STACK */}
         <Route
           path="/"
-          element={isUser ? <HomePage /> : <Navigate to={"/LogInPage"} />}
-        />
-        <Route path="/hero" element={<Hero />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/FeaturedProds" element={<FeaturedProds />} />
-        <Route path="/ProductDetail/:id" element={<ProductDetail />} />
-        <Route path="/CartItems" element={<CartItems />} />
-        <Route path="*" element={<NotFound />} />
+          element={
+            <div>
+              <Header />
+              <Navigations />
+              <Outlet />
+              <Footer />
+            </div>
+          }
+        >
+          <Route index element={<HomePage />} />
+          <Route path="hero" element={<Hero />} />
+          <Route path="services" element={<Services />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="FeaturedProds" element={<FeaturedProds />} />
+          <Route path="ProductDetail/:id" element={<ProductDetail />} />
+          <Route path="CartItems" element={<CartItems />} />
+          <Route path="ProductListing" element={<ProductListing />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }

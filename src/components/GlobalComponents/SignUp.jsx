@@ -130,7 +130,7 @@ const SignUpForm = ({ signUp }) => {
         </Form.Item>
         <p style={{ color: `${theme == "light" ? "black" : "white"}` }}>
           Already have an account{" "}
-          <Link to="/LogInPage" className="text-blue-500 font-bold">
+          <Link to="/auth/LogInPage" className="text-blue-500 font-bold">
             Log In
           </Link>
         </p>

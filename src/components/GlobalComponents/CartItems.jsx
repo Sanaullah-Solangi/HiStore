@@ -3,6 +3,11 @@ import { CartContext } from "../../contexts/CartContext";
 import { FaDollarSign } from "react-icons/fa";
 import { RiArrowRightDoubleLine } from "react-icons/ri";
 import EmptyData from "./EmptyData";
+import { Button } from "antd";
+import { IoBagCheckOutline } from "react-icons/io5";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { UserContext } from "../../contexts/userContext";
+import { useNavigate } from "react-router-dom";
 import {
   DeleteFilled,
   DollarOutlined,
@@ -11,12 +16,6 @@ import {
   MinusOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
-
-import { Button } from "antd";
-import { IoBagCheckOutline } from "react-icons/io5";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { UserContext } from "../../contexts/userContext";
-import { useNavigate } from "react-router-dom";
 
 function CartItems() {
   const { isUser } = useContext(UserContext);
@@ -66,7 +65,7 @@ function CartItems() {
                   onClick={() => {
                     isUser
                       ? removeItemFromCartList(item.id)
-                      : navigate("/LogInPage");
+                      : navigate("/auth/LogInPage");
                   }}
                   className="removeCardIcon absolute p-2 right-0  top-0 hover:text-white text-gray-200  hover:bg-red-700 bg-red-500 cursor-pointer  transition-all duration-100 ease-linear"
                 />
@@ -120,7 +119,9 @@ function CartItems() {
                     <Button
                       title="Increase Item quantity"
                       onClick={() => {
-                        isUser ? addItemToCart(item) : navigate("/LogInPage");
+                        isUser
+                          ? addItemToCart(item)
+                          : navigate("/auth/LogInPage");
                       }}
                       className="quantityBtn bg-blue-400 text-white py-4"
                       style={{
@@ -137,7 +138,7 @@ function CartItems() {
                       onClick={() => {
                         isUser
                           ? decreaseItemQuantity(item.id)
-                          : navigate("/LogInPage");
+                          : navigate("/auth/LogInPage");
                       }}
                       className="quantityBtn bg-red-400  text-white py-4"
                       style={{
@@ -163,12 +164,12 @@ function CartItems() {
           className="orderSummary fixed bottom-0 right-0  border border-y-2 w-screen  flex flex-wrap   md:flex-row items-center justify-between"
         >
           {/* SUMMARY OF AMOUNT & QUANTITY */}
-          <div className="flex items-center bg-orange-800">
+          <div className="amountAndQuantity flex items-center">
             {/* TOTAL AMOUNT */}
             <div className="flex items-center flex-wrap text-xl">
               <span
                 style={{ fontSize: "22px" }}
-                className="flex items-center bg-green-600 px-10 text-white"
+                className="totalAmount flex items-center bg-green-600 px-10 text-white"
               >
                 <FaDollarSign /> Final Amount
                 <span className="ml-5 font-bold flex items-center">
@@ -180,7 +181,7 @@ function CartItems() {
             <div className="flex items-center flex-wrap text-xl">
               <span
                 style={{ fontSize: "22px" }}
-                className="flex items-center bg-blue-600 px-10 text-white"
+                className="totalQuantity flex items-center bg-blue-600 px-10 text-white"
               >
                 <ProductOutlined className="mr-2" /> Total Quantity
                 <span className="ml-5 font-bold flex items-center">

@@ -1,3 +1,4 @@
+// HOOKS
 import {
   BrowserRouter,
   Navigate,
@@ -5,8 +6,10 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
+
+// CONTEXTS
+import { UserContext } from "../contexts/UserContext";
 import Hero from "../components/HomeComponents/Hero";
 import Header from "../components/GlobalComponents/Header";
 import Navigations from "../components/GlobalComponents/Navigations";
@@ -20,7 +23,7 @@ import CartItems from "../components/GlobalComponents/CartItems";
 import HomePage from "../pages/Home";
 import SignUpPage from "../pages/SignUpPage";
 import LogInPage from "../pages/LogInPage";
-import ProductListing from "../components/ProductListing";
+import ProductListing from "../components/HomeComponents/ProductListing";
 import ScrollTop from "../components/GlobalComponents/ScrollTop";
 
 function AppRouter() {

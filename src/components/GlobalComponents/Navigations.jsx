@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Navigations() {
   return (
@@ -42,21 +41,6 @@ function Navigations() {
             CONTACT
           </Link>
         </nav>
-        {/* RIGHT SIDE NAVIGATIONS */}
-        {/* <nav className="rightNavigation  inline-flex items-center   mt-4 md:mt-0">
-          <Link
-            to={"/asdf"}
-            className="rightSideLink relative mr-5  hover:text-orange-500 cursor-pointer font-medium "
-          >
-            NEW ARRIVALS
-          </Link>
-          <Link
-            to={"/asdf"}
-            className="rightSideLink relative mr-5  hover:text-orange-500 cursor-pointer font-medium "
-          >
-            HOT SALE
-          </Link>
-        </nav> */}
       </div>
     </header>
   );

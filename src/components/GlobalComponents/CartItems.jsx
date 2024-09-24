@@ -1,12 +1,16 @@
+// REACT HOOKS
 import { useContext } from "react";
+// CONTXTS
 import { CartContext } from "../../contexts/CartContext";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { UserContext } from "../../contexts/UserContext";
+// COMPONENTS
+import EmptyData from "./EmptyData";
+// ICONS & OTHERS
 import { FaDollarSign } from "react-icons/fa";
 import { RiArrowRightDoubleLine } from "react-icons/ri";
-import EmptyData from "./EmptyData";
 import { Button } from "antd";
 import { IoBagCheckOutline } from "react-icons/io5";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { UserContext } from "../../contexts/userContext";
 import { useNavigate } from "react-router-dom";
 import {
   DeleteFilled,
@@ -17,6 +21,7 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 
+// CART COMPONENT STARTS
 function CartItems() {
   const { isUser } = useContext(UserContext);
   const navigate = useNavigate();

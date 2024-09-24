@@ -1,8 +1,11 @@
+// HOOKS
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// CONTEXT
 import { ThemeContext } from "../../contexts/ThemeContext";
-import { ShoppingCartOutlined } from "@ant-design/icons";
 import { CartContext } from "../../contexts/CartContext";
+// ICONS & OTHER COMPONENTS
+import { Link } from "react-router-dom";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 import Button from "@mui/material/Button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -16,7 +19,6 @@ import {
   A11y,
   Autoplay,
 } from "swiper/modules";
-import outlined from "@material-tailwind/react/theme/components/timeline/timelineIconColors/outlined";
 
 // FEATURED PRODUCTS COMPONENT
 function FeaturedProds() {

@@ -1,7 +1,11 @@
+// HOOKS
 import React, { useContext } from "react";
+// CONTEXTS
+import { ThemeContext } from "../../contexts/ThemeContext";
+// ICONS &u COMPONENTS
 import { Button, Result } from "antd";
 import { Link } from "react-router-dom";
-import { ThemeContext } from "../../contexts/ThemeContext";
+// EMPTYDATA COMPONENT
 function EmptyData() {
   const { theme, setTheme } = useContext(ThemeContext);
   return (
@@ -17,7 +21,12 @@ function EmptyData() {
         </span>
       }
       subTitle={
-        <span style={{ color: theme === "light" ? "#6b7280" : "white",fontSize:"22px" }}>
+        <span
+          style={{
+            color: theme === "light" ? "#6b7280" : "white",
+            fontSize: "22px",
+          }}
+        >
           It looks like you haven't added any items to your cart yet. Browse
           products and add them to your cart.
         </span>

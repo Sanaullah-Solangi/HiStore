@@ -1,9 +1,12 @@
+// HOOKS
 import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../contexts/ThemeContext";
-import { UserContext } from "../contexts/UserContext";
-import { CartContext } from "../contexts/CartContext";
+// CONTEXTS
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { UserContext } from "../../contexts/UserContext";
+import { CartContext } from "../../contexts/CartContext";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import Loader from "./GlobalComponents/Loader";
+// ICONS & OTHER COMPONENT
+import Loader from "../GlobalComponents/Loader";
 import Button from "@mui/material/Button";
 import { DollarOutlined } from "@ant-design/icons";
 import { Image } from "antd";

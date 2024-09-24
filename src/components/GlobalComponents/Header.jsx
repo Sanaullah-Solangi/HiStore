@@ -1,20 +1,24 @@
+// HOOKS
 import { useContext, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+//CONTEXTS
+import { UserContext } from "../../contexts/UserContext";
+import { CartContext } from "../../contexts/CartContext";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { LogoUrl } from "../../contexts/LogoContext";
+// COMPONENTS & FUNCTIONS
+import { signOut, auth } from "../../utils/firebase";
+// ICONS & OTHERS
 import { CiSearch } from "react-icons/ci";
 import { FiShoppingCart } from "react-icons/fi";
 import { HiOutlineUser } from "react-icons/hi";
 import { IoSettingsOutline } from "react-icons/io5";
-import { LogoUrl } from "../../contexts/LogoContext";
 import { MdDarkMode } from "react-icons/md";
 import { MdSunny } from "react-icons/md";
-import { ThemeContext } from "../../contexts/ThemeContext";
 import { Badge } from "antd";
-import { CartContext } from "../../contexts/CartContext";
-import { Link, useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { LuLogIn } from "react-icons/lu";
-import { UserContext } from "../../contexts/userContext";
-import { signOut, auth } from "../../utils/firebase";
-
+// FUNCTION OF LOGOUT
 async function logOut() {
   try {
     const res = await signOut(auth);

@@ -1,12 +1,15 @@
+// HOOKS
 import { useContext, useEffect, useState } from "react";
+// CONTEXTS
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { CartContext } from "../../contexts/CartContext";
+import { UserContext } from "../../contexts/UserContext";
+// ICONS & OTHER COMPONENTS
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../GlobalComponents/Loader";
 import NotFound from "../GlobalComponents/NotFound";
-import { ThemeContext } from "../../contexts/ThemeContext";
 import { Image } from "antd";
 import { FiShoppingCart } from "react-icons/fi";
-import { CartContext } from "../../contexts/CartContext";
-import { UserContext } from "../../contexts/userContext";
 
 function ProductDetail() {
   const { isUser } = useContext(UserContext);

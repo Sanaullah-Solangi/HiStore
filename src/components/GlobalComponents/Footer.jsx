@@ -1,6 +1,10 @@
+// HOOKS
 import { useContext } from "react";
+// CONTEXT
 import { LogoUrl } from "../../contexts/LogoContext";
+// COMPONETS
 import { Link } from "react-router-dom";
+// FOOTER COMPONENTS
 function Footer() {
   const { imgUrl } = useContext(LogoUrl);
   return (

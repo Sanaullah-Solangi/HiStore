@@ -1,10 +1,11 @@
 // IMPORTING ELEMENTS & COMPONENTS
 import React, { useContext, useState } from "react";
-import { Checkbox, Form, Input } from "antd";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { Label, FloatingLabel } from "flowbite-react";
+import { Checkbox, Form } from "antd";
+import { FloatingLabel } from "flowbite-react";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+// CONTEXT
+import { ThemeContext } from "../../contexts/ThemeContext";
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);

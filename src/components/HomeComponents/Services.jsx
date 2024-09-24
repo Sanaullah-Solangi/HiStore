@@ -1,8 +1,11 @@
+// HOOKS
 import { useContext } from "react";
+// CONTEXTS
+import { ThemeContext } from "../../contexts/ThemeContext";
+// ICONS & COMPONENTS
 import { FaTruck } from "react-icons/fa";
 import { FaDollarSign } from "react-icons/fa";
 import { IoFootball } from "react-icons/io5";
-import { ThemeContext } from "../../contexts/ThemeContext";
 function Services() {
   const { theme, setTheme } = useContext(ThemeContext);
   return (

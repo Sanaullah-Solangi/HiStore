@@ -5,7 +5,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import { UserContext } from "../contexts/userContext";
+import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import Hero from "../components/HomeComponents/Hero";
 import Header from "../components/GlobalComponents/Header";

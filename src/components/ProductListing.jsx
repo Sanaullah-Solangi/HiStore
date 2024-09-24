@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
-import { UserContext } from "../contexts/userContext";
+import { UserContext } from "../contexts/UserContext";
 import { CartContext } from "../contexts/CartContext";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import Loader from "./GlobalComponents/Loader";

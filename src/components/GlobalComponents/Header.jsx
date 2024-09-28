@@ -107,7 +107,7 @@ function Header() {
             // LOG IN
             <LuLogIn
               onClick={() => {
-                navigate("/LogInPage");
+                navigate("/auth/LogInPage");
               }}
               fontSize={"1.8rem"}
               className="hover:text-orange-600 cursor-pointer transition-all duration-150 ease-linear"

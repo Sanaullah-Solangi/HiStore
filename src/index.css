@@ -158,6 +158,13 @@ section {
   -ms-transform: translate(-50%);
   -o-transform: translate(-50%);
 }
+
+.AppModal {
+  width: 80% !important;
+}
+.ant-modal-content {
+  padding: 0% !important;
+}
 /*!=== PRODUCTS LISTING STYLING ===*/
 
 .productListingContainer {

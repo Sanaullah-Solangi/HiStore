@@ -35,16 +35,18 @@ function ProductListing() {
       ".productListingCard:last-child"
     ).offsetTop;
     if (scrollHeight >= productDistance - 200) {
-      setLimit(limit + 5);
+      setLimit(limit + 10);
     }
   };
   // CHANGING LIMIT ON SCROLLING TO THE END
   useEffect(() => {
-    window.addEventListener("scroll", getDataOnScroll);
+    if (limit <= total) {
+      window.addEventListener("scroll", getDataOnScroll);
 
-    return () => {
-      window.removeEventListener("scroll", getDataOnScroll);
-    };
+      return () => {
+        window.removeEventListener("scroll", getDataOnScroll);
+      };
+    }
   }, [loadMore]);
   // FUNCTION TO GET DATA FROM API
   const getProducts = () => {
@@ -54,7 +56,7 @@ function ProductListing() {
       .then((res) => {
         console.log("res->", res);
         setProducts(res.products);
-        console.log(res.total);
+        setTotal(res.total);
         setLoader(false);
         loadMore ? setLoadMore(false) : setLoadMore(true);
       })

@@ -4,9 +4,12 @@ import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { CartContext } from "../../contexts/CartContext";
 // ICONS & OTHER COMPONENTS
+import AppModal from "../GlobalComponents/AppModal";
+import Loader from "../GlobalComponents/Loader";
+import NotFound from "../GlobalComponents/NotFound";
+import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import Button from "@mui/material/Button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -22,27 +25,66 @@ import {
 
 // FEATURED PRODUCTS COMPONENT
 function FeaturedProds() {
+  // CONTEXTS
   const { theme } = useContext(ThemeContext);
   const { isProductExist } = useContext(CartContext);
-  const [productsObj, setProducts] = useState({});
-  const { products } = productsObj;
+  // STATES
+  const [Id, setId] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [productInfo, setProductInfo] = useState({});
+  const [loader, setLoader] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+  // HOOKS
   useEffect(() => {
+    setLoader(true);
+    setNotFound(false);
     getProducts();
   }, []);
 
+  useEffect(() => {
+    setLoader(true);
+    setNotFound(false);
+    getProductInfo(Id);
+    console.log(productInfo);
+  }, [Id]);
   const getProducts = () => {
     fetch("https://dummyjson.com/products")
       .then((res) => res.json())
       .then((res) => {
         // console.log("res->", res);
-        setProducts(res);
+        setProducts(res.products);
+        setLoader(false);
+        res.message ? setNotFound(true) : setNotFound(false);
       })
       .catch((err) => {
         console.log(err);
+        setNotFound(true);
+        setLoader(false);
       });
   };
 
-  return (
+  const getProductInfo = (id) => {
+    fetch(`https://dummyjson.com/products/${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        // console.log("res->", res);
+        setProductInfo(res);
+        setLoader(false);
+        res.message ? setNotFound(true) : setNotFound(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setNotFound(true);
+        setLoader(false);
+      });
+  };
+
+  return loader ? (
+    <Loader />
+  ) : notFound ? (
+    <NotFound />
+  ) : (
     <section
       className="text-gray-600 body-font"
       style={{
@@ -50,6 +92,11 @@ function FeaturedProds() {
         backgroundColor: `${theme == "light" ? "white" : "black"}`,
       }}
     >
+      <AppModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        productInfo={productInfo}
+      />
       <div className="container featuredProdsContainer relative px-5 pt-16 mx-auto">
         {/* MAIN HEADING */}
         <div className="text-center mb-10 flex justify-center items-center flex-col">
@@ -102,57 +149,61 @@ function FeaturedProds() {
                   key={data?.id}
                   className="lg:w-1/4 sm:w-1/2 w-full"
                 >
-                  <Link to={`/ProductDetail/${data.id}`}>
-                    <div className="FeaturedProdsCard cursor-grab ">
-                      <div className="FeaturedProdsImgCover mb-2 rounded-lg h-96 overflow-hidden">
-                        <img
-                          alt="content"
-                          className="object-contain object-center h-full w-full transition-all duration-100 ease-linear "
-                          src={data?.images[0]}
-                        />
+                  {/* <Link to={`/ProductDetail/${data.id}`}> */}
+                  <div
+                    onClick={() => {
+                      setId(data.id);
+                      isModalOpen
+                        ? setIsModalOpen(false)
+                        : setIsModalOpen(true);
+                    }}
+                    className="FeaturedProdsCard cursor-grab "
+                  >
+                    <div className="FeaturedProdsImgCover mb-2 rounded-lg h-96 overflow-hidden">
+                      <img
+                        alt="content"
+                        className="object-contain object-center h-full w-full transition-all duration-100 ease-linear "
+                        src={data?.images[0]}
+                      />
+                    </div>
+                    <div className="flex justify-between">
+                      {/* PRODUCT SHORT INFO */}
+                      <div>
+                        <p
+                          className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase "
+                          style={{
+                            color: `${theme == "light" ? "#4b5563" : "white"}`,
+                          }}
+                        >
+                          {data.title}
+                        </p>
+                        <span
+                          className="FeaturedProdsWarranty capitalize title-font text-black  mt-6 mb-1"
+                          style={{
+                            color: `${theme == "light" ? "black" : "white"}`,
+                          }}
+                        >
+                          {data.warrantyInformation}
+                        </span>
+                        <br />
+                        <span className="text-orange-500">${data.price}</span>
                       </div>
-                      <div className="flex justify-between">
-                        {/* PRODUCT SHORT INFO */}
-                        <div>
-                          <p
-                            className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase "
+                      {/* ICON TO INDICATE THIS ITEM IS CARTED */}
+                      <div>
+                        {isProductExist(data.id) ? (
+                          <ShoppingCartOutlined
                             style={{
-                              color: `${
-                                theme == "light" ? "#4b5563" : "white"
-                              }`,
+                              color: `${theme == "light" ? "black" : "orange"}`,
                             }}
-                          >
-                            {data.title}
-                          </p>
-                          <span
-                            className="FeaturedProdsWarranty capitalize title-font text-black  mt-6 mb-1"
-                            style={{
-                              color: `${theme == "light" ? "black" : "white"}`,
-                            }}
-                          >
-                            {data.warrantyInformation}
-                          </span>
-                          <br />
-                          <span className="text-orange-500">${data.price}</span>
-                        </div>
-                        {/* ICON TO INDICATE THIS ITEM IS CARTED */}
-                        <div>
-                          {isProductExist(data.id) ? (
-                            <ShoppingCartOutlined
-                              style={{
-                                color: `${
-                                  theme == "light" ? "black" : "orange"
-                                }`,
-                              }}
-                              className="text-2xl"
-                            />
-                          ) : (
-                            ""
-                          )}
-                        </div>
+                            className="text-2xl"
+                          />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
-                  </Link>
+                  </div>
+                  {/* </Link> */}
                 </SwiperSlide>
               );
             })}

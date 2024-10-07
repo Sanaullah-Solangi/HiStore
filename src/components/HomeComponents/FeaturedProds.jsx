@@ -22,7 +22,6 @@ import {
   A11y,
   Autoplay,
 } from "swiper/modules";
-
 // FEATURED PRODUCTS COMPONENT
 function FeaturedProds() {
   // CONTEXTS
@@ -35,6 +34,7 @@ function FeaturedProds() {
   const [productInfo, setProductInfo] = useState({});
   const [loader, setLoader] = useState(true);
   const [notFound, setNotFound] = useState(false);
+
   // HOOKS
   useEffect(() => {
     setLoader(true);
@@ -46,10 +46,9 @@ function FeaturedProds() {
     setLoader(true);
     setNotFound(false);
     getProductInfo(Id);
-    console.log(productInfo);
   }, [Id]);
   const getProducts = () => {
-    fetch("https://dummyjson.com/products")
+    fetch("https://dummyjson.com/products/category/mens-shirts")
       .then((res) => res.json())
       .then((res) => {
         // console.log("res->", res);
@@ -159,10 +158,10 @@ function FeaturedProds() {
                     }}
                     className="FeaturedProdsCard cursor-grab "
                   >
-                    <div className="FeaturedProdsImgCover mb-2 rounded-lg h-96 overflow-hidden">
+                    <div className="FeaturedProdsImgCover object-contain object-center mb-2 rounded-lg h-96 overflow-hidden">
                       <img
                         alt="content"
-                        className="object-contain object-center h-full w-full transition-all duration-100 ease-linear "
+                        className="object-contain object-center w-full h-full transition-all duration-100 ease-linear "
                         src={data?.images[0]}
                       />
                     </div>
@@ -210,7 +209,7 @@ function FeaturedProds() {
           </Swiper>
         </div>
         {/* VIEW ALL PRODUCTS */}
-        <Link to={"/ProductListing"}>
+        <Link to={"/ProductListing/all"}>
           <Button
             variant={`${theme == "black" ? "outlined" : "contained"}`}
             style={{

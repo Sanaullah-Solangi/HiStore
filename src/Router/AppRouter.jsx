@@ -52,7 +52,7 @@ function AppRouter() {
           <Route path="categories" element={<Categories />} />
           <Route path="FeaturedProds" element={<FeaturedProds />} />
           <Route path="CartItems" element={<CartItems />} />
-          <Route path="ProductListing" element={<ProductListing />} />
+          <Route path="ProductListing/:id" element={<ProductListing />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

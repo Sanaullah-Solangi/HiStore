@@ -122,13 +122,12 @@ section {
 }
 
 .categoriesImgCover > img {
-  filter: brightness(0.9);
-  -webkit-filter: brightness(0.9);
+  background-color: rgb(243, 243, 241);
 }
 
 :is(.categoriesImgCover, .FeaturedProdsImgCover):hover > img {
-  filter: brightness(1);
-  -webkit-filter: brightness(1);
+  filter: brightness(1.02);
+  -webkit-filter: brightness(1.02);
 }
 
 /*!=== FEATURED PRODUCTS & PRODUCTS DETAIL SECTION ===*/
@@ -178,6 +177,14 @@ section {
   gap: 0.7rem !important;
   margin-top: 1rem !important;
 }
+
+.filterInputs > label {
+  margin-bottom: 1rem !important;
+}
+
+.filterBtn {
+}
+
 /*!=== LOADER ===*/
 
 .loader {

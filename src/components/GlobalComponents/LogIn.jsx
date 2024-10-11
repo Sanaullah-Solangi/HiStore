@@ -4,7 +4,7 @@ import { Checkbox, Form } from "antd";
 import { FloatingLabel } from "flowbite-react";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-
+import { signInWithGoogle } from "../../utils/firebase";
 // CONTEXT
 import { ThemeContext } from "../../contexts/ThemeContext";
 // FUNCTION TO INDICATE ANY ERROR
@@ -14,12 +14,12 @@ const onFinishFailed = (errorInfo) => {
 // LOGIN FORM COMPONENT
 const LogInForm = ({ logIn }) => {
   const [form] = Form.useForm();
-  const { theme } = useContext(ThemeContext);
+  const { theme, color, bgColor } = useContext(ThemeContext);
   return (
     // FORM WRAPPER
     <div
-      style={{ backgroundColor: `${theme === "light" ? "white" : "black"}` }}
-      className=" px-5 py-24 mx-auto flex md:items-center justify-center lg:items-start md:flex-row md:flex-nowrap flex-wrap"
+      style={{ backgroundColor: `${bgColor}` }}
+      className=" px-5 py-24 h-screen mx-auto flex md:items-center justify-center lg:items-start md:flex-row md:flex-nowrap flex-wrap"
     >
       {/* FORM */}
       <Form
@@ -59,7 +59,7 @@ const LogInForm = ({ logIn }) => {
             id="email"
             type="email"
             name="email"
-            required
+            // required
             className="w-full"
           />
         </Form.Item>
@@ -81,7 +81,7 @@ const LogInForm = ({ logIn }) => {
             id="password"
             type="password"
             name="password"
-            required
+            // required
             className="w-full"
           />
         </Form.Item>
@@ -91,11 +91,7 @@ const LogInForm = ({ logIn }) => {
           name="remember"
           valuePropName="checked"
         >
-          <Checkbox
-            style={{ color: `${theme == "light" ? "black" : "white"}` }}
-          >
-            Remember me
-          </Checkbox>
+          <Checkbox style={{ color: `${color}` }}>Remember me</Checkbox>
         </Form.Item>
         {/* SUBMIT BTN */}
         <Form.Item className="w-full">
@@ -103,12 +99,26 @@ const LogInForm = ({ logIn }) => {
             fullWidth
             variant="contained"
             type="primary"
-            htmlType="submit"
+            htmltype="submit"
           >
             Submit
           </Button>
         </Form.Item>
-        <p style={{ color: `${theme == "light" ? "black" : "white"}` }}>
+        {/* GOOGLE BTN */}
+        <Form.Item className="w-full">
+          <Button
+            fullWidth
+            variant="outlined"
+            type="button"
+            // htmltype="submit"
+            onClick={() => {
+              signInWithGoogle();
+            }}
+          >
+            SIGN IN WITH GOOGLE
+          </Button>
+        </Form.Item>
+        <p style={{ color: `${color}` }}>
           Don't have an account{" "}
           <Link to="/auth/SignUpPage" className="text-blue-500 font-bold">
             Sign Up

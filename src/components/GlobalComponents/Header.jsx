@@ -10,12 +10,12 @@ import { LogoUrl } from "../../contexts/LogoContext";
 import { signOut, auth } from "../../utils/firebase";
 // ICONS & OTHERS
 import { CiSearch } from "react-icons/ci";
-import { FiShoppingCart } from "react-icons/fi";
+import { PiShoppingCartSimple } from "react-icons/pi";
 import { HiOutlineUser } from "react-icons/hi";
 import { IoSettingsOutline } from "react-icons/io5";
-import { MdDarkMode } from "react-icons/md";
-import { MdSunny } from "react-icons/md";
-import { Badge } from "antd";
+import { HiOutlineMoon } from "react-icons/hi";
+import { MdOutlineWbSunny } from "react-icons/md";
+import { Avatar, Badge } from "antd";
 import { FiLogOut } from "react-icons/fi";
 import { LuLogIn } from "react-icons/lu";
 // FUNCTION OF LOGOUT
@@ -29,10 +29,13 @@ async function logOut() {
 }
 function Header() {
   const navigate = useNavigate();
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme, mainColor } = useContext(ThemeContext);
   const { imgUrl } = useContext(LogoUrl);
   const { cartItems } = useContext(CartContext);
   const { isUser } = useContext(UserContext);
+  const [isHover, setIsHover] = useState(false);
+  const [helper, setHelper] = useState(0);
+  console.log(isUser);
   return (
     <header className="text-gray-600 body-font ">
       {/* WRAPPER */}
@@ -48,7 +51,7 @@ function Header() {
             {/* INPUT */}
             <input
               type="text"
-              className="capitalize border-none outline-none"
+              className="capitalize border-none outline-none bg-transparent"
               placeholder="Search here"
             />
             {/* SEARCH ICON */}
@@ -56,61 +59,107 @@ function Header() {
           </label>
           {/* SHOPING CART ICON */}
           <Link to={"/CartItems"}>
-            <Badge count={cartItems.length} color="orange">
-              <FiShoppingCart
+            <Badge count={cartItems.length} color={`${mainColor}`}>
+              <PiShoppingCartSimple
                 fontSize={"1.8rem"}
-                className="hover:text-orange-600 cursor-pointer"
+                className=" cursor-pointer"
+                style={{ color: `${isHover && helper == 1 ? mainColor : ""}` }}
+                onMouseOver={() => {
+                  setIsHover(true);
+                  setHelper(1);
+                }}
+                onMouseLeave={() => {
+                  setIsHover(false);
+                  setHelper(0);
+                }}
               />
             </Badge>
           </Link>
-          {/* USER ICON */}
-          <HiOutlineUser
-            fontSize={"1.8rem"}
-            className="hover:text-orange-600 cursor-pointer"
-          />
+
           {/* SETTING ICON */}
           <IoSettingsOutline
             fontSize={"1.8rem"}
-            className="hover:text-orange-600 cursor-pointer"
+            className="cursor-pointer"
+            style={{ color: `${isHover && helper == 2 ? mainColor : ""}` }}
+            onMouseOver={() => {
+              setIsHover(true);
+              setHelper(2);
+            }}
+            onMouseLeave={() => {
+              setIsHover(false);
+              setHelper(0);
+            }}
           />
           {/* THEME ICONS */}
           {theme == "light" ? (
             // MOON
-            <MdDarkMode
+            <MdOutlineWbSunny
               onClick={() => {
                 setTheme("black");
               }}
               fontSize={"1.8rem"}
-              className="hover:text-orange-600 cursor-pointer transition-all duration-150 ease-linear"
+              className="cursor-pointer transition-all duration-150 ease-linear"
+              style={{ color: `${isHover && helper == 3 ? mainColor : ""}` }}
+              onMouseOver={() => {
+                setIsHover(true);
+                setHelper(3);
+              }}
+              onMouseLeave={() => {
+                setIsHover(false);
+                setHelper(0);
+              }}
             />
           ) : (
             // SUN
-            <MdSunny
+            <HiOutlineMoon
               onClick={() => {
                 setTheme("light");
               }}
               fontSize={"1.8rem"}
-              className="hover:text-orange-600 cursor-pointer transition-all duration-150 ease-linear"
+              className="cursor-pointer transition-all duration-150 ease-linear"
+              style={{ color: `${isHover && helper == 4 ? mainColor : ""}` }}
+              onMouseOver={() => {
+                setIsHover(true);
+                setHelper(4);
+              }}
+              onMouseLeave={() => {
+                setIsHover(false);
+                setHelper(0);
+              }}
             />
           )}
           {/* LOGOUT & LOGiN BTNS */}
-          {isUser ? (
-            // LOG OUT
-            <FiLogOut
+          {isUser.isLogIn ? (
+            // LOG IN HONE PER YE SHOW HOGA
+            <Avatar
               onClick={() => {
                 logOut();
               }}
+              src={`${
+                isUser.user.photoURL
+                  ? isUser.user.photoURL
+                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOH2aZnIHWjMQj2lQUOWIL2f4Hljgab0ecZQ&s"
+              }`}
               fontSize={"1.8rem"}
-              className="hover:text-orange-600 cursor-pointer"
+              className="cursor-pointer"
             />
           ) : (
-            // LOG IN
-            <LuLogIn
+            // LOG OUT HONE K BAAD YE SHOW HOGA
+            <HiOutlineUser
               onClick={() => {
                 navigate("/auth/LogInPage");
               }}
               fontSize={"1.8rem"}
-              className="hover:text-orange-600 cursor-pointer transition-all duration-150 ease-linear"
+              className="cursor-pointer transition-all duration-150 ease-linear"
+              style={{ color: `${isHover && helper == 5 ? mainColor : ""}` }}
+              onMouseOver={() => {
+                setIsHover(true);
+                setHelper(5);
+              }}
+              onMouseLeave={() => {
+                setIsHover(false);
+                setHelper(0);
+              }}
             />
           )}
         </nav>

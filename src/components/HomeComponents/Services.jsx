@@ -1,5 +1,5 @@
 // HOOKS
-import { useContext } from "react";
+import { useContext, useState } from "react";
 // CONTEXTS
 import { ThemeContext } from "../../contexts/ThemeContext";
 // ICONS & COMPONENTS
@@ -7,24 +7,49 @@ import { FaTruck } from "react-icons/fa";
 import { FaDollarSign } from "react-icons/fa";
 import { IoFootball } from "react-icons/io5";
 function Services() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { bgColor, color, mainColor } = useContext(ThemeContext);
+  const [isHover, setIsHover] = useState(false);
+  const [helper, setHelper] = useState(0);
   return (
     <section
       style={{
-        color: `${theme == "light" ? "#4b5563" : "white"}`,
-        backgroundColor: `${theme == "light" ? "white" : "black"}`,
+        color: `${color}`,
+        backgroundColor: `${bgColor}`,
       }}
       className="text-gray-600 body-font"
     >
       <div className="container px-5 py-24 mx-auto">
         {/* MAIN CONTAINER */}
-        <div className="servicesContainer flex justify-start items-center flex-wrap gap-4 sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+        <div className="servicesContainer grid grid-cols-none md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {/* 1ST SERVICE */}
-          <div className="servicesCard h-80  cursor-pointer transition-all ease-linear duration-200 border border-gray-400 px-4 py-6  flex flex-col text-center items-center">
-            <div className="serviceIconCover transition-all ease-linear duration-200 w-20 h-20 inline-flex items-center justify-center rounded-full border border-gray-400 text-gray-800 mb-5 flex-shrink-0">
+          <div
+            onMouseOver={(e) => {
+              setIsHover(true);
+              setHelper(1);
+            }}
+            onMouseLeave={() => {
+              setIsHover(false);
+              setHelper(0);
+            }}
+            style={{
+              border: `1px solid  ${
+                isHover && helper == 1 ? mainColor : " #4b5563"
+              }`,
+            }}
+            className="servicesCard h-56  cursor-pointer transition-all ease-linear duration-150 w-full  rounded-md px-4 py-6  flex flex-col text-center items-center"
+          >
+            <div
+              style={{
+                border: `1px solid  ${
+                  isHover && helper == 1 ? mainColor : " #9ca3af"
+                }`,
+                backgroundColor: `${isHover && helper == 1 ? mainColor : ""}`,
+              }}
+              className="serviceIconCover transition-all ease-linear duration-150 w-20 h-20 inline-flex items-center justify-center rounded-full text-gray-800 mb-5 flex-shrink-0"
+            >
               <FaTruck
                 style={{
-                  color: `${theme == "light" ? "#4b5563" : "white"}`,
+                  color: `${color}`,
                 }}
                 className="serviceIcon"
                 fontSize={"1.5rem"}
@@ -33,24 +58,47 @@ function Services() {
             <div className="flex-grow">
               <h2
                 style={{
-                  color: `${theme == "light" ? "#4b5563" : "white"}`,
+                  color: `${isHover && helper == 1 ? mainColor : color}`,
                 }}
-                className="serviceHeading text-gray-900 title-font font-medium
+                className="serviceHeading transition-all duration-150 ease-linear text-gray-900 title-font font-medium
               mb-0"
               >
                 FAST & FREE SHIPPING
               </h2>
-              <p className="leading-relaxed text-base">
+              <p className="leading-relaxed text-base transition-all ease-linear duration-150">
                 Fast & Free Shipping on orders over $99.00
               </p>
             </div>
           </div>
           {/* 2ND SERVICE */}
-          <div className="servicesCard h-80 cursor-pointer transition-all ease-linear duration-200 border border-gray-400 px-4 py-6  flex flex-col text-center items-center">
-            <div className="serviceIconCover transition-all ease-linear duration-200  w-20 h-20 inline-flex items-center justify-center rounded-full border border-gray-400 text-gray-800 mb-5 flex-shrink-0">
+          <div
+            onMouseOver={() => {
+              setIsHover(true);
+              setHelper(2);
+            }}
+            onMouseLeave={() => {
+              setIsHover(false);
+              setHelper(0);
+            }}
+            style={{
+              border: `1px solid  ${
+                isHover && helper == 2 ? mainColor : " #4b5563"
+              }`,
+            }}
+            className="servicesCard h-56  cursor-pointer transition-all ease-linear duration-150 w-full  rounded-md px-4 py-6  flex flex-col text-center items-center"
+          >
+            <div
+              style={{
+                border: `1px solid  ${
+                  isHover && helper == 2 ? mainColor : " #9ca3af"
+                }`,
+                backgroundColor: `${isHover && helper == 2 ? mainColor : ""}`,
+              }}
+              className="serviceIconCover transition-all ease-linear duration-150  w-20 h-20 inline-flex items-center justify-center rounded-full border border-gray-400 text-gray-800 mb-5 flex-shrink-0"
+            >
               <FaDollarSign
                 style={{
-                  color: `${theme == "light" ? "#4b5563" : "white"}`,
+                  color: `${color}`,
                 }}
                 className="serviceIcon"
                 fontSize={"1.5rem"}
@@ -59,23 +107,46 @@ function Services() {
             <div className="flex-grow">
               <h2
                 style={{
-                  color: `${theme == "light" ? "#4b5563" : "white"}`,
+                  color: `${isHover && helper == 2 ? mainColor : color}`,
                 }}
-                className="serviceHeading text-gray-900 title-font font-medium mb-0"
+                className="serviceHeading transition-all duration-150 ease-linear text-gray-900 title-font font-medium mb-0"
               >
                 MONEY GUARANTEE
               </h2>
-              <p className="leading-relaxed text-base">
+              <p className="leading-relaxed text-base transition-all ease-linear duration-150">
                 Lorem ipsum 30 days money back guarantee
               </p>
             </div>
           </div>
           {/* 3RD SERVICE */}
-          <div className="servicesCard h-80 cursor-pointer transition-all ease-linear duration-200 border border-gray-400 px-4 py-6  flex flex-col text-center items-center">
-            <div className="serviceIconCover transition-all ease-linear duration-200 w-20 h-20 inline-flex items-center justify-center rounded-full border border-gray-400 text-gray-800 mb-5 flex-shrink-0">
+          <div
+            onMouseOver={() => {
+              setIsHover(true);
+              setHelper(3);
+            }}
+            onMouseLeave={() => {
+              setIsHover(false);
+              setHelper(0);
+            }}
+            style={{
+              border: `1px solid  ${
+                isHover && helper == 3 ? mainColor : " #4b5563"
+              }`,
+            }}
+            className="servicesCard h-56  cursor-pointer transition-all ease-linear duration-150 w-full md:col-span-2 lg:col-span-1  rounded-md px-4 py-6  flex flex-col text-center items-center"
+          >
+            <div
+              style={{
+                border: `1px solid  ${
+                  isHover && helper == 3 ? mainColor : " #9ca3af"
+                }`,
+                backgroundColor: `${isHover && helper == 3 ? mainColor : ""}`,
+              }}
+              className="serviceIconCover transition-all ease-linear duration-150 w-20 h-20 inline-flex items-center justify-center rounded-full border border-gray-400 text-gray-800 mb-5 flex-shrink-0"
+            >
               <IoFootball
                 style={{
-                  color: `${theme == "light" ? "#4b5563" : "white"}`,
+                  color: `${color}`,
                 }}
                 className="serviceIcon"
                 fontSize={"1.5rem"}
@@ -84,13 +155,13 @@ function Services() {
             <div className="flex-grow">
               <h2
                 style={{
-                  color: `${theme == "light" ? "#4b5563" : "white"}`,
+                  color: `${isHover && helper == 3 ? mainColor : color}`,
                 }}
-                className="serviceHeading text-gray-900 title-font font-medium mb-0"
+                className="serviceHeading transition-all duration-150 ease-linear title-font font-medium mb-0"
               >
                 ONLINE SUPPORT
               </h2>
-              <p className="leading-relaxed text-base">
+              <p className="leading-relaxed text-base transition-all ease-linear duration-150">
                 We Support Online 24/7 for Customer
               </p>
             </div>

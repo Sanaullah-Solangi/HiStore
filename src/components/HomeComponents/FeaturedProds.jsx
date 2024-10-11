@@ -22,10 +22,11 @@ import {
   A11y,
   Autoplay,
 } from "swiper/modules";
+import HeadingBorder from "../GlobalComponents/HeadingBorder";
 // FEATURED PRODUCTS COMPONENT
 function FeaturedProds() {
   // CONTEXTS
-  const { theme } = useContext(ThemeContext);
+  const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
   const { isProductExist } = useContext(CartContext);
   // STATES
   const [Id, setId] = useState(1);
@@ -48,7 +49,7 @@ function FeaturedProds() {
     getProductInfo(Id);
   }, [Id]);
   const getProducts = () => {
-    fetch("https://dummyjson.com/products/category/mens-shirts")
+    fetch("https://dummyjson.com/products")
       .then((res) => res.json())
       .then((res) => {
         // console.log("res->", res);
@@ -87,8 +88,8 @@ function FeaturedProds() {
     <section
       className="text-gray-600 body-font"
       style={{
-        color: `${theme == "light" ? "#4b5563" : "white"}`,
-        backgroundColor: `${theme == "light" ? "white" : "black"}`,
+        color: `${color}`,
+        backgroundColor: `${bgColor}`,
       }}
     >
       <AppModal
@@ -102,10 +103,11 @@ function FeaturedProds() {
           <h1
             className="mainHeading FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7"
             style={{
-              color: `${theme == "light" ? "#4b5563" : "white"}`,
+              color: `${color}`,
             }}
           >
             Featured Products
+            <HeadingBorder />
           </h1>
         </div>
         {/* FEATURED CARDS */}
@@ -171,7 +173,7 @@ function FeaturedProds() {
                         <p
                           className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase "
                           style={{
-                            color: `${theme == "light" ? "#4b5563" : "white"}`,
+                            color: `${color}`,
                           }}
                         >
                           {data.title}
@@ -185,7 +187,9 @@ function FeaturedProds() {
                           {data.warrantyInformation}
                         </span>
                         <br />
-                        <span className="text-orange-500">${data.price}</span>
+                        <span style={{ color: `${mainColor}` }}>
+                          ${data.price}
+                        </span>
                       </div>
                       {/* ICON TO INDICATE THIS ITEM IS CARTED */}
                       <div>
@@ -213,7 +217,7 @@ function FeaturedProds() {
           <Button
             variant={`${theme == "black" ? "outlined" : "contained"}`}
             style={{
-              backgroundColor: `${theme == "black" ? "" : "black"}`,
+              backgroundColor: `${theme == "black" ? "" : `${mainColor}`}`,
               color: `${theme == "black" ? "white" : ""}`,
               border: `${theme == "black" ? "2px solid white" : ""}`,
             }}

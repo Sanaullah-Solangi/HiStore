@@ -14,6 +14,7 @@ import { IoClose } from "react-icons/io5";
 import { DollarOutlined } from "@ant-design/icons";
 import { Image } from "antd";
 import { useParams } from "react-router-dom";
+import HeadingBorder from "../GlobalComponents/HeadingBorder";
 
 const categoriesArray = [
   "all",
@@ -46,7 +47,7 @@ const categoriesArray = [
 function ProductListing() {
   //CONTEXTS
   const { isUser } = useContext(UserContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
   const { isProductExist, addItemToCart } = useContext(CartContext);
   //STATES
   const { id } = useParams();
@@ -125,8 +126,8 @@ function ProductListing() {
     <>
       <section
         style={{
-          color: `${theme == "light" ? "#4b5563" : "white"}`,
-          backgroundColor: `${theme == "light" ? "white" : "black"}`,
+          color: `${color}`,
+          backgroundColor: `${bgColor}`,
         }}
         className="text-gray-600 body-font "
       >
@@ -137,10 +138,11 @@ function ProductListing() {
             <h1
               className="mainHeading FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7"
               style={{
-                color: `${theme == "light" ? "#4b5563" : "white"}`,
+                color: `${color}`,
               }}
             >
               All Products Listing
+              <HeadingBorder />
             </h1>
           </div>
           {/*============== CONTENT SECTION ==============*/}
@@ -168,10 +170,10 @@ function ProductListing() {
                 left: `${isFilterOpen ? "0" : "-100%"}`,
               }}
             >
-              <h1 className="text-2xl font-bold mb-4">Filter</h1>
+              <h1 className="text-2xl text-black font-bold mb-4">Filter</h1>
               <div className="filterInputs flex flex-col h-full">
                 {/* CATEGORY */}
-                <label htmlFor="category">
+                <label className="text-black" htmlFor="category">
                   Category
                   <select
                     className="rounded-lg w-full border border-gray-300 mt-1 capitalize"
@@ -191,7 +193,7 @@ function ProductListing() {
                   </select>
                 </label>
                 {/* SORT BY */}
-                <label htmlFor="sortBy">
+                <label className="text-black" htmlFor="sortBy">
                   SortBy
                   <select
                     className="rounded-lg w-full border border-gray-300 mt-1"
@@ -210,7 +212,7 @@ function ProductListing() {
                   </select>
                 </label>
                 {/* ORDER BY*/}
-                <label htmlFor="orderBy">
+                <label className="text-black" htmlFor="orderBy">
                   Order By
                   <select
                     className="rounded-lg w-full border border-gray-300 mt-1"
@@ -222,7 +224,9 @@ function ProductListing() {
                       setOrderBy(e.target.value);
                     }}
                   >
-                    <option value={"asc"}>Accending</option>
+                    <option style={{ color: "black " }} value={"asc"}>
+                      Accending
+                    </option>
                     <option value={"desc"}>Decsending</option>
                   </select>
                 </label>
@@ -232,6 +236,7 @@ function ProductListing() {
                   onClick={() => filterData()}
                   variant="contained"
                   className="w-full filterBtn"
+                  style={{ backgroundColor: `${mainColor}` }}
                 >
                   Apply All
                 </Button>
@@ -258,11 +263,11 @@ function ProductListing() {
                       />
                       {/* PRODUCT DETAILS */}
                       <div
-                        className="p-6 flex flex-col"
+                        className="p-6 flex flex-col "
                         style={{
                           border: `${
                             theme == "black"
-                              ? "2px solid rgba(255,255,255,0.4)"
+                              ? "2px solid rgba(10,10,10,0.2)"
                               : ""
                           }`,
                           backgroundColor: `${
@@ -316,6 +321,9 @@ function ProductListing() {
                             theme == "black" ? "outlined" : "contained"
                           }`}
                           style={{
+                            backgroundColor: `${
+                              theme == "light" ? `${mainColor}` : ""
+                            }`,
                             color: `${theme == "black" ? "white" : ""}`,
                             border: `${
                               theme == "black" ? "2px solid white" : ""

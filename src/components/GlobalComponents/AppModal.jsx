@@ -16,10 +16,9 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
   // CONTEXT
   const { isUser } = useContext(UserContext);
   const { addItemToCart, isProductExist } = useContext(CartContext);
-  const { theme } = useContext(ThemeContext);
-  // STATES
-  const [loader, setLoader] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+  const { theme, bgColor, color, mainColor } = useContext(ThemeContext);
+  const [isHover, setIsHover] = useState(true);
+  const [helper, setHelper] = useState(0);
   // FUNCTIONS & OTHERS
   const navigate = useNavigate();
   // DESTRUCTING OBJECT
@@ -50,15 +49,15 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
           <CloseOutlined
             style={{
               fontSize: "20px",
-              color: `${theme == "light" ? "#4b5563" : "white"}`,
+              color: `${color}`,
             }}
           />
         }
       >
         <div
           style={{
-            color: `${theme == "light" ? "#4b5563" : "white"}`,
-            backgroundColor: `${theme == "light" ? "white" : "black"}`,
+            color: `${color}`,
+            backgroundColor: `${bgColor}`,
           }}
           className="container mx-auto py-8 px-5"
         >
@@ -78,7 +77,7 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
               {/*================ BRAND NAME ================*/}
               <h2
                 style={{
-                  color: `${theme == "light" ? "#4b5563" : "white"}`,
+                  color: `${color}`,
                 }}
                 className="text-sm title-font text-gray-500 tracking-widest"
               >
@@ -87,7 +86,7 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
               {/*================ PRODUCT TITLE ================*/}
               <h1
                 style={{
-                  color: `${theme == "light" ? "#4b5563" : "white"}`,
+                  color: `${color}`,
                 }}
                 className="text-gray-900 text-3xl  title-font font-medium mt-2 mb-6"
               >
@@ -96,7 +95,7 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
               {/*================ PRODUCT PRICE ================*/}
               <span
                 style={{
-                  color: `${theme == "light" ? "#4b5563" : "white"}`,
+                  color: `${color}`,
                 }}
                 className="title-font font-medium flex text-2xl text-gray-900 mb-6"
               >
@@ -131,7 +130,16 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
                       ? addItemToCart({ ...productInfo, quantity: 1 })
                       : navigate("/auth/LogInPage");
                   }}
-                  className="flex justify-center items-center gap-4   text-white bg-gray-800 border-0 py-3 w-72 focus:outline-none hover:bg-orange-600 rounded"
+                  className="flex justify-center items-center gap-4   text-white bg-gray-800 border-0 py-3 w-72 focus:outline-none rounded"
+                  style={{ backgroundColor: `${isHover ? mainColor : ""}` }}
+                  onMouseOver={() => {
+                    setIsHover(true);
+                    setHelper(1);
+                  }}
+                  onMouseLeave={() => {
+                    setIsHover(false);
+                    setHelper(0);
+                  }}
                 >
                   {isProductExist(id) ? (
                     "Increase Quantity"
@@ -146,7 +154,7 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
                 <button
                   style={{
                     backgroundColor: `${
-                      isProductExist(productInfo.id) ? "rgb(234,88,12)" : ""
+                      isProductExist(productInfo.id) ? `${mainColor}` : ""
                     }`,
                     color: `${isProductExist(productInfo.id) ? "white" : ""}`,
                   }}

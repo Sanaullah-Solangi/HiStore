@@ -7,16 +7,16 @@ import { Button, Result } from "antd";
 import { Link } from "react-router-dom";
 // EMPTYDATA COMPONENT
 function EmptyData() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, color, bgColor } = useContext(ThemeContext);
   return (
     <Result
       style={{
-        color: `${theme == "light" ? "#4b5563" : "white"}`,
-        backgroundColor: `${theme == "light" ? "white" : "black"}`,
+        color: `${color}`,
+        backgroundColor: `${bgColor}`,
       }}
       status="warning"
       title={
-        <span style={{ color: theme === "light" ? "#4b5563" : "white" }}>
+        <span className="capitalize" style={{ color: theme === "light" ? "#4b5563" : "white" }}>
           Your cart is empty
         </span>
       }

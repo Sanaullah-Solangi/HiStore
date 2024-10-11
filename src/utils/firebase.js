@@ -4,6 +4,8 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
 } from "firebase/auth";
 import {
@@ -13,6 +15,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  setDoc,
   getFirestore,
   onSnapshot,
   updateDoc,
@@ -32,7 +35,31 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
-export default app;
+const provider = new GoogleAuthProvider();
+
+const signInWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    const ref = doc(db, "users", user.uid);
+    // console.log(user);
+    setDoc(ref, {
+      email: user.email,
+      photoURL: user.photoURL,
+      uid: user.uid,
+      displayName: user.displayName,
+    });
+    // navigate("/");
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // const email = error.customData.email;
+    console.log(errorMessage);
+  }
+};
+
 export {
   app,
   auth,
@@ -42,6 +69,7 @@ export {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithGoogle,
   signOut,
   // DATA BASE METHODS
   collection,

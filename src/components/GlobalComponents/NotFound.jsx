@@ -3,12 +3,12 @@ import { Button, Result } from "antd";
 // CONTEXTS
 import { ThemeContext } from "../../contexts/ThemeContext";
 function NotFound() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, color, bgColor } = useContext(ThemeContext);
   return (
     <Result
       style={{
-        color: `${theme == "light" ? "#4b5563" : "white"}`,
-        backgroundColor: `${theme == "light" ? "white" : "black"}`,
+        color: `${color}`,
+        backgroundColor: `${bgColor}`,
       }}
       status="404"
       title={

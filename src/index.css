@@ -11,6 +11,11 @@
   font-family: "poppins", sans-serif !important;
 }
 
+body,
+html {
+  overflow-x: hidden !important;
+}
+
 section {
   transition: all linear 0.1s;
   -webkit-transition: all linear 0.1s;
@@ -19,20 +24,14 @@ section {
   -o-transition: all linear 0.1s;
 }
 
-/*!=== ALL MAIN HEADING BELOW BORDER ===*/
-.mainHeading::after {
-  content: "";
-  position: absolute;
-  bottom: -50%;
-  left: 50%;
-  transform: translate(-50%);
-  -webkit-transform: translate(-50%);
-  -moz-transform: translate(-50%);
-  -ms-transform: translate(-50%);
-  -o-transform: translate(-50%);
-  width: 50%;
-  height: 3px;
-  background-color: rgb(246, 136, 77);
+.inputCover {
+  background-color: rgb(241, 243, 244);
+}
+
+.inputCover > input:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
 }
 
 /*!=== NAVIGATION BAR ===*/
@@ -92,33 +91,18 @@ section {
 
 /*!=== SERVICES SECTION ===*/
 
-.servicesCard {
-  flex: 1 1 32%;
-}
-
-.servicesCard:hover {
-  border-color: rgb(246, 136, 77);
-}
-.servicesCard:hover > .serviceIconCover {
-  background-color: rgb(246, 136, 77);
-  border-color: rgb(246, 136, 77);
-}
+/* .servicesCard {
+  flex: 1 1 40%;
+} */
 
 .servicesCard:hover > .serviceIconCover > .serviceIcon {
   color: white;
-}
-
-.servicesCard:hover .serviceHeading {
-  color: rgb(246, 136, 77) !important;
 }
 
 /*!=== CATEGORY SECTION ===*/
 
 .categoriesSubHeading {
   font-size: 1.2rem;
-}
-.categoriesCard:hover .categoriesSubHeading {
-  color: rgb(234, 88, 12) !important;
 }
 
 .categoriesImgCover > img {
@@ -180,9 +164,6 @@ section {
 
 .filterInputs > label {
   margin-bottom: 1rem !important;
-}
-
-.filterBtn {
 }
 
 /*!=== LOADER ===*/

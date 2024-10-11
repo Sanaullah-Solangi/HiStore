@@ -14,12 +14,12 @@ const onFinishFailed = (errorInfo) => {
 // SIGN UP FORM COMPONENT
 const SignUpForm = ({ signUp }) => {
   const [form] = Form.useForm();
-  const { theme } = useContext(ThemeContext);
+  const { theme, color, bgColor } = useContext(ThemeContext);
   return (
     // FORM WRAPPER
     <div
-      style={{ backgroundColor: `${theme === "light" ? "white" : "black"}` }}
-      className=" px-5 py-24 mx-auto flex md:items-center justify-center lg:items-start md:flex-row md:flex-nowrap flex-wrap"
+      style={{ backgroundColor: `${bgColor}` }}
+      className=" px-5 py-24 h-screen mx-auto flex md:items-center justify-center lg:items-start md:flex-row md:flex-nowrap flex-wrap"
     >
       {/* FORM STARTS */}
       <Form
@@ -112,11 +112,7 @@ const SignUpForm = ({ signUp }) => {
           name="remember"
           valuePropName="checked"
         >
-          <Checkbox
-            style={{ color: `${theme == "light" ? "black" : "white"}` }}
-          >
-            Remember me
-          </Checkbox>
+          <Checkbox style={{ color: `${color}` }}>Remember me</Checkbox>
         </Form.Item>
         {/* SUBMIT BTN */}
         <Form.Item className="w-full">
@@ -129,7 +125,7 @@ const SignUpForm = ({ signUp }) => {
             Submit
           </Button>
         </Form.Item>
-        <p style={{ color: `${theme == "light" ? "black" : "white"}` }}>
+        <p style={{ color: `${color}` }}>
           Already have an account{" "}
           <Link to="/auth/LogInPage" className="text-blue-500 font-bold">
             Log In

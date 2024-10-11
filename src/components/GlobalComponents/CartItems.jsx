@@ -25,7 +25,7 @@ import {
 function CartItems() {
   const { isUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const { theme } = useContext(ThemeContext);
+  const { theme, color, bgColor } = useContext(ThemeContext);
   const {
     cartItems,
     addItemToCart,
@@ -46,8 +46,8 @@ function CartItems() {
   return cartItems.length != 0 ? (
     <section
       style={{
-        color: `${theme == "light" ? "#4b5563" : "white"}`,
-        backgroundColor: `${theme == "light" ? "white" : "black"}`,
+        color: `${color}`,
+        backgroundColor: `${bgColor}`,
       }}
       className="text-gray-600 body-font "
     >
@@ -162,8 +162,8 @@ function CartItems() {
         {/* === ORDER SUMMARY === */}
         <div
           style={{
-            color: `${theme == "light" ? "#4b5563" : "white"}`,
-            backgroundColor: `${theme == "light" ? "white" : "black"}`,
+            color: `${color}`,
+            backgroundColor: `${bgColor}`,
             border: "none !important",
           }}
           className="orderSummary fixed bottom-0 right-0  border border-y-2 w-screen  flex flex-wrap   md:flex-row items-center justify-between"

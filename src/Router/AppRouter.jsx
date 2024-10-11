@@ -16,6 +16,7 @@ import SignUpPage from "../pages/SignUpPage";
 import LogInPage from "../pages/LogInPage";
 import ProductListing from "../components/HomeComponents/ProductListing";
 import ScrollTop from "../components/GlobalComponents/ScrollTop";
+import PicColors from "../components/GlobalComponents/ColorPicker";
 
 function AppRouter() {
   return (
@@ -41,6 +42,7 @@ function AppRouter() {
             <div>
               <Header />
               <Navigations />
+              <PicColors />
               <Outlet />
               <Footer />
             </div>

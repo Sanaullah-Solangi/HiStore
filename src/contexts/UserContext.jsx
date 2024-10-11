@@ -4,13 +4,13 @@ import { createContext, useEffect, useState } from "react";
 export const UserContext = createContext();
 // USER CONTEXT PROVIDE
 function UserContextProvider({ children }) {
-  const [isUser, setIsUser] = useState(false);
+  const [isUser, setIsUser] = useState({ isLogIn: false });
   useEffect(() => {
     const subscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsUser(true);
+        setIsUser({ user: user, isLogIn: true });
       } else {
-        setIsUser(false);
+        setIsUser({ isLogIn: false });
         console.log("user log in nhi hai");
       }
     });
@@ -19,7 +19,6 @@ function UserContextProvider({ children }) {
       subscribe;
     };
   }, []);
-  // console.log("isUser=>", isUser);
 
   return (
     <UserContext.Provider value={{ isUser }}>{children}</UserContext.Provider>

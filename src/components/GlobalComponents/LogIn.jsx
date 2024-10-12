@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Checkbox, Form } from "antd";
 import { FloatingLabel } from "flowbite-react";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../../utils/firebase";
 // CONTEXT
 import { ThemeContext } from "../../contexts/ThemeContext";
@@ -13,6 +13,7 @@ const onFinishFailed = (errorInfo) => {
 };
 // LOGIN FORM COMPONENT
 const LogInForm = ({ logIn }) => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const { theme, color, bgColor } = useContext(ThemeContext);
   return (
@@ -112,7 +113,7 @@ const LogInForm = ({ logIn }) => {
             type="button"
             // htmltype="submit"
             onClick={() => {
-              signInWithGoogle();
+              signInWithGoogle(navigate);
             }}
           >
             SIGN IN WITH GOOGLE

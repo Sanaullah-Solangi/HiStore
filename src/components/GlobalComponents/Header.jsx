@@ -18,11 +18,30 @@ import { MdOutlineWbSunny } from "react-icons/md";
 import { Avatar, Badge } from "antd";
 import { FiLogOut } from "react-icons/fi";
 import { LuLogIn } from "react-icons/lu";
+import Swal from "sweetalert2";
+// const Swal = require("sweetalert2");
 // FUNCTION OF LOGOUT
 async function logOut() {
   try {
-    const res = await signOut(auth);
-    console.log(res);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do You Want To Log Out!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Log Out!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await signOut(auth);
+        console.log(res);
+        Swal.fire({
+          title: "LogedOut!",
+          text: "Your Are Successfully Loged Out.",
+          icon: "success",
+        });
+      }
+    });
   } catch (error) {
     console.log(error);
   }
@@ -35,6 +54,7 @@ function Header() {
   const { isUser } = useContext(UserContext);
   const [isHover, setIsHover] = useState(false);
   const [helper, setHelper] = useState(0);
+  const [avatarMenuVisibility, setAvatarMenuVisibility] = useState(false);
   console.log(isUser);
   return (
     <header className="text-gray-600 body-font ">
@@ -45,7 +65,7 @@ function Header() {
           <img src={imgUrl.current} alt="" />
         </a>
         {/* === NAGIGATIONS ===*/}
-        <nav className="md:ml-auto flex flex-wrap items-center gap-4 text-base justify-center">
+        <nav className="md:ml-auto  flex flex-wrap items-center gap-4 text-base justify-center">
           {/* SEARCHBAR */}
           <label className="inputCover border border-gray-300 px-4 py-1 rounded-full flex justify-between items-center ">
             {/* INPUT */}
@@ -131,18 +151,44 @@ function Header() {
           {/* LOGOUT & LOGiN BTNS */}
           {isUser.isLogIn ? (
             // LOG IN HONE PER YE SHOW HOGA
-            <Avatar
-              onClick={() => {
-                logOut();
-              }}
-              src={`${
-                isUser.user.photoURL
-                  ? isUser.user.photoURL
-                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOH2aZnIHWjMQj2lQUOWIL2f4Hljgab0ecZQ&s"
-              }`}
-              fontSize={"1.8rem"}
-              className="cursor-pointer"
-            />
+            <div className="relative">
+              <Avatar
+                onClick={() => {
+                  avatarMenuVisibility
+                    ? setAvatarMenuVisibility(false)
+                    : setAvatarMenuVisibility(true);
+                }}
+                src={`${
+                  isUser.user.photoURL
+                    ? isUser.user.photoURL
+                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOH2aZnIHWjMQj2lQUOWIL2f4Hljgab0ecZQ&s"
+                }`}
+                fontSize={"1.8rem"}
+                className="cursor-pointer relative z-50"
+              />
+
+              <div
+                style={{
+                  left: `${avatarMenuVisibility ? "-400%" : "500%"}`,
+                }}
+                className="absolute w-[150px] h-[80px] bg-[rgb(210,212,214)] flex justify-start items-start flex-col  z-40 top-[90%]  rounded-l-lg overflow-hidden transition-all duration-100 ease-linear border-r-8 border-gray-400"
+              >
+                <Link className="w-full" to={"/"}>
+                  <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(202,200,200)] uppercase transition-all duration-100 ease-linear">
+                    Profile
+                  </p>
+                </Link>
+
+                <p
+                  onClick={() => {
+                    logOut();
+                  }}
+                  className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2  border-gray-600 text-base font-bold font-mono w-full uppercase transition-all duration-100 ease-linear hover:bg-red-700 hover:border-red-700 hover:text-white"
+                >
+                  LogOut
+                </p>
+              </div>
+            </div>
           ) : (
             // LOG OUT HONE K BAAD YE SHOW HOGA
             <HiOutlineUser

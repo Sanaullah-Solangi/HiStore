@@ -296,11 +296,17 @@ function ProductListing() {
                         </p>
                         {/* PRICE & TOTAL */}
                         <div className="flex justify-between icon-link">
-                          <p className="flex justify-between items-center gap-2 text-gray-900 font-bold">
+                          <p
+                            style={{ color: `${color}` }}
+                            className="flex justify-between items-center gap-2 text-gray-900 font-bold"
+                          >
                             <DollarOutlined style={{ fontSize: "22px" }} />{" "}
                             {Math.round(data.price)}
                           </p>
-                          <p className="flex justify-between items-center gap-2 text-gray-900 font-bold">
+                          <p
+                            style={{ color: `${color}` }}
+                            className="flex justify-between items-center gap-2 text-gray-900 font-bold"
+                          >
                             <span>Total</span>
                             {isProductExist(data.id)
                               ? Math.round(

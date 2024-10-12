@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeContext";
 // FOOTER COMPONENTS
 function Footer() {
-  const { imgUrl } = useContext(LogoUrl);
-  const { bgColor, color } = useContext(ThemeContext);
+  const { imgUrl, lightLogo } = useContext(LogoUrl);
+  const { theme, bgColor, color } = useContext(ThemeContext);
   return (
     <footer
       className="text-gray-600 body-font"
@@ -22,7 +22,11 @@ function Footer() {
             to={"/"}
             className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900"
           >
-            <img src={imgUrl.current} alt="" />
+            <img
+              style={{ width: `${theme == "black" ? "130px" : ""}` }}
+              src={`${theme == "light" ? imgUrl.current : lightLogo.current}`}
+              alt=""
+            />
           </Link>
           {/* PARAGRAPHR */}
           <p

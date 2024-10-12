@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 export const ThemeContext = createContext();
 function ThemeContextProvider({ children }) {
-  const [theme, setTheme] = useState("black");
+  const [theme, setTheme] = useState("light");
   const [mainColor, setMainColor] = useState("#FF4D4F");
   const [bgColor, setBgColor] = useState("white");
   const [color, setColor] = useState("rgb(27,31,35)");

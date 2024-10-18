@@ -1,5 +1,11 @@
 // HOOKS
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 
 // PAGES & COMPONENTS
 import Hero from "../components/HomeComponents/Hero";
@@ -15,10 +21,18 @@ import HomePage from "../pages/Home";
 import SignUpPage from "../pages/SignUpPage";
 import LogInPage from "../pages/LogInPage";
 import ProductListing from "../components/HomeComponents/ProductListing";
+import UserDetails from "../pages/UserDetails";
+import Profile from "../components/UserComponents/Profile";
+import Orders from "../components/UserComponents/Orders";
+import Products from "../components/UserComponents/Products";
 import ScrollTop from "../components/GlobalComponents/ScrollTop";
 import PicColors from "../components/GlobalComponents/ColorPicker";
-
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 function AppRouter() {
+  const {
+    isUser: { isLogIn },
+  } = useContext(UserContext);
   return (
     <BrowserRouter>
       <ScrollTop />
@@ -34,6 +48,22 @@ function AppRouter() {
         >
           <Route path="SignUpPage" element={<SignUpPage />} />
           <Route path="LogInPage" element={<LogInPage />} />
+        </Route>
+        {/* /USER ROUTES STACK */}
+        <Route
+          path="/user"
+          element={
+            <>
+              <Header />
+              <Navigations />
+              <UserDetails />
+              <Footer />
+            </>
+          }
+        >
+          <Route path="Profile" element={<Profile />} />
+          <Route path="Orders" element={<Orders />} />
+          <Route path="Products" element={<Products />} />
         </Route>
         {/* HOME ROUTES STACK */}
         <Route

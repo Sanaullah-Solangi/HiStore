@@ -127,7 +127,11 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
                 <button
                   onClick={() => {
                     isUser
-                      ? addItemToCart({ ...productInfo, quantity: 1 })
+                      ? addItemToCart({
+                          ...productInfo,
+                          quantity: 1,
+                          uid: isUser.user.uid,
+                        })
                       : navigate("/auth/LogInPage");
                   }}
                   className="flex justify-center items-center gap-4   text-white bg-gray-800 border-0 py-3 w-72 focus:outline-none rounded"

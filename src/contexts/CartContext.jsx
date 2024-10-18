@@ -1,17 +1,26 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { UserContext } from "./UserContext";
 export const CartContext = createContext();
 function CartContextProvider({ children }) {
+  const { isUser } = useContext(UserContext);
   const [cartItems, setCartItems] = useState([]);
   // GETTING ALL ITEMS FROM STORAGE
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("cartItems"));
     if (Array.isArray(data) && data.length != 0) {
-      setCartItems([...data]);
+      let temp = [];
+      data.forEach((item) => {
+        if (isUser?.user?.uid == item?.uid) {
+          temp.push(item);
+        }
+      });
+      setCartItems([...temp]);
     }
   }, []);
   // SETTING ITEMS TO CART LIST
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    console.log(cartItems);
   }, [cartItems]);
 
   // FUNCTION TO ADD & UPDATE TO CART LIST

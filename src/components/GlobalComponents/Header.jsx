@@ -19,33 +19,7 @@ import { Avatar, Badge } from "antd";
 import { FiLogOut } from "react-icons/fi";
 import { LuLogIn } from "react-icons/lu";
 import Swal from "sweetalert2";
-// const Swal = require("sweetalert2");
-// FUNCTION OF LOGOUT
-async function logOut() {
-  try {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do You Want To Log Out!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Log Out!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await signOut(auth);
-        console.log(res);
-        Swal.fire({
-          title: "LogedOut!",
-          text: "Your Are Successfully Loged Out.",
-          icon: "success",
-        });
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
+
 function Header() {
   const navigate = useNavigate();
   const { theme, setTheme, mainColor } = useContext(ThemeContext);
@@ -55,7 +29,36 @@ function Header() {
   const [isHover, setIsHover] = useState(false);
   const [helper, setHelper] = useState(0);
   const [avatarMenuVisibility, setAvatarMenuVisibility] = useState(false);
-  console.log(isUser);
+  // FUNCTION OF LOGOUT
+  async function logOut() {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do You Want To Log Out!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Log Out!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await signOut(auth);
+          console.log(res);
+          Swal.fire({
+            title: "LogedOut!",
+            text: "Your Are Successfully Loged Out.",
+            icon: "success",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/");
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <header className="text-gray-600 body-font ">
       {/* WRAPPER */}
@@ -159,34 +162,48 @@ function Header() {
                     : setAvatarMenuVisibility(true);
                 }}
                 src={`${
-                  isUser.user.photoURL
-                    ? isUser.user.photoURL
+                  isUser.user
+                    ? isUser?.user?.photoURL
                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOH2aZnIHWjMQj2lQUOWIL2f4Hljgab0ecZQ&s"
                 }`}
                 fontSize={"1.8rem"}
                 className="cursor-pointer relative z-50"
               />
-
+              {/* AVATAR SIDEMENU */}
               <div
                 style={{
-                  left: `${avatarMenuVisibility ? "-400%" : "500%"}`,
+                  visibility: `${avatarMenuVisibility ? "visible" : "hidden"}`,
                 }}
-                className="absolute w-[150px] h-[80px] bg-[rgb(210,212,214)] flex justify-start items-start flex-col  z-40 top-[90%]  rounded-l-lg overflow-hidden transition-all duration-100 ease-linear border-r-8 border-gray-400"
+                className="absolute w-[150px] h-[80px] z-40 top-[90%] left-[-400%] overflow-hidden "
               >
-                <Link className="w-full" to={"/"}>
-                  <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(202,200,200)] uppercase transition-all duration-100 ease-linear">
-                    Profile
-                  </p>
-                </Link>
-
-                <p
-                  onClick={() => {
-                    logOut();
+                <div
+                  style={{
+                    left: `${avatarMenuVisibility ? "0%" : "100%"}`,
                   }}
-                  className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2  border-gray-600 text-base font-bold font-mono w-full uppercase transition-all duration-100 ease-linear hover:bg-red-700 hover:border-red-700 hover:text-white"
+                  className="absolute z-40 top-[0%] left-0 w-[100%] h-[100%] bg-[rgb(210,212,214)] flex justify-start items-start flex-col    rounded-l-lg overflow-hidden transition-all duration-100 ease-linear border-r-8 border-gray-400"
                 >
-                  LogOut
-                </p>
+                  {/* PROFILE LINK */}
+                  <Link
+                    className="w-full"
+                    to={"/user/Profile"}
+                    onClick={() => {
+                      setAvatarMenuVisibility(false);
+                    }}
+                  >
+                    <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
+                      Profile
+                    </p>
+                  </Link>
+                  {/* LOG OUT BTN */}
+                  <p
+                    onClick={() => {
+                      logOut();
+                    }}
+                    className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2  border-gray-600 text-base font-bold font-mono w-full uppercase transition-all duration-100 ease-linear hover:bg-red-700 hover:border-red-700 hover:text-white"
+                  >
+                    LogOut
+                  </p>
+                </div>
               </div>
             </div>
           ) : (

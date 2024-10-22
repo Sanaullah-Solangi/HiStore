@@ -2,31 +2,35 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 export const CartContext = createContext();
 function CartContextProvider({ children }) {
-  const { isUser } = useContext(UserContext);
   const [cartItems, setCartItems] = useState([]);
+  const [currentCartItems, setCurrentCartItems] = useState([]);
+  const uid = localStorage.getItem("uid");
+  const { isUser, flagToResetCartItems } = useContext(UserContext);
+
+  useEffect(() => {
+    setCartItems([]);
+  }, [flagToResetCartItems]);
+
   // GETTING ALL ITEMS FROM STORAGE
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("cartItems"));
+    const data = JSON.parse(localStorage.getItem(uid));
     if (Array.isArray(data) && data.length != 0) {
-      let temp = [];
-      data.forEach((item) => {
-        if (isUser?.user?.uid == item?.uid) {
-          temp.push(item);
-        }
-      });
-      setCartItems([...temp]);
+      setCartItems([...data]);
     }
-  }, []);
+  }, [uid]);
+
   // SETTING ITEMS TO CART LIST
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    console.log(cartItems);
+    if (cartItems.length != 0) {
+      localStorage.setItem(uid, JSON.stringify(cartItems));
+    }
   }, [cartItems]);
 
   // FUNCTION TO ADD & UPDATE TO CART LIST
   function addItemToCart(item) {
     let arr = cartItems;
     const productInd = cartItems.findIndex((data) => data.id == item.id);
+
     if (productInd != -1) {
       arr[productInd].quantity++;
     } else {

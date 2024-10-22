@@ -1,11 +1,11 @@
 // IMPORTING ELEMENTS & COMPONENTS
 import React, { useContext, useState } from "react";
 import { Checkbox, Form } from "antd";
-import { FloatingLabel } from "flowbite-react";
-import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 // CONTEXT
 import { ThemeContext } from "../../contexts/ThemeContext";
+import FormInput from "./FormInput";
+import FormButton from "./FormButton";
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -42,70 +42,26 @@ const SignUpForm = ({ signUp }) => {
         autoComplete="on"
       >
         {/* USERNAME INPUT */}
-        <Form.Item
-          className="w-full"
-          //   label="Username"
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: "Please input your username!",
-            },
-          ]}
-        >
-          <FloatingLabel
-            variant="filled"
-            label="Username"
-            id="username"
-            type="username"
-            name="username"
-            className="w-full"
-          />
-        </Form.Item>
+        <FormInput
+          name={"username"}
+          message={"Please input your username!"}
+          lable={"Username"}
+          id={"username"}
+        />
         {/* EMAIL INPUT */}
-        <Form.Item
-          className="w-full"
-          //   label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: "Please input your email!",
-            },
-          ]}
-        >
-          <FloatingLabel
-            variant="filled"
-            label="Email"
-            id="email"
-            type="email"
-            name="email"
-            required
-            className="w-full"
-          />
-        </Form.Item>
+        <FormInput
+          name={"email"}
+          message={"Please input your email!"}
+          lable={"Email"}
+          id={"email"}
+        />
         {/* PASSWORD INPUT */}
-        <Form.Item
-          className="w-full"
-          //   label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <FloatingLabel
-            variant="filled"
-            label="Password"
-            id="password"
-            type="password"
-            name="password"
-            required
-            className="w-full"
-          />
-        </Form.Item>
+        <FormInput
+          name={"password"}
+          message={"Please input your password!"}
+          lable={"Password"}
+          id={"password"}
+        />
         {/* REMEMBER ME CHECKBOX */}
         <Form.Item
           className="w-full flex justify-center"
@@ -115,16 +71,11 @@ const SignUpForm = ({ signUp }) => {
           <Checkbox style={{ color: `${color}` }}>Remember me</Checkbox>
         </Form.Item>
         {/* SUBMIT BTN */}
-        <Form.Item className="w-full">
-          <Button
-            fullWidth
-            variant="contained"
-            type="primary"
-            htmltype="submit"
-          >
-            Submit
-          </Button>
-        </Form.Item>
+        <FormButton
+          type={"primary"}
+          text={"Submit"}
+          buttonVariant={"contained"}
+        />
         <p style={{ color: `${color}` }}>
           Already have an account{" "}
           <Link to="/auth/LogInPage" className="text-blue-500 font-bold">

@@ -29,6 +29,7 @@ function Header() {
   const [isHover, setIsHover] = useState(false);
   const [helper, setHelper] = useState(0);
   const [avatarMenuVisibility, setAvatarMenuVisibility] = useState(false);
+  const uid = localStorage.getItem("uid");
   // FUNCTION OF LOGOUT
   async function logOut() {
     try {
@@ -82,7 +83,10 @@ function Header() {
           </label>
           {/* SHOPING CART ICON */}
           <Link to={"/CartItems"}>
-            <Badge count={cartItems.length} color={`${mainColor}`}>
+            <Badge
+              count={isUser.isLogIn ? cartItems.length : ""}
+              color={`${mainColor}`}
+            >
               <PiShoppingCartSimple
                 fontSize={"1.8rem"}
                 className=" cursor-pointer"
@@ -162,7 +166,7 @@ function Header() {
                     : setAvatarMenuVisibility(true);
                 }}
                 src={`${
-                  isUser.user
+                  isUser.user.photoURL
                     ? isUser?.user?.photoURL
                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOH2aZnIHWjMQj2lQUOWIL2f4Hljgab0ecZQ&s"
                 }`}

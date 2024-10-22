@@ -27,6 +27,7 @@ import Orders from "../components/UserComponents/Orders";
 import Products from "../components/UserComponents/Products";
 import ScrollTop from "../components/GlobalComponents/ScrollTop";
 import PicColors from "../components/GlobalComponents/ColorPicker";
+import CheckOut from "../components/HomeComponents/CheckOut";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 function AppRouter() {
@@ -84,6 +85,7 @@ function AppRouter() {
           <Route path="categories" element={<Categories />} />
           <Route path="FeaturedProds" element={<FeaturedProds />} />
           <Route path="CartItems" element={<CartItems />} />
+          <Route path="CheckOut" element={<CheckOut />} />
           <Route path="ProductListing/:id" element={<ProductListing />} />
           <Route path="*" element={<NotFound />} />
         </Route>

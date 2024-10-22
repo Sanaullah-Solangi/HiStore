@@ -16,8 +16,3 @@
     width: 100%;
   }
 }
-@media (width <=710px) {
-  .orderSummary {
-    display: none;
-  }
-}

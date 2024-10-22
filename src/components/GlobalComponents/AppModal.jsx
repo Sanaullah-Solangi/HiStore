@@ -126,11 +126,13 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
                 {/* ADD TO CART BTN */}
                 <button
                   onClick={() => {
-                    isUser
+                    isUser.isLogIn
                       ? addItemToCart({
                           ...productInfo,
                           quantity: 1,
-                          uid: isUser.user.uid,
+                          orderedBy: isUser?.user?.uid,
+                          deliveryStatus: "pending",
+                          deliveryDetails: {},
                         })
                       : navigate("/auth/LogInPage");
                   }}

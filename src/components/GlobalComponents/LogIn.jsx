@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../../utils/firebase";
 // CONTEXT
 import { ThemeContext } from "../../contexts/ThemeContext";
+import FormInput from "./FormInput";
+import FormButton from "./FormButton";
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -43,49 +45,19 @@ const LogInForm = ({ logIn }) => {
         autoComplete="off"
       >
         {/* EMAIL INPUT */}
-        <Form.Item
-          className="w-full"
-          //   label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: "Please input your email!",
-            },
-          ]}
-        >
-          <FloatingLabel
-            variant="filled"
-            label="Email"
-            id="email"
-            type="email"
-            name="email"
-            // required
-            className="w-full"
-          />
-        </Form.Item>
+        <FormInput
+          name={"email"}
+          message={"Please Input Your Email"}
+          lable={"Email"}
+          id={"email"}
+        />
         {/* PASSWORD INPUT */}
-        <Form.Item
-          className="w-full"
-          //   label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <FloatingLabel
-            variant="filled"
-            label="Password"
-            id="password"
-            type="password"
-            name="password"
-            // required
-            className="w-full"
-          />
-        </Form.Item>
+        <FormInput
+          name={"password"}
+          message={"Please input your password!"}
+          lable={"Password"}
+          id={"password"}
+        />
         {/* REMEMBER ME CHECKBOX */}
         <Form.Item
           className="w-full flex justify-center"
@@ -95,30 +67,19 @@ const LogInForm = ({ logIn }) => {
           <Checkbox style={{ color: `${color}` }}>Remember me</Checkbox>
         </Form.Item>
         {/* SUBMIT BTN */}
-        <Form.Item className="w-full">
-          <Button
-            fullWidth
-            variant="contained"
-            type="primary"
-            htmltype="submit"
-          >
-            Submit
-          </Button>
-        </Form.Item>
+        <FormButton
+          type={"primary"}
+          text={"Submit"}
+          buttonVariant="contained"
+        />
         {/* GOOGLE BTN */}
-        <Form.Item className="w-full">
-          <Button
-            fullWidth
-            variant="outlined"
-            type="button"
-            // htmltype="submit"
-            onClick={() => {
-              signInWithGoogle(navigate);
-            }}
-          >
-            SIGN IN WITH GOOGLE
-          </Button>
-        </Form.Item>
+        <FormButton
+          type={"button"}
+          myFunc={() => {
+            signInWithGoogle(navigate);
+          }}
+          text={"SIGN IN WITH GOOGLE"}
+        />
         <p style={{ color: `${color}` }}>
           Don't have an account{" "}
           <Link to="/auth/SignUpPage" className="text-blue-500 font-bold">

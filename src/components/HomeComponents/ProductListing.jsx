@@ -13,7 +13,7 @@ import { IoClose } from "react-icons/io5";
 
 import { DollarOutlined } from "@ant-design/icons";
 import { Image } from "antd";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import HeadingBorder from "../GlobalComponents/HeadingBorder";
 
 const categoriesArray = [
@@ -63,7 +63,7 @@ function ProductListing() {
   const [loadMore, setLoadMore] = useState(true);
   const [products, setProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
+  const navigate = useNavigate();
   // GETTING DATA ON CHANGING LIMIT STATE
   useEffect(() => {
     getProducts();
@@ -101,7 +101,7 @@ function ProductListing() {
       );
 
       const res = await response.json();
-      console.log("res->", res);
+      // console.log("res->", res);
       setProducts(res.products);
       setTotal(res.total);
       setLoader(false);
@@ -318,8 +318,14 @@ function ProductListing() {
                         {/* ADD TO CART BTN */}
                         <Button
                           onClick={() => {
-                            isUser
-                              ? addItemToCart({ ...data, quantity: 1 })
+                            isUser.isLogIn
+                              ? addItemToCart({
+                                  ...data,
+                                  quantity: 1,
+                                  orderedBy: isUser?.user?.uid,
+                                  deliveryStatus: "pending",
+                                  deliveryDetails: {},
+                                })
                               : navigate("/auth/LogInPage");
                           }}
                           className="productListingCartBtn w-full"

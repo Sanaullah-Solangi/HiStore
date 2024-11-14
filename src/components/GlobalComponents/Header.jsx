@@ -1,10 +1,10 @@
 // HOOKS
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //CONTEXTS
 import { UserContext } from "../../contexts/UserContext";
 import { CartContext } from "../../contexts/CartContext";
-import { ThemeContext } from "../../contexts/ThemeContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import { LogoUrl } from "../../contexts/LogoContext";
 // COMPONENTS & FUNCTIONS
 import { signOut, auth } from "../../utils/firebase";
@@ -16,20 +16,27 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { HiOutlineMoon } from "react-icons/hi";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { Avatar, Badge } from "antd";
-import { FiLogOut } from "react-icons/fi";
-import { LuLogIn } from "react-icons/lu";
+import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function Header() {
   const navigate = useNavigate();
-  const { theme, setTheme, mainColor } = useContext(ThemeContext);
+  const { theme, setTheme, mainColor } = useTheme();
   const { imgUrl } = useContext(LogoUrl);
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, searchTerm, setSearchTerm } = useContext(CartContext);
   const { isUser } = useContext(UserContext);
   const [isHover, setIsHover] = useState(false);
   const [helper, setHelper] = useState(0);
   const [avatarMenuVisibility, setAvatarMenuVisibility] = useState(false);
+  const { pathname } = useLocation();
   const uid = localStorage.getItem("uid");
+  const userEmail = localStorage.getItem("email");
+  useEffect(() => {
+    if (searchTerm != "" && pathname.slice(0, 15) != "/productlisting") {
+      navigate(`/productlisting/all`);
+    }
+  }, [searchTerm]);
+
   // FUNCTION OF LOGOUT
   async function logOut() {
     try {
@@ -58,6 +65,12 @@ function Header() {
       });
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        title: "Error!",
+        text: "There was an issue logging you out. Please try again later.",
+        icon: "error",
+        confirmButtonColor: "#d33",
+      });
     }
   }
   return (
@@ -75,14 +88,18 @@ function Header() {
             {/* INPUT */}
             <input
               type="text"
-              className="capitalize border-none outline-none bg-transparent"
+              className="border-none outline-none bg-transparent"
               placeholder="Search here"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+              }}
             />
             {/* SEARCH ICON */}
             <CiSearch className="text-gray-900" fontSize={"1.5rem"} />
           </label>
           {/* SHOPING CART ICON */}
-          <Link to={"/CartItems"}>
+          <Link to={"/cartitems"}>
             <Badge
               count={isUser.isLogIn ? cartItems.length : ""}
               color={`${mainColor}`}
@@ -166,7 +183,7 @@ function Header() {
                     : setAvatarMenuVisibility(true);
                 }}
                 src={`${
-                  isUser.user.photoURL
+                  isUser.user
                     ? isUser?.user?.photoURL
                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOH2aZnIHWjMQj2lQUOWIL2f4Hljgab0ecZQ&s"
                 }`}
@@ -177,8 +194,11 @@ function Header() {
               <div
                 style={{
                   visibility: `${avatarMenuVisibility ? "visible" : "hidden"}`,
+                  height: `${
+                    userEmail == "admin@gmail.com" ? "165px" : "125px"
+                  }`,
                 }}
-                className="absolute w-[150px] h-[80px] z-40 top-[90%] left-[-400%] overflow-hidden "
+                className="absolute w-[150px] h-[125px] z-40 top-[90%] left-[-400%] overflow-hidden "
               >
                 <div
                   style={{
@@ -186,16 +206,41 @@ function Header() {
                   }}
                   className="absolute z-40 top-[0%] left-0 w-[100%] h-[100%] bg-[rgb(210,212,214)] flex justify-start items-start flex-col    rounded-l-lg overflow-hidden transition-all duration-100 ease-linear border-r-8 border-gray-400"
                 >
+                  {userEmail == "admin@gmail.com" ? (
+                    <Link
+                      className="w-full"
+                      to={"/admin"}
+                      onClick={() => {
+                        setAvatarMenuVisibility(false);
+                      }}
+                    >
+                      <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
+                        Dashboard
+                      </p>
+                    </Link>
+                  ) : null}
                   {/* PROFILE LINK */}
                   <Link
                     className="w-full"
-                    to={"/user/Profile"}
+                    to={"/profile"}
                     onClick={() => {
                       setAvatarMenuVisibility(false);
                     }}
                   >
                     <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
                       Profile
+                    </p>
+                  </Link>
+                  {/* USER ORDERS LINK */}
+                  <Link
+                    className="w-full"
+                    to={"/orders"}
+                    onClick={() => {
+                      setAvatarMenuVisibility(false);
+                    }}
+                  >
+                    <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
+                      Orders
                     </p>
                   </Link>
                   {/* LOG OUT BTN */}
@@ -214,7 +259,7 @@ function Header() {
             // LOG OUT HONE K BAAD YE SHOW HOGA
             <HiOutlineUser
               onClick={() => {
-                navigate("/auth/LogInPage");
+                navigate("/auth/login");
               }}
               fontSize={"1.8rem"}
               className="cursor-pointer transition-all duration-150 ease-linear"

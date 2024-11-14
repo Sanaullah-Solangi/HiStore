@@ -35,7 +35,7 @@ function LoginToViewCart() {
         </span>
       }
       extra={
-        <Link to="/auth/LogInPage">
+        <Link to="/auth/login">
           <Button type="primary" key="login">
             Log In
           </Button>

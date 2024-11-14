@@ -19,6 +19,7 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
   const { theme, bgColor, color, mainColor } = useContext(ThemeContext);
   const [isHover, setIsHover] = useState(true);
   const [helper, setHelper] = useState(0);
+  const uid = localStorage.getItem("uid");
   // FUNCTIONS & OTHERS
   const navigate = useNavigate();
   // DESTRUCTING OBJECT
@@ -130,11 +131,11 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
                       ? addItemToCart({
                           ...productInfo,
                           quantity: 1,
-                          orderedBy: isUser?.user?.uid,
+                          orderedBy: uid,
                           deliveryStatus: "pending",
                           deliveryDetails: {},
                         })
-                      : navigate("/auth/LogInPage");
+                      : navigate("/auth/login");
                   }}
                   className="flex justify-center items-center gap-4   text-white bg-gray-800 border-0 py-3 w-72 focus:outline-none rounded"
                   style={{ backgroundColor: `${isHover ? mainColor : ""}` }}

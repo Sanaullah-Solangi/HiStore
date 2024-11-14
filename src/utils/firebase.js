@@ -7,6 +7,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import {
   addDoc,
@@ -21,6 +22,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { useState } from "react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBILntw32izD6Jh-gO9DuL_bVSPWRshEYg",
@@ -36,7 +38,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
-
+// FUNCTION TO SIGN IN WITH GOOGLE
 const signInWithGoogle = async (navigate) => {
   try {
     const result = await signInWithPopup(auth, provider);
@@ -44,7 +46,6 @@ const signInWithGoogle = async (navigate) => {
     const token = credential.accessToken;
     const user = result.user;
     const ref = doc(db, "users", user.uid);
-    // console.log(user);
     setDoc(ref, {
       email: user.email,
       photoURL: user.photoURL,
@@ -71,6 +72,7 @@ export {
   signInWithEmailAndPassword,
   signInWithGoogle,
   signOut,
+  sendPasswordResetEmail,
   // DATA BASE METHODS
   collection,
   doc,

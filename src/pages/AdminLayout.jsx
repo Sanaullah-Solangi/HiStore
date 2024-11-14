@@ -1,14 +1,14 @@
 import { Outlet } from "react-router-dom";
 import SideMenu from "../components/GlobalComponents/SideMenu";
 
-function UserDetails() {
+function AdminLayout() {
   return (
-    <div className="flex min-h-[400px]">
+    <div className="flex min-h-screen">
       <SideMenu />
-      <div className="md:w-3/4 w-full h-full border-l border-gray-400">
+      <div className="min-h-full w-full md:w-3/4 flex flex-col justify-start items-star">
         <Outlet />
       </div>
     </div>
   );
 }
-export default UserDetails;
+export default AdminLayout;

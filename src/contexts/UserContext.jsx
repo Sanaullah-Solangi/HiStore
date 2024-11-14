@@ -11,9 +11,12 @@ function UserContextProvider({ children }) {
     const subscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsUser({ user: user, isLogIn: true });
-        localStorage.setItem("uid", user.uid);
+        localStorage.setItem("uid", `cart${user.uid}`);
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("order", `deliverd${user.uid}`);
       } else {
         setIsUser({ isLogIn: false });
+        localStorage.setItem("email", null);
         flagToResetCartItems
           ? setFlagToResetCartItems(false)
           : setFlagToResetCartItems(true);

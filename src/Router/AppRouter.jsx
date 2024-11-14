@@ -20,6 +20,7 @@ import CartItems from "../components/GlobalComponents/CartItems";
 import HomePage from "../pages/Home";
 import SignUpPage from "../pages/SignUpPage";
 import LogInPage from "../pages/LogInPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import ProductListing from "../components/HomeComponents/ProductListing";
 import UserDetails from "../pages/UserDetails";
 import Profile from "../components/UserComponents/Profile";
@@ -30,10 +31,16 @@ import PicColors from "../components/GlobalComponents/ColorPicker";
 import CheckOut from "../components/HomeComponents/CheckOut";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import AdminLayout from "../pages/AdminLayout";
+import Users from "../pages/Users";
+import AdminProducts from "../pages/Products";
+import Dashboard from "../pages/Dashboard";
+import AdminOrders from "../pages/Orders";
 function AppRouter() {
-  const {
-    isUser: { isLogIn },
-  } = useContext(UserContext);
+  const { isUser } = useContext(UserContext);
+  const userEmail = localStorage.getItem("email");
+  console.log(isUser?.user?.email);
+  console.log("checking", userEmail);
   return (
     <BrowserRouter>
       <ScrollTop />
@@ -43,29 +50,38 @@ function AppRouter() {
           path="/auth"
           element={
             <>
+              <PicColors />
               <Outlet />
             </>
           }
         >
-          <Route path="SignUpPage" element={<SignUpPage />} />
-          <Route path="LogInPage" element={<LogInPage />} />
+          <Route path="signup" element={<SignUpPage />} />
+          <Route path="login" element={<LogInPage />} />
+          <Route path="forgotpassword" element={<ForgotPasswordPage />} />
         </Route>
-        {/* /USER ROUTES STACK */}
+
+        {/* ADMIN ROUTES STACK */}
         <Route
-          path="/user"
+          path="/admin"
           element={
-            <>
-              <Header />
-              <Navigations />
-              <UserDetails />
-              <Footer />
-            </>
+            userEmail == "admin@gmail.com" ? (
+              <>
+                <Header />
+                <Navigations />
+                <PicColors />
+                <AdminLayout />
+              </>
+            ) : (
+              <Navigate to={"/"} />
+            )
           }
         >
-          <Route path="Profile" element={<Profile />} />
-          <Route path="Orders" element={<Orders />} />
-          <Route path="Products" element={<Products />} />
+          <Route index element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
         </Route>
+
         {/* HOME ROUTES STACK */}
         <Route
           path="/"
@@ -79,14 +95,19 @@ function AppRouter() {
             </div>
           }
         >
+          <Route path="profile" element={<Profile />} />
+          <Route path="orders" element={<Orders />} />
           <Route index element={<HomePage />} />
           <Route path="hero" element={<Hero />} />
           <Route path="services" element={<Services />} />
           <Route path="categories" element={<Categories />} />
-          <Route path="FeaturedProds" element={<FeaturedProds />} />
-          <Route path="CartItems" element={<CartItems />} />
-          <Route path="CheckOut" element={<CheckOut />} />
-          <Route path="ProductListing/:id" element={<ProductListing />} />
+          <Route path="featuredproducts" element={<FeaturedProds />} />
+          <Route path="cartitems" element={<CartItems />} />
+          <Route path="checkout" element={<CheckOut />} />
+          <Route
+            path="productlisting/:searchQuery"
+            element={<ProductListing />}
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

@@ -14,18 +14,21 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LoaderContextProvider from "./contexts/LoaderContext.jsx";
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>
-        <LogoUrlProvider>
-          <ThemeContextProvider>
-            <CartContextProvider>
-              <AppRouter />
-            </CartContextProvider>
-          </ThemeContextProvider>
-        </LogoUrlProvider>
+        <LoaderContextProvider>
+          <LogoUrlProvider>
+            <ThemeContextProvider>
+              <CartContextProvider>
+                <AppRouter />
+              </CartContextProvider>
+            </ThemeContextProvider>
+          </LogoUrlProvider>
+        </LoaderContextProvider>
       </UserContextProvider>
     </QueryClientProvider>
   </StrictMode>

@@ -3,7 +3,15 @@ import Button from "@mui/material/Button";
 import { useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
-function FormButton({ type, myFunc, text, buttonVariant }) {
+function FormButton({
+  type,
+  myFunc,
+  text,
+  imgSrc,
+  buttonVariant,
+  bgColor,
+  txtColor,
+}) {
   const { mainColor } = useContext(ThemeContext);
   return (
     <Form.Item className="w-full">
@@ -12,9 +20,15 @@ function FormButton({ type, myFunc, text, buttonVariant }) {
         onClick={myFunc}
         variant={`${buttonVariant ? `${buttonVariant}` : "outlined"}`}
         type={`${type}`}
-        style={{ backgroundColor: `${mainColor}` }}
+        style={{
+          backgroundColor: `${bgColor ? bgColor : mainColor}`,
+          border: `1px solid ${mainColor}`,
+          color: `${txtColor ? txtColor : "white"}`,
+          borderRadius:"50px"
+        }}
       >
-        {text}
+        {text ? text : ""}
+        <img width={"30px"} src={imgSrc ? imgSrc : ""} alt="" />
       </Button>
     </Form.Item>
   );

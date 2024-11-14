@@ -10,7 +10,7 @@ function Profile() {
     return (
       <div
         className="flex gap-5 w-full p-5 rounded-lg"
-        style={{ boxShadow: "0 0 10px rgba(0,0,0,0.2" }}
+        style={{ boxShadow: "0 0 10px rgba(0,0,0,0.2)" }}
       >
         <div className="profileImage flex justify-center items-center w-1/3">
           <img

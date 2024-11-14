@@ -40,7 +40,7 @@ function Categories() {
         <div className="flex flex-wrap -m-4">
           {/* 1ST */}
           <Link
-            to={"/ProductListing/mens-shirts"}
+            to={"/productlisting/mens-shirts"}
             className="categoriesCard cursor-pointer p-4 lg:w-1/4 sm:w-1/2 w-full"
           >
             <div
@@ -78,7 +78,7 @@ function Categories() {
           {/* 2ND */}
           <Link
             className="categoriesCard cursor-pointer p-4 lg:w-1/4 sm:w-1/2 w-full"
-            to={"/ProductListing/womens-dresses"}
+            to={"/productlisting/womens-dresses"}
           >
             <div
               onMouseOver={() => {
@@ -115,7 +115,7 @@ function Categories() {
           {/* 3RD */}
           <Link
             className="categoriesCard cursor-pointer p-4 lg:w-1/4 sm:w-1/2 w-full"
-            to={"/ProductListing/womens-jewellery"}
+            to={"/productlisting/womens-jewellery"}
           >
             <div
               onMouseOver={() => {
@@ -152,7 +152,7 @@ function Categories() {
           {/* 4RTH */}
           <Link
             className="categoriesCard cursor-pointer p-4 lg:w-1/4 sm:w-1/2 w-full"
-            to={"/ProductListing/sports-accessories"}
+            to={"/productlisting/sports-accessories"}
           >
             <div
               onMouseOver={() => {

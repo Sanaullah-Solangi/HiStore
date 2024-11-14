@@ -3,10 +3,11 @@ import { UserContext } from "./UserContext";
 export const CartContext = createContext();
 function CartContextProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
-  const [currentCartItems, setCurrentCartItems] = useState([]);
+  const [deliveredItems, setDeliveredItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const uid = localStorage.getItem("uid");
-  const { isUser, flagToResetCartItems } = useContext(UserContext);
-
+  const order = localStorage.getItem("order");
+  const { flagToResetCartItems } = useContext(UserContext);
   useEffect(() => {
     setCartItems([]);
   }, [flagToResetCartItems]);
@@ -14,8 +15,12 @@ function CartContextProvider({ children }) {
   // GETTING ALL ITEMS FROM STORAGE
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem(uid));
+    const items = JSON.parse(localStorage.getItem(order));
     if (Array.isArray(data) && data.length != 0) {
       setCartItems([...data]);
+    }
+    if (Array.isArray(items) && items.length != 0) {
+      setDeliveredItems([...items]);
     }
   }, [uid]);
 
@@ -68,6 +73,11 @@ function CartContextProvider({ children }) {
     <CartContext.Provider
       value={{
         cartItems,
+        deliveredItems,
+        searchTerm,
+        setSearchTerm,
+        setDeliveredItems,
+        setCartItems,
         addItemToCart,
         removeItemFromCartList,
         isProductExist,

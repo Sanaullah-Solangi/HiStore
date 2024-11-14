@@ -213,7 +213,7 @@ function FeaturedProds() {
           </Swiper>
         </div>
         {/* VIEW ALL PRODUCTS */}
-        <Link to={"/ProductListing/all"}>
+        <Link to={"/productlisting/all"}>
           <Button
             variant={`${theme == "black" ? "outlined" : "contained"}`}
             style={{

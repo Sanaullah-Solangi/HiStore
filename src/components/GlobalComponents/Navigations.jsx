@@ -97,7 +97,7 @@ function Navigations() {
           </Link>
           {/* FEATURED PROD LINK */}
           <Link
-            to={"/FeaturedProds"}
+            to={"/featuredproducts"}
             className="mr-5 cursor-pointer font-medium md:border-none md:w-auto md:px-0 md:py-0 border-b border-gray-400 py-2 px-4 w-full"
             style={{ color: `${isHover && helper == 4 ? mainColor : ""}` }}
             onMouseOver={() => {
@@ -134,31 +134,39 @@ function Navigations() {
             CONTACT
           </Link>
           {/***** USER NAVIGATIONS *****/}
-          <div
-            className="mr-5 cursor-pointer font-medium md:border-none md:w-auto md:px-0 md:py-0 border-b border-gray-400 py-2 px-4 w-full flex justify-between items-center md:hidden relative"
-            style={{ color: `${isHover && helper == 6 ? mainColor : ""}` }}
-            onMouseOver={() => {
-              setIsHover(true);
-              setHelper(6);
-            }}
-            onMouseLeave={() => {
-              setIsHover(false);
-              setHelper(0);
-            }}
-            onClick={() => {
-              showUserDetails
-                ? setShowUserDetails(false)
-                : setShowUserDetails(true);
-            }}
-          >
-            USER DETAILS{" "}
+          <div className="mr-5 cursor-pointer font-medium md:border-none md:w-auto md:px-0 md:py-0 border-b border-gray-400  w-full flex justify-between items-center md:hidden relative">
+            <span
+              className="w-full h-full py-2 px-4"
+              style={{ color: `${isHover && helper == 6 ? mainColor : ""}` }}
+              onMouseOver={() => {
+                setIsHover(true);
+                setHelper(6);
+              }}
+              onMouseLeave={() => {
+                setIsHover(false);
+                setHelper(0);
+              }}
+              onClick={() => {
+                showUserDetails
+                  ? setShowUserDetails(false)
+                  : setShowUserDetails(true);
+              }}
+            >
+              USER DETAILS{" "}
+            </span>
             <MdKeyboardArrowRight
               className="text-3xl"
-              style={{ display: `${!showUserDetails ? "flex" : "none"}` }}
+              style={{
+                display: `${!showUserDetails ? "flex" : "none"}`,
+                color: `${isHover && helper == 6 ? mainColor : ""}`,
+              }}
             />
             <MdKeyboardArrowLeft
               className="text-3xl"
-              style={{ display: `${showUserDetails ? "flex" : "none"}` }}
+              style={{
+                display: `${showUserDetails ? "flex" : "none"}`,
+                color: `${isHover && helper == 6 ? mainColor : ""}`,
+              }}
             />
             <div
               style={{
@@ -167,6 +175,7 @@ function Navigations() {
               }}
               className="flex flex-col w-full absolute top-[100%] transition-all ease-linear duration-50 bg-[rgb(47,51,55)]"
             >
+              {/* DASHBOARD LINK */}
               <Link
                 onMouseOver={() => {
                   setIsHover(true);
@@ -180,11 +189,13 @@ function Navigations() {
                   setShowUserDetails(false);
                   setNavVisibility(false);
                 }}
-                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400"
-                to={"/user/Profile"}
+                style={{ color: `${isHover && helper == 7 ? mainColor : ""}` }}
+                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
+                to={"/admin"}
               >
-                Profile
+                Dashboard
               </Link>
+              {/* USERS LINK */}
               <Link
                 onMouseOver={() => {
                   setIsHover(true);
@@ -198,11 +209,13 @@ function Navigations() {
                   setShowUserDetails(false);
                   setNavVisibility(false);
                 }}
-                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400"
-                to={"/user/Orders"}
+                style={{ color: `${isHover && helper == 8 ? mainColor : ""}` }}
+                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
+                to={"/admin/users"}
               >
-                Orders
+                Users
               </Link>
+              {/* ORDERS LINK */}
               <Link
                 onMouseOver={() => {
                   setIsHover(true);
@@ -216,8 +229,29 @@ function Navigations() {
                   setShowUserDetails(false);
                   setNavVisibility(false);
                 }}
-                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400"
-                to={"/user/Products"}
+                style={{ color: `${isHover && helper == 9 ? mainColor : ""}` }}
+                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
+                to={"/admin/orders"}
+              >
+                Orders
+              </Link>
+              {/* PRODUCTS */}
+              <Link
+                onMouseOver={() => {
+                  setIsHover(true);
+                  setHelper(10);
+                }}
+                onMouseLeave={() => {
+                  setIsHover(false);
+                  setHelper(0);
+                }}
+                onClick={() => {
+                  setShowUserDetails(false);
+                  setNavVisibility(false);
+                }}
+                style={{ color: `${isHover && helper == 10 ? mainColor : ""}` }}
+                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
+                to={"/admin/Products"}
               >
                 Products
               </Link>

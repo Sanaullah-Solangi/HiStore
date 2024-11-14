@@ -25,7 +25,6 @@ Link;
 // CART COMPONENT STARTS
 function CartItems() {
   const uid = localStorage.getItem("uid");
-  console.log(typeof uid);
   const { isUser } = useContext(UserContext);
   const navigate = useNavigate();
   const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
@@ -59,6 +58,7 @@ function CartItems() {
         <div className="py-6 col-span-5 md:col-span-3 ">
           {isUser.isLogIn ? (
             cartItems.map((item, ind) => {
+              console.log(item);
               if (item.orderedBy == uid) {
                 return (
                   <div
@@ -77,7 +77,7 @@ function CartItems() {
                       onClick={() => {
                         isUser
                           ? removeItemFromCartList(item.id)
-                          : navigate("/auth/LogInPage");
+                          : navigate("/auth/login");
                       }}
                       className="removeCardIcon absolute p-2 right-0  top-0 hover:text-white text-gray-200  hover:bg-red-700 bg-red-500 cursor-pointer  transition-all duration-100 ease-linear"
                     />
@@ -137,7 +137,7 @@ function CartItems() {
                           onClick={() => {
                             isUser
                               ? addItemToCart(item)
-                              : navigate("/auth/LogInPage");
+                              : navigate("/auth/login");
                           }}
                           className="quantityBtn bg-blue-400 text-white py-4"
                           style={{
@@ -154,7 +154,7 @@ function CartItems() {
                           onClick={() => {
                             isUser
                               ? decreaseItemQuantity(item.id)
-                              : navigate("/auth/LogInPage");
+                              : navigate("/auth/login");
                           }}
                           className="quantityBtn bg-red-400  text-white py-4"
                           style={{
@@ -226,7 +226,7 @@ function CartItems() {
             </div>
 
             {/* BUTTON TO PROCESS NEXT */}
-            <Link to={"/CheckOut"} className="w-full">
+            <Link to={"/checkout"} className="w-full">
               <button
                 style={{ fontSize: "22px", backgroundColor: `${mainColor}` }}
                 className="flex items-center justify-center gap-2 text-white p-4 rounded  border-0 px-6 focus:outline-none uppercase text-base w-full"

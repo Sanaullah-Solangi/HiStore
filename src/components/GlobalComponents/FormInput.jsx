@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
 function FormInput({ name, message, lable, id }) {
-  const { mainColor } = useContext(ThemeContext);
+  const { mainColor, color } = useContext(ThemeContext);
   const [isHover, setIsHover] = useState(false);
   const [helper, setHelper] = useState(0);
   return (
@@ -26,7 +26,9 @@ function FormInput({ name, message, lable, id }) {
         name={`${id}`}
         className="myInput"
         style={{
+          color: `${color}`,
           border: `${isHover ? `1px solid ${mainColor}` : ""}`,
+          borderRadius: "50px",
         }}
         onFocus={() => {
           setIsHover(true);

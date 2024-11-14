@@ -15,6 +15,7 @@ import { DollarOutlined } from "@ant-design/icons";
 import { Image } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import HeadingBorder from "../GlobalComponents/HeadingBorder";
+import NoResults from "../GlobalComponents/NoMatch";
 
 const categoriesArray = [
   "all",
@@ -48,14 +49,14 @@ function ProductListing() {
   //CONTEXTS
   const { isUser } = useContext(UserContext);
   const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
-  const { isProductExist, addItemToCart } = useContext(CartContext);
+  const { isProductExist, addItemToCart, searchTerm } = useContext(CartContext);
   //STATES
-  const { id } = useParams();
+  const { searchQuery } = useParams();
   const [limit, setLimit] = useState(5);
   const [skip, setSkip] = useState(0);
   const [total, setTotal] = useState(0);
   const [categories, setCategories] = useState([...categoriesArray]);
-  const [category, setCategory] = useState(id);
+  const [category, setCategory] = useState(searchQuery);
   const [sortBy, setSortBy] = useState("none");
   const [orderBy, setOrderBy] = useState("asc");
 
@@ -63,21 +64,21 @@ function ProductListing() {
   const [loadMore, setLoadMore] = useState(true);
   const [products, setProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSearched, setIsSearched] = useState(false);
+  const uid = localStorage.getItem("uid");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    searchProducts();
+    setIsSearched(true);
+  }, [searchTerm]);
+
   // GETTING DATA ON CHANGING LIMIT STATE
   useEffect(() => {
     getProducts();
+    setIsSearched(false);
   }, [limit]);
-  // CHECK SCROLL POSITION IF LAST PRODUCT IS REACHED THEN INCREASES LIMIT AND CALLS getPoduct FUNCTION
-  const getDataOnScroll = () => {
-    const scrollHeight = window.scrollY;
-    const productDistance = document.querySelector(
-      ".productListingCard:last-child"
-    ).offsetTop;
-    if (scrollHeight >= productDistance - 200) {
-      setLimit(limit + 10);
-    }
-  };
+
   // CHANGING LIMIT ON SCROLLING TO THE END
   useEffect(() => {
     if (limit <= total) {
@@ -88,39 +89,79 @@ function ProductListing() {
       };
     }
   }, [loadMore]);
-  // FUNCTION TO GET DATA FROM API
-  const getProducts = async () => {
-    try {
-      setLoader(true);
-      const response = await fetch(
-        `https://dummyjson.com/products/${
-          category == "all" ? "" : `category/${category}`
-        }?limit=${limit}&skip=${skip}&sortBy=${
-          sortBy == "none" ? "" : sortBy
-        }&order=${orderBy}`
-      );
 
-      const res = await response.json();
-      // console.log("res->", res);
-      setProducts(res.products);
-      setTotal(res.total);
-      setLoader(false);
-      loadMore ? setLoadMore(false) : setLoadMore(true);
-      return res;
-    } catch (error) {
-      setLoader(false);
-      setLoadMore(false);
-      console.log(error);
+  // CHECK SCROLL POSITION IF LAST PRODUCT IS REACHED THEN INCREASES LIMIT AND CALLS getPoduct FUNCTION
+  const getDataOnScroll = () => {
+    const scrollHeight = window.scrollY;
+    const productDistance = document.querySelector(
+      ".productListingCard:last-child"
+    ).offsetTop;
+    if (scrollHeight >= productDistance - 200) {
+      setLimit(limit + 10);
     }
   };
 
+  // FUNCTION TO GET DATA FROM API
+  const getProducts = async () => {
+    if (!isSearched) {
+      try {
+        setLoader(true);
+        const response = await fetch(
+          `https://dummyjson.com/products/${
+            category == "all" ? "" : `category/${category}`
+          }?limit=${limit}&skip=${skip}&sortBy=${
+            sortBy == "none" ? "" : sortBy
+          }&order=${orderBy}`
+        );
+
+        const res = await response.json();
+        console.log("res->", res);
+        setProducts(res.products);
+        setTotal(res.total);
+        setLoader(false);
+        setLoadMore(!loadMore);
+        console.clear();
+        console.log("Men wese hi chal rha hun");
+        return res;
+      } catch (error) {
+        setLoader(false);
+        setLoadMore(false);
+        console.log(error);
+      }
+    }
+  };
+
+  // FUNCTION TO SEARCH PRODUCTS BY INPUT
+  const searchProducts = async () => {
+    if (isSearched) {
+      try {
+        setLoader(true);
+        fetch(`https://dummyjson.com/products/search?q=${searchTerm}`)
+          .then((res) => res.json())
+          .then((res) => {
+            setProducts(res.products);
+            setLoader(false);
+            setLoadMore(!loadMore);
+            console.clear();
+            console.log(res.products);
+            console.log("Men Search per chal rha hun");
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  // FUNCTION TO FILTER DATA
   const filterData = () => {
-    console.log(category);
-    console.log(sortBy);
-    console.log(orderBy);
-    getProducts();
+    setIsSearched(false);
+    setTimeout(() => {
+      getProducts();
+    }, 500);
     isFilterOpen ? setIsFilterOpen(false) : setIsFilterOpen(true);
   };
+  console.log("isSearched=>", isSearched);
+  // console.log(products);
 
   return (
     <>
@@ -243,126 +284,131 @@ function ProductListing() {
               </div>
             </div>
             {/* CONTENT CONTAINER */}
-            <div className="productListingContainer flex gap-4 flex-wrap ">
+            <div className="productListingContainer flex w-full gap-4 flex-wrap ">
               {/* CARD */}
-              {products?.map((data) => {
-                return (
-                  <div
-                    key={data?.id}
-                    className="productListingCard "
-                    style={{ boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}
-                  >
-                    <div className="bg-gray-100 rounded-lg">
-                      {/* CARD IMAGE */}
-                      <Image
-                        height={"15rem"}
-                        width={"100%"}
-                        className=" rounded  object-contain object-center mb-6"
-                        src={data.images[0]}
-                        alt="content"
-                      />
-                      {/* PRODUCT DETAILS */}
-                      <div
-                        className="p-6 flex flex-col "
-                        style={{
-                          border: `${
-                            theme == "black"
-                              ? "2px solid rgba(10,10,10,0.2)"
-                              : ""
-                          }`,
-                          backgroundColor: `${
-                            theme === "black" ? "black" : "white"
-                          }`,
-                        }}
-                      >
-                        {/* PRODUCT BRAND */}
-                        <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font">
-                          {data.brand}
-                        </h3>
-                        {/* TITLE */}
-                        <h2
+              {products.length != 0 ? (
+                products?.map((data) => {
+                  return (
+                    <div
+                      key={data?.id}
+                      className="productListingCard "
+                      style={{ boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}
+                    >
+                      <div className="bg-gray-100 rounded-lg">
+                        {/* CARD IMAGE */}
+                        <Image
+                          height={"15rem"}
+                          width={"100%"}
+                          className=" rounded  object-contain object-center mb-6"
+                          src={data.images[0]}
+                          alt="content"
+                        />
+                        {/* PRODUCT DETAILS */}
+                        <div
+                          className="p-6 flex flex-col "
                           style={{
-                            color: `${
-                              theme == "light" ? "rgb(17, 24, 39 )" : "white"
-                            }`,
-                          }}
-                          className="text-lg font-medium title-font h-16"
-                        >
-                          {data.title}
-                        </h2>
-                        {/* DESCRIPTION */}
-                        <p className="leading-relaxed text-base h-48">
-                          {data.description}
-                        </p>
-                        {/* PRICE & TOTAL */}
-                        <div className="flex justify-between icon-link">
-                          <p
-                            style={{ color: `${color}` }}
-                            className="flex justify-between items-center gap-2 text-gray-900 font-bold"
-                          >
-                            <DollarOutlined style={{ fontSize: "22px" }} />{" "}
-                            {Math.round(data.price)}
-                          </p>
-                          <p
-                            style={{ color: `${color}` }}
-                            className="flex justify-between items-center gap-2 text-gray-900 font-bold"
-                          >
-                            <span>Total</span>
-                            {isProductExist(data.id)
-                              ? Math.round(
-                                  data.price * isProductExist(data.id).quantity
-                                )
-                              : 0}
-                          </p>
-                        </div>
-                        {/* ADD TO CART BTN */}
-                        <Button
-                          onClick={() => {
-                            isUser.isLogIn
-                              ? addItemToCart({
-                                  ...data,
-                                  quantity: 1,
-                                  orderedBy: isUser?.user?.uid,
-                                  deliveryStatus: "pending",
-                                  deliveryDetails: {},
-                                })
-                              : navigate("/auth/LogInPage");
-                          }}
-                          className="productListingCartBtn w-full"
-                          variant={`${
-                            theme == "black" ? "outlined" : "contained"
-                          }`}
-                          style={{
-                            backgroundColor: `${
-                              theme == "light" ? `${mainColor}` : ""
-                            }`,
-                            color: `${theme == "black" ? "white" : ""}`,
                             border: `${
-                              theme == "black" ? "2px solid white" : ""
+                              theme == "black"
+                                ? "2px solid rgba(10,10,10,0.2)"
+                                : ""
+                            }`,
+                            backgroundColor: `${
+                              theme === "black" ? "black" : "white"
                             }`,
                           }}
                         >
-                          {isProductExist(data.id) ? (
-                            <>
-                              Increase Quantity
-                              <span>
-                                ( {isProductExist(data.id).quantity} )
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              Add to Cart
-                              <ShoppingCartOutlined
-                                style={{ fontSize: "22px" }}
-                              />
-                            </>
-                          )}
-                        </Button>
+                          {/* PRODUCT BRAND */}
+                          <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font">
+                            {data.brand}
+                          </h3>
+                          {/* TITLE */}
+                          <h2
+                            style={{
+                              color: `${
+                                theme == "light" ? "rgb(17, 24, 39 )" : "white"
+                              }`,
+                            }}
+                            className="text-lg font-medium title-font h-16"
+                          >
+                            {data.title}
+                          </h2>
+                          {/* DESCRIPTION */}
+                          <p className="leading-relaxed text-base h-48">
+                            {data.description}
+                          </p>
+                          {/* PRICE & TOTAL */}
+                          <div className="flex justify-between icon-link">
+                            <p
+                              style={{ color: `${color}` }}
+                              className="flex justify-between items-center gap-2 text-gray-900 font-bold"
+                            >
+                              <DollarOutlined style={{ fontSize: "22px" }} />{" "}
+                              {Math.round(data.price)}
+                            </p>
+                            <p
+                              style={{ color: `${color}` }}
+                              className="flex justify-between items-center gap-2 text-gray-900 font-bold"
+                            >
+                              <span>Total</span>
+                              {isProductExist(data.id)
+                                ? Math.round(
+                                    data.price *
+                                      isProductExist(data.id).quantity
+                                  )
+                                : 0}
+                            </p>
+                          </div>
+                          {/* ADD TO CART BTN */}
+                          <Button
+                            onClick={() => {
+                              isUser.isLogIn
+                                ? addItemToCart({
+                                    ...data,
+                                    quantity: 1,
+                                    orderedBy: uid,
+                                    deliveryStatus: "pending",
+                                    deliveryDetails: {},
+                                  })
+                                : navigate("/auth/login");
+                            }}
+                            className="productListingCartBtn w-full"
+                            variant={`${
+                              theme == "black" ? "outlined" : "contained"
+                            }`}
+                            style={{
+                              backgroundColor: `${
+                                theme == "light" ? `${mainColor}` : ""
+                              }`,
+                              color: `${theme == "black" ? "white" : ""}`,
+                              border: `${
+                                theme == "black" ? "2px solid white" : ""
+                              }`,
+                            }}
+                          >
+                            {isProductExist(data.id) ? (
+                              <>
+                                Increase Quantity
+                                <span>
+                                  ( {isProductExist(data.id).quantity} )
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                Add to Cart
+                                <ShoppingCartOutlined
+                                  style={{ fontSize: "22px" }}
+                                />
+                              </>
+                            )}
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <NoResults />
+              )}
             </div>
           </div>
         </div>

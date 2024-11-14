@@ -5,12 +5,12 @@ import { CartContext } from "../../contexts/CartContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { UserContext } from "../../contexts/UserContext";
 // ICONS & OTHERS
-import { IoBagCheckOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { DollarOutlined, ProductOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import FormInput from "../GlobalComponents/FormInput";
 import FormButton from "../GlobalComponents/FormButton";
+import Swal from "sweetalert2";
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -19,15 +19,11 @@ const onFinishFailed = (errorInfo) => {
 function CheckOut() {
   const [form] = Form.useForm();
   const uid = localStorage.getItem("uid");
-  const { isUser } = useContext(UserContext);
-  const navigate = useNavigate();
+  const order = localStorage.getItem("order");
   const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
-  const {
-    cartItems,
-    addItemToCart,
-    removeItemFromCartList,
-    decreaseItemQuantity,
-  } = useContext(CartContext);
+  const { cartItems, setCartItems, deliveredItems, setDeliveredItems } =
+    useContext(CartContext);
+  const navigate = useNavigate();
   // CALCULATING TOTAL AMOUNT OF CART ITEMS
   const totalAmount = cartItems.reduce(
     (total, product) => Math.round(total + product.price * product.quantity),
@@ -40,13 +36,36 @@ function CheckOut() {
   );
 
   const placeOrder = (form) => {
-    const data = JSON.parse(localStorage.getItem(uid));
-    data.map((item) => {
-      console.log(item.deliveryStatus, item.deliveryDetails);
-    });
     const values = form.getFieldValue();
-    const { username, email, password } = values;
-    console.log(values);
+    let prevDeliveredItem = JSON.parse(localStorage.getItem(order));
+    let allDeliveredItem = [];
+    console.log(prevDeliveredItem);
+    cartItems.map((item) => {
+      item.deliveryStatus = "done";
+      item.deliveryDetails = values;
+    });
+    if (Array.isArray(prevDeliveredItem) && prevDeliveredItem.length != 0) {
+      allDeliveredItem = [...cartItems, ...prevDeliveredItem];
+    } else {
+      allDeliveredItem = cartItems;
+    }
+
+    localStorage.setItem(order, JSON.stringify(allDeliveredItem));
+    setCartItems([]);
+    localStorage.setItem(uid, JSON.stringify([]));
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: "Your operation was successful!",
+      footer: '<a id="viewDetailsLink" href="/user/orders">View details</a>',
+    }).then(() => {
+      const viewDetailsLink = document.getElementById("viewDetailsLink");
+      if (viewDetailsLink) {
+        viewDetailsLink.addEventListener("click", () => {
+          window.location.href = "/user/orders"; // Redirect to the desired route
+        });
+      }
+    });
   };
 
   // CART ITEM CARD

@@ -1,7 +1,11 @@
 import SignUpForm from "../components/GlobalComponents/SignUp";
 import Swal from "sweetalert2";
 import Loader from "../components/GlobalComponents/Loader";
-import { auth, createUserWithEmailAndPassword } from "../utils/firebase";
+import {
+  addUserToDB,
+  auth,
+  createUserWithEmailAndPassword,
+} from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
@@ -21,7 +25,7 @@ function SignUpPage() {
     setLoader(true);
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User Details In SignUp Page=>", user.user);
+      await addUserToDB(user.user, navigate);
       formInstance.resetFields();
       setLoader(false);
       Swal.fire({
@@ -33,12 +37,6 @@ function SignUpPage() {
         showConfirmButton: true,
         timer: 1500, // Alert ko 1.5 second ke liye show karega
       });
-
-      if (user.user.email == "admin@gmail.com") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
     } catch (error) {
       setLoader(false);
       console.log(error.message);

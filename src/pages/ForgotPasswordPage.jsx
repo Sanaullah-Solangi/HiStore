@@ -61,7 +61,11 @@ function ForgotPasswordPage() {
       style={{ backgroundColor: `${bgColor}` }}
       className="relative h-screen grid md:grid-cols-2 grid-cols-1 gap-5 md:gap-0 pt-10 md:pt-0 overflow-hidden"
     >
-      <img src={elips} alt="elips" className="absolute left-0 bottom-0 rotate-180" />
+      <img
+        src={elips}
+        alt="elips"
+        className="absolute left-0 bottom-0 rotate-180"
+      />
 
       <div className="flex justify-center items-center h-full w-full md:order-1 order-2">
         <img

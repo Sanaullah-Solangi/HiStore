@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import FormInput from "./FormInput";
 import FormButton from "./FormButton";
-import { signInWithGoogle } from "../../utils/firebase";
+import { addUserToDB, signInWithGoogle } from "../../utils/firebase";
 import googleBtn from "../../assets/images/googlebtn.png";
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
@@ -85,8 +85,9 @@ const SignUpForm = ({ signUp }) => {
       {/* GOOGLE BTN */}
       <FormButton
         type={"button"}
-        myFunc={() => {
-          signInWithGoogle(navigate);
+        myFunc={async () => {
+          const user = await signInWithGoogle(navigate);
+          addUserToDB(user, navigate);
         }}
         imgSrc={googleBtn}
         bgColor={"transparent"}

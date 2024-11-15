@@ -45,19 +45,35 @@ const signInWithGoogle = async (navigate) => {
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
     const user = result.user;
-    const ref = doc(db, "users", user.uid);
-    setDoc(ref, {
-      email: user.email,
-      photoURL: user.photoURL,
-      uid: user.uid,
-      displayName: user.displayName,
-    });
-    navigate("/");
+    const ref = doc(db, "Users", user.uid);
+
+    return user;
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
     // const email = error.customData.email;
     console.log(errorMessage);
+  }
+};
+
+const addUserToDB = async (user, navigate) => {
+  try {
+    const { email, photoURL, uid, displayName } = user;
+    const ref = doc(db, "Users", uid);
+    await setDoc(ref, {
+      email,
+      photoURL,
+      uid,
+      displayName,
+    });
+
+    if (email == "admin@gmail.com") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -82,6 +98,7 @@ export {
   deleteDoc,
   updateDoc,
   onSnapshot,
+  addUserToDB,
   // STORAGE METHODS
   ref,
   uploadBytes,

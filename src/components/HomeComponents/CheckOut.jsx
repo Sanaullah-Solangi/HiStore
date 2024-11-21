@@ -107,18 +107,12 @@ function CheckOut() {
 
             {/* FIRSTNAME INPUT */}
             <FormInput
-              name={"firstname"}
-              message={"Please Input Your First Name"}
-              lable={"First Name"}
-              id={"firstname"}
+              name={"displayName"}
+              message={"Please Input Your Full Name"}
+              lable={"Full Name"}
+              id={"displayName"}
             />
-            {/* LASTNAME INPUT */}
-            <FormInput
-              name={"lastname"}
-              message={"Please Input Your Last Name"}
-              lable={"Last Name"}
-              id={"lastname"}
-            />
+
             {/* COMPANY INPUT */}
             <FormInput
               name={"company"}

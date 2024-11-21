@@ -5,13 +5,17 @@ import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { UserContext } from "../../contexts/UserContext";
 
 function Navigations() {
   const { theme, mainColor, bgHoverColor } = useContext(ThemeContext);
+  const { isUser } = useContext(UserContext);
   const [helper, setHelper] = useState(0);
   const [isHover, setIsHover] = useState(false);
   const [navVisibility, setNavVisibility] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
+  const userEmail = localStorage.getItem("email");
+
   return (
     <header
       style={{
@@ -36,7 +40,7 @@ function Navigations() {
             left: `${navVisibility ? "0%" : "-100%"}`,
             boxShadow: "0px 0px 5px rgba(200,200,200,0.2)",
           }}
-          className="md:py-4 md:pl-4  md:w-full md:h-auto h-screen flex flex-col md:flex-row flex-wrap md:items-center md:justify-center md:border-none border-r-2 border-gray-500 md:text-base text-lg md:static transition-all duration-200 ease-linear absolute top-[100%] z-10 gap-3 md:gap-0 w-[70%] bg-[rgb(35,41,46)] md:bg-[rgb(27,31,35)]"
+          className="md:py-4 md:pl-4  md:w-full md:h-auto h-[100vh] flex flex-col md:flex-row flex-wrap md:items-center md:justify-center md:border-none border-r-2 border-gray-500 md:text-base text-lg md:static transition-all duration-200 ease-linear absolute top-[100%] z-50 gap-3 md:gap-0 w-[70%] bg-[rgb(35,41,46)] md:bg-[rgb(27,31,35)]"
         >
           {/* HOME */}
           <Link
@@ -133,130 +137,142 @@ function Navigations() {
           >
             CONTACT
           </Link>
-          {/***** USER NAVIGATIONS *****/}
-          <div className="mr-5 cursor-pointer font-medium md:border-none md:w-auto md:px-0 md:py-0 border-b border-gray-400  w-full flex justify-between items-center md:hidden relative">
-            <span
-              className="w-full h-full py-2 px-4"
-              style={{ color: `${isHover && helper == 6 ? mainColor : ""}` }}
-              onMouseOver={() => {
-                setIsHover(true);
-                setHelper(6);
-              }}
-              onMouseLeave={() => {
-                setIsHover(false);
-                setHelper(0);
-              }}
-              onClick={() => {
-                showUserDetails
-                  ? setShowUserDetails(false)
-                  : setShowUserDetails(true);
-              }}
-            >
-              USER DETAILS{" "}
-            </span>
-            <MdKeyboardArrowRight
-              className="text-3xl"
-              style={{
-                display: `${!showUserDetails ? "flex" : "none"}`,
-                color: `${isHover && helper == 6 ? mainColor : ""}`,
-              }}
-            />
-            <MdKeyboardArrowLeft
-              className="text-3xl"
-              style={{
-                display: `${showUserDetails ? "flex" : "none"}`,
-                color: `${isHover && helper == 6 ? mainColor : ""}`,
-              }}
-            />
-            <div
-              style={{
-                left: `${showUserDetails ? "0%" : "-100%"}`,
-                opacity: `${showUserDetails ? "1" : "0"}`,
-              }}
-              className="flex flex-col w-full absolute top-[100%] transition-all ease-linear duration-50 bg-[rgb(47,51,55)]"
-            >
-              {/* DASHBOARD LINK */}
-              <Link
+          {userEmail == "admin@gmail.com" ? (
+            /***** USER NAVIGATIONS *****/
+            <div className="mr-5 cursor-pointer font-medium md:border-none md:w-auto md:px-0 md:py-0 border-b border-gray-400  w-full flex justify-between items-center md:hidden relative">
+              <span
+                className="w-full h-full py-2 px-4"
+                style={{ color: `${isHover && helper == 6 ? mainColor : ""}` }}
                 onMouseOver={() => {
                   setIsHover(true);
-                  setHelper(7);
+                  setHelper(6);
                 }}
                 onMouseLeave={() => {
                   setIsHover(false);
                   setHelper(0);
                 }}
                 onClick={() => {
-                  setShowUserDetails(false);
-                  setNavVisibility(false);
+                  showUserDetails
+                    ? setShowUserDetails(false)
+                    : setShowUserDetails(true);
                 }}
-                style={{ color: `${isHover && helper == 7 ? mainColor : ""}` }}
-                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
-                to={"/admin"}
               >
-                Dashboard
-              </Link>
-              {/* USERS LINK */}
-              <Link
-                onMouseOver={() => {
-                  setIsHover(true);
-                  setHelper(8);
+                USER DETAILS{" "}
+              </span>
+              <MdKeyboardArrowRight
+                className="text-3xl"
+                style={{
+                  display: `${!showUserDetails ? "flex" : "none"}`,
+                  color: `${isHover && helper == 6 ? mainColor : ""}`,
                 }}
-                onMouseLeave={() => {
-                  setIsHover(false);
-                  setHelper(0);
+              />
+              <MdKeyboardArrowLeft
+                className="text-3xl"
+                style={{
+                  display: `${showUserDetails ? "flex" : "none"}`,
+                  color: `${isHover && helper == 6 ? mainColor : ""}`,
                 }}
-                onClick={() => {
-                  setShowUserDetails(false);
-                  setNavVisibility(false);
+              />
+              <div
+                style={{
+                  left: `${showUserDetails ? "0%" : "-100%"}`,
+                  opacity: `${showUserDetails ? "1" : "0"}`,
                 }}
-                style={{ color: `${isHover && helper == 8 ? mainColor : ""}` }}
-                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
-                to={"/admin/users"}
+                className="flex flex-col w-full absolute top-[100%] transition-all ease-linear duration-50 bg-[rgb(47,51,55)]"
               >
-                Users
-              </Link>
-              {/* ORDERS LINK */}
-              <Link
-                onMouseOver={() => {
-                  setIsHover(true);
-                  setHelper(9);
-                }}
-                onMouseLeave={() => {
-                  setIsHover(false);
-                  setHelper(0);
-                }}
-                onClick={() => {
-                  setShowUserDetails(false);
-                  setNavVisibility(false);
-                }}
-                style={{ color: `${isHover && helper == 9 ? mainColor : ""}` }}
-                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
-                to={"/admin/orders"}
-              >
-                Orders
-              </Link>
-              {/* PRODUCTS */}
-              <Link
-                onMouseOver={() => {
-                  setIsHover(true);
-                  setHelper(10);
-                }}
-                onMouseLeave={() => {
-                  setIsHover(false);
-                  setHelper(0);
-                }}
-                onClick={() => {
-                  setShowUserDetails(false);
-                  setNavVisibility(false);
-                }}
-                style={{ color: `${isHover && helper == 10 ? mainColor : ""}` }}
-                className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
-                to={"/admin/Products"}
-              >
-                Products
-              </Link>
+                {/* DASHBOARD LINK */}
+
+                <Link
+                  onMouseOver={() => {
+                    setIsHover(true);
+                    setHelper(7);
+                  }}
+                  onMouseLeave={() => {
+                    setIsHover(false);
+                    setHelper(0);
+                  }}
+                  onClick={() => {
+                    setShowUserDetails(false);
+                    setNavVisibility(false);
+                  }}
+                  style={{
+                    color: `${isHover && helper == 7 ? mainColor : ""}`,
+                  }}
+                  className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
+                  to={"/admin"}
+                >
+                  Dashboard
+                </Link>
+
+                {/* USERS LINK */}
+                <Link
+                  onMouseOver={() => {
+                    setIsHover(true);
+                    setHelper(8);
+                  }}
+                  onMouseLeave={() => {
+                    setIsHover(false);
+                    setHelper(0);
+                  }}
+                  onClick={() => {
+                    setShowUserDetails(false);
+                    setNavVisibility(false);
+                  }}
+                  style={{
+                    color: `${isHover && helper == 8 ? mainColor : ""}`,
+                  }}
+                  className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
+                  to={"/admin/users"}
+                >
+                  Users
+                </Link>
+                {/* ORDERS LINK */}
+                <Link
+                  onMouseOver={() => {
+                    setIsHover(true);
+                    setHelper(9);
+                  }}
+                  onMouseLeave={() => {
+                    setIsHover(false);
+                    setHelper(0);
+                  }}
+                  onClick={() => {
+                    setShowUserDetails(false);
+                    setNavVisibility(false);
+                  }}
+                  style={{
+                    color: `${isHover && helper == 9 ? mainColor : ""}`,
+                  }}
+                  className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
+                  to={"/admin/orders"}
+                >
+                  Orders
+                </Link>
+                {/* PRODUCTS */}
+                <Link
+                  onMouseOver={() => {
+                    setIsHover(true);
+                    setHelper(10);
+                  }}
+                  onMouseLeave={() => {
+                    setIsHover(false);
+                    setHelper(0);
+                  }}
+                  onClick={() => {
+                    setShowUserDetails(false);
+                    setNavVisibility(false);
+                  }}
+                  style={{
+                    color: `${isHover && helper == 10 ? mainColor : ""}`,
+                  }}
+                  className="w-full p-4 px-6 text-xl font-medium capitalize border-b border-gray-400 z-50"
+                  to={"/admin/Products"}
+                >
+                  Products
+                </Link>
+              </div>
             </div>
-          </div>
+          ) : null}
         </nav>
       </div>
     </header>

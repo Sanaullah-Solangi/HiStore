@@ -18,11 +18,11 @@ import { MdOutlineWbSunny } from "react-icons/md";
 import { Avatar, Badge } from "antd";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import defaultDp from "../../assets/images/dp.jpeg";
 function Header() {
   const navigate = useNavigate();
   const { theme, setTheme, mainColor } = useTheme();
-  const { imgUrl } = useContext(LogoUrl);
+  const { imgUrl, profileDp, setProfileDp } = useContext(LogoUrl);
   const { cartItems, searchTerm, setSearchTerm } = useContext(CartContext);
   const { isUser } = useContext(UserContext);
   const [isHover, setIsHover] = useState(false);
@@ -36,7 +36,6 @@ function Header() {
       navigate(`/productlisting/all`);
     }
   }, [searchTerm]);
-
   // FUNCTION OF LOGOUT
   async function logOut() {
     try {
@@ -183,8 +182,8 @@ function Header() {
                     : setAvatarMenuVisibility(true);
                 }}
                 src={`${
-                  isUser.user
-                    ? isUser?.user?.photoURL
+                  isUser.user.photoURL
+                    ? profileDp
                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOH2aZnIHWjMQj2lQUOWIL2f4Hljgab0ecZQ&s"
                 }`}
                 fontSize={"1.8rem"}
@@ -198,7 +197,7 @@ function Header() {
                     userEmail == "admin@gmail.com" ? "165px" : "125px"
                   }`,
                 }}
-                className="absolute w-[150px] h-[125px] z-40 top-[90%] left-[-400%] overflow-hidden "
+                className="absolute w-[150px] h-[125px] z-[60] top-[90%] left-[-400%] overflow-hidden "
               >
                 <div
                   style={{
@@ -222,7 +221,7 @@ function Header() {
                   {/* PROFILE LINK */}
                   <Link
                     className="w-full"
-                    to={"/profile"}
+                    to={"/user/profile"}
                     onClick={() => {
                       setAvatarMenuVisibility(false);
                     }}
@@ -234,7 +233,7 @@ function Header() {
                   {/* USER ORDERS LINK */}
                   <Link
                     className="w-full"
-                    to={"/orders"}
+                    to={"/user/orders"}
                     onClick={() => {
                       setAvatarMenuVisibility(false);
                     }}

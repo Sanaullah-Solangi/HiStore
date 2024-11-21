@@ -1,4 +1,4 @@
-import { auth, onAuthStateChanged } from "../utils/firebase";
+import { auth, db, doc, getDoc, onAuthStateChanged } from "../utils/firebase";
 import { createContext, useContext, useEffect, useState } from "react";
 import { CartContext } from "./CartContext";
 // ==========================================
@@ -8,9 +8,12 @@ function UserContextProvider({ children }) {
   const [isUser, setIsUser] = useState({ isLogIn: false });
   const [flagToResetCartItems, setFlagToResetCartItems] = useState(true);
   useEffect(() => {
-    const subscribe = onAuthStateChanged(auth, (user) => {
+    const subscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setIsUser({ user: user, isLogIn: true });
+        const ref = doc(db, "Users", user.uid);
+        const userData = (await getDoc(ref)).data();
+        setIsUser({ user: userData, isLogIn: true });
+
         localStorage.setItem("uid", `cart${user.uid}`);
         localStorage.setItem("email", user.email);
         localStorage.setItem("order", `deliverd${user.uid}`);

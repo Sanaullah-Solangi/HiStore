@@ -25,7 +25,7 @@ function SignUpPage() {
     setLoader(true);
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
-      await addUserToDB(user.user, navigate);
+      await addUserToDB(username, user.user, navigate);
       formInstance.resetFields();
       setLoader(false);
       Swal.fire({

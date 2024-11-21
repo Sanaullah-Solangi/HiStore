@@ -56,15 +56,21 @@ const signInWithGoogle = async (navigate) => {
   }
 };
 
-const addUserToDB = async (user, navigate) => {
+const addUserToDB = async (username, user, navigate) => {
   try {
-    const { email, photoURL, uid, displayName } = user;
+    const { email, photoURL, uid, displayName, phoneNumber, emailVerified } =
+      user;
     const ref = doc(db, "Users", uid);
     await setDoc(ref, {
       email,
       photoURL,
       uid,
-      displayName,
+      displayName: username ? username : displayName,
+      emailVerified,
+      phoneNumber,
+      company: null,
+      city: null,
+      country: null,
     });
 
     if (email == "admin@gmail.com") {

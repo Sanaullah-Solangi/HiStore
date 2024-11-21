@@ -15,7 +15,6 @@ body,
 html {
   overflow-x: hidden !important;
 }
-
 section {
   transition: all linear 0.1s;
   -webkit-transition: all linear 0.1s;
@@ -213,11 +212,6 @@ section {
   -o-border-radius: 5px;
 }
 
-.myInput {
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
+.ant-form-item {
   margin: 0% !important;
 }

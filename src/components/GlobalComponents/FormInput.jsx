@@ -3,7 +3,7 @@ import { Checkbox, Form } from "antd";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
-function FormInput({ name, message, lable, id }) {
+function FormInput({ name, message, lable, id, value, enability, type }) {
   const { mainColor, color } = useContext(ThemeContext);
   const [isHover, setIsHover] = useState(false);
   const [helper, setHelper] = useState(0);
@@ -21,10 +21,12 @@ function FormInput({ name, message, lable, id }) {
       <FloatingLabel
         variant="outlined"
         label={`${lable}`}
+        defaultValue={value ? value : null}
         id={`${id}`}
-        type={`${id}`}
+        type={`${type ? type : "text"}`}
         name={`${id}`}
-        className="myInput"
+        disabled={enability ? enability : false}
+        className="myInput mb-5"
         style={{
           color: `${color}`,
           border: `${isHover ? `1px solid ${mainColor}` : ""}`,

@@ -24,11 +24,11 @@ function FormButton({
           backgroundColor: `${bgColor ? bgColor : mainColor}`,
           border: `1px solid ${mainColor}`,
           color: `${txtColor ? txtColor : "white"}`,
-          borderRadius:"50px"
+          borderRadius: "50px",
         }}
       >
         {text ? text : ""}
-        <img width={"30px"} src={imgSrc ? imgSrc : ""} alt="" />
+        {imgSrc ? <img width={"30px"} src={imgSrc} alt="" /> : null}
       </Button>
     </Form.Item>
   );

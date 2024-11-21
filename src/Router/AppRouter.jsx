@@ -39,8 +39,7 @@ import AdminOrders from "../pages/Orders";
 function AppRouter() {
   const { isUser } = useContext(UserContext);
   const userEmail = localStorage.getItem("email");
-  console.log(isUser?.user?.email);
-  console.log("checking", userEmail);
+  console.log("AppRouter=>", isUser);
   return (
     <BrowserRouter>
       <ScrollTop />
@@ -81,6 +80,25 @@ function AppRouter() {
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrders />} />
         </Route>
+        {/* USER ROUTES STACK */}
+        <Route
+          path="/user"
+          element={
+            isUser?.isLogIn ? (
+              <>
+                <Header />
+                <Navigations />
+                <PicColors />
+                <Outlet />
+              </>
+            ) : (
+              <Navigate to={"/"} />
+            )
+          }
+        >
+          <Route path="profile" element={<Profile />} />
+          <Route path="orders" element={<Orders />} />
+        </Route>
 
         {/* HOME ROUTES STACK */}
         <Route
@@ -95,9 +113,8 @@ function AppRouter() {
             </div>
           }
         >
-          <Route path="profile" element={<Profile />} />
-          <Route path="orders" element={<Orders />} />
           <Route index element={<HomePage />} />
+
           <Route path="hero" element={<Hero />} />
           <Route path="services" element={<Services />} />
           <Route path="categories" element={<Categories />} />

@@ -144,6 +144,10 @@ section {
 .AppModal {
   width: 80% !important;
 }
+
+.FormModal {
+  width: 50% !important;
+}
 .ant-modal-content {
   padding: 0% !important;
 }

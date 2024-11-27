@@ -3,7 +3,6 @@ function Hero() {
   return (
     <section className="heroContainer w-screen text-gray-600 body-font">
       <img src={HeroImg} className="h-full object-contain" alt="" />
-      {/* <div className=" container  "></div> */}
     </section>
   );
 }

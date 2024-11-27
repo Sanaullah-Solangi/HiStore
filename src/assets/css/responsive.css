@@ -16,3 +16,9 @@
     width: 100%;
   }
 }
+
+@media (width<= 768px) {
+  .FormModal {
+    width: 80% !important;
+  }
+}

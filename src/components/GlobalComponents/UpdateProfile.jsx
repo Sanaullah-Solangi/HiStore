@@ -1,7 +1,13 @@
 // IMPORTING ELEMENTS & COMPONENTS
-import { Checkbox, Form } from "antd";
+import { Checkbox, Form, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { addUserToDB, signInWithGoogle } from "../../utils/firebase";
+import {
+  addUserToDB,
+  db,
+  doc,
+  signInWithGoogle,
+  updateDoc,
+} from "../../utils/firebase";
 // CONTEXT
 import FormInput from "./FormInput";
 import FormButton from "./FormButton";
@@ -18,15 +24,18 @@ import { MdOutlineHomeWork } from "react-icons/md";
 import { LuCheckCheck } from "react-icons/lu";
 import { TbBuildingEstate } from "react-icons/tb";
 import { FaRegUser } from "react-icons/fa";
+import Loader from "./Loader";
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 // LOGIN FORM COMPONENT
-const UpdateProfileForm = ({ logIn, enability, saveChanges }) => {
+const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { theme, color, bgColor, mainColor } = useTheme();
+  const [loader, setLoader] = useState(false);
+
   const {
     isUser: { user },
   } = useContext(UserContext);
@@ -41,17 +50,61 @@ const UpdateProfileForm = ({ logIn, enability, saveChanges }) => {
       city,
       country,
     } = user;
-    return (
+
+    const saveChanges = () => {};
+    return loader ? (
+      <Loader />
+    ) : (
       // FORM WRAPPER
       <Form
         form={form}
         name="basic"
-        className="profileDetails flex flex-col justify-center items-start shadow-2xl p-4 rounded-md md:w-[50%] w-[90%]"
+        className="profileDetails flex flex-col justify-center items-start shadow-2xl p-4 rounded-md  w-full"
         initialValues={{
           remember: true,
         }}
-        onFinish={() => {
-          saveChanges();
+        onFinish={async () => {
+          const values = form.getFieldValue();
+          const {
+            email,
+            displayName,
+            emailVerified,
+            phoneNumber,
+            company,
+            city,
+            country,
+          } = values;
+          console.log("email =>", email);
+
+          setLoader(true);
+          try {
+            const userRef = doc(db, "Users", user.uid);
+            console.log("I am working");
+            const updated = await updateDoc(userRef, {
+              email: email,
+              displayName: displayName,
+              emailVerified: emailVerified,
+              phoneNumber: phoneNumber,
+              company: company,
+              city: city,
+              country: country,
+            });
+            message.success("Your Profile Is Successfully Updated!");
+            setStates(
+              email,
+              displayName,
+              emailVerified,
+              phoneNumber,
+              company,
+              city,
+              country
+            );
+            setIsModalOpen(false);
+            setLoader(false);
+          } catch (error) {
+            setLoader(false);
+            console.log("error of Uploading DP=>", error.message);
+          }
         }}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -66,7 +119,7 @@ const UpdateProfileForm = ({ logIn, enability, saveChanges }) => {
             message={"Please input your displayName!"}
             lable={"Profile Name"}
             id={"displayName"}
-            value={displayName}
+            value={displayName ? displayName : null}
             enability={enability}
           />
         </div>
@@ -82,7 +135,6 @@ const UpdateProfileForm = ({ logIn, enability, saveChanges }) => {
             lable={"Email"}
             id={"email"}
             value={email}
-            enability={enability}
           />
         </div>
         {/* VARIFICATION */}
@@ -96,8 +148,7 @@ const UpdateProfileForm = ({ logIn, enability, saveChanges }) => {
             message={"emailVerified!"}
             lable={"Email Verification"}
             id={"emailVerified"}
-            value={emailVerified ? "Done" : "Not Varified"}
-            enability={enability}
+            value={emailVerified ? "Done" : null}
           />
         </div>
         {/* PHONE NUMBER */}
@@ -111,9 +162,7 @@ const UpdateProfileForm = ({ logIn, enability, saveChanges }) => {
             message={"Please input your phone Number!"}
             lable={"Phone Number"}
             id={"phoneNumber"}
-            type={phoneNumber || !enability ? "number" : null}
-            value={phoneNumber ? phoneNumber : "Not Provided"}
-            enability={enability}
+            value={phoneNumber ? phoneNumber : null}
           />
         </div>
         {/* COMPANY NAME */}
@@ -126,8 +175,7 @@ const UpdateProfileForm = ({ logIn, enability, saveChanges }) => {
             message={"Please input your Company!"}
             lable={"Company"}
             id={"company"}
-            value={company ? company : "Not Provided"}
-            enability={enability}
+            value={company ? company : null}
           />
         </div>
         {/* CITY */}
@@ -140,8 +188,7 @@ const UpdateProfileForm = ({ logIn, enability, saveChanges }) => {
             message={"Please input your City!"}
             lable={"city"}
             id={"city"}
-            value={city ? city : "Not Provided"}
-            enability={enability}
+            value={city ? city : null}
           />
         </div>
         {/* COUNTRY */}
@@ -154,14 +201,13 @@ const UpdateProfileForm = ({ logIn, enability, saveChanges }) => {
             message={"Please input your Country!"}
             lable={"country"}
             id={"country"}
-            value={country ? country : "Not Provided"}
-            enability={enability}
+            value={country ? country : null}
           />
         </div>
 
         {/* SUBMIT BTN */}
         <FormButton
-          type={"primary"}
+          type={"submit"}
           text={"Save Changes"}
           buttonVariant="contained"
         />

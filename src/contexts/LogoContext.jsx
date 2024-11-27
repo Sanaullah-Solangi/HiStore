@@ -6,14 +6,18 @@ import { UserContext } from "./UserContext";
 export const LogoUrl = createContext();
 function LogoUrlProvider({ children }) {
   const { isUser } = useContext(UserContext);
-  console.log("isUser in LogoContext=>", isUser.user?.photoURL);
-  const [profileDp, setProfileDp] = useState(isUser?.user?.photoURL);
+  const [profileDp, setProfileDp] = useState(
+    isUser?.isLogIn ? isUser?.user?.photoURL : null
+  );
+  // if (isUser?.isLogIn) {
+  //   setProfileDp(isUser?.user?.photoURL);
+  // }
   const imgUrl = useRef(logo);
   const lightLogo = useRef(light_logo);
-  return isUser?.user?.photoURL ? (
+  return (
     <LogoUrl.Provider value={{ imgUrl, lightLogo, profileDp, setProfileDp }}>
       {children}
     </LogoUrl.Provider>
-  ) : null;
+  );
 }
 export default LogoUrlProvider;

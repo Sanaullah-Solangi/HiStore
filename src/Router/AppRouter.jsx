@@ -114,7 +114,6 @@ function AppRouter() {
           }
         >
           <Route index element={<HomePage />} />
-
           <Route path="hero" element={<Hero />} />
           <Route path="services" element={<Services />} />
           <Route path="categories" element={<Categories />} />

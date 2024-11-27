@@ -39,7 +39,6 @@ function CheckOut() {
     const values = form.getFieldValue();
     let prevDeliveredItem = JSON.parse(localStorage.getItem(order));
     let allDeliveredItem = [];
-    console.log(prevDeliveredItem);
     cartItems.map((item) => {
       item.deliveryStatus = "done";
       item.deliveryDetails = values;

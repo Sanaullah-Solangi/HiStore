@@ -1,16 +1,12 @@
 // HOOKS
-import { useContext, useState } from "react";
 // IMPORTING CONTEXTS
 import { ThemeContext } from "../../contexts/ThemeContext";
-import { CartContext } from "../../contexts/CartContext";
-import { UserContext } from "../../contexts/UserContext";
 // ICONS & OTHER COMPONENTS
-import { Modal, Image } from "antd";
+import { Modal } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import UpdateProfileForm from "./UpdateProfile";
 
-const FormModal = ({ isModalOpen, setIsModalOpen, setStates }) => {
-  const { isUser } = useContext(UserContext);
+const FormModal = ({ isModalOpen, setIsModalOpen, displayName }) => {
   const onCancel = () => {
     setIsModalOpen(false);
   };
@@ -36,12 +32,10 @@ const FormModal = ({ isModalOpen, setIsModalOpen, setStates }) => {
           </h1>
           <p className="px-4">
             Fields are pre-filled. To update, make a small change, e.g., add and
-            remove a space in <span className="font-bold">'{isUser?.user?.displayName}'</span>.
+            remove a space in <span className="font-bold">'{displayName}'</span>
+            .
           </p>
-          <UpdateProfileForm
-            setStates={setStates}
-            setIsModalOpen={setIsModalOpen}
-          />
+          <UpdateProfileForm setIsModalOpen={setIsModalOpen} />
         </>
       </Modal>
     </>

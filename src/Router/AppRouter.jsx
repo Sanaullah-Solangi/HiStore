@@ -38,8 +38,7 @@ import Dashboard from "../pages/Dashboard";
 import AdminOrders from "../pages/Orders";
 function AppRouter() {
   const { isUser } = useContext(UserContext);
-  const userEmail = localStorage.getItem("email");
-  console.log("AppRouter=>", isUser);
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   return (
     <BrowserRouter>
       <ScrollTop />
@@ -63,7 +62,7 @@ function AppRouter() {
         <Route
           path="/admin"
           element={
-            userEmail == "admin@gmail.com" ? (
+            loggedInUser?.email == "admin@gmail.com" ? (
               <>
                 <Header />
                 <Navigations />
@@ -84,7 +83,7 @@ function AppRouter() {
         <Route
           path="/user"
           element={
-            isUser?.isLogIn ? (
+            loggedInUser?.isLogIn ? (
               <>
                 <Header />
                 <Navigations />

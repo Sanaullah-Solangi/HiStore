@@ -1,4 +1,10 @@
+import UploadProductForm from "../components/GlobalComponents/UploadProductForm";
+
 function AdminProducts() {
-  return <h1>AdminProducts</h1>;
+  return (
+    <>
+      <UploadProductForm />
+    </>
+  );
 }
 export default AdminProducts;

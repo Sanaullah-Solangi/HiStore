@@ -18,12 +18,22 @@ const onFinishFailed = (errorInfo) => {
 // CART COMPONENT STARTS
 function CheckOut() {
   const [form] = Form.useForm();
-  const uid = localStorage.getItem("uid");
-  const order = localStorage.getItem("order");
   const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
-  const { cartItems, setCartItems, deliveredItems, setDeliveredItems } =
-    useContext(CartContext);
+  const { cartItems, setCartItems } = useContext(CartContext);
+  const { isUser } = useContext(UserContext);
+  const order = localStorage.getItem("order");
   const navigate = useNavigate();
+  const {
+    email,
+    photoURL,
+    uid,
+    displayName,
+    phoneNumber,
+    emailVerified,
+    company,
+    city,
+    country,
+  } = isUser;
   // CALCULATING TOTAL AMOUNT OF CART ITEMS
   const totalAmount = cartItems.reduce(
     (total, product) => Math.round(total + product.price * product.quantity),
@@ -51,7 +61,7 @@ function CheckOut() {
 
     localStorage.setItem(order, JSON.stringify(allDeliveredItem));
     setCartItems([]);
-    localStorage.setItem(uid, JSON.stringify([]));
+    localStorage.setItem(isUser.userCart, JSON.stringify([]));
     Swal.fire({
       icon: "success",
       title: "Success!",
@@ -91,10 +101,15 @@ function CheckOut() {
             }}
             className="p-5 rounded-lg w-full flex flex-col  "
             initialValues={{
-              remember: true,
+              displayName: displayName,
+              company: company,
+              city: city,
+              country: country,
+              phone: phoneNumber,
             }}
             onFinish={() => {
               console.log(form);
+              placeOrder(form);
               form.resetFields();
             }}
             onFinishFailed={onFinishFailed}
@@ -154,9 +169,7 @@ function CheckOut() {
               type={"primary"}
               text={"Place Order"}
               buttonVariant="contained"
-              myFunc={() => {
-                placeOrder(form);
-              }}
+              myFunc={() => {}}
             />
           </Form>
         </div>

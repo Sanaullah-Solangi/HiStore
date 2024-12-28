@@ -65,7 +65,6 @@ function ProductListing() {
   const [products, setProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearched, setIsSearched] = useState(false);
-  const uid = localStorage.getItem("uid");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -115,13 +114,10 @@ function ProductListing() {
         );
 
         const res = await response.json();
-        console.log("res->", res);
         setProducts(res.products);
         setTotal(res.total);
         setLoader(false);
         setLoadMore(!loadMore);
-        console.clear();
-        console.log("Men wese hi chal rha hun");
         return res;
       } catch (error) {
         setLoader(false);
@@ -160,7 +156,7 @@ function ProductListing() {
     }, 500);
     isFilterOpen ? setIsFilterOpen(false) : setIsFilterOpen(true);
   };
-  console.log("isSearched=>", isSearched);
+  
   // console.log(products);
 
   return (
@@ -361,11 +357,11 @@ function ProductListing() {
                           {/* ADD TO CART BTN */}
                           <Button
                             onClick={() => {
-                              isUser.isLogIn
+                              isUser?.isLogIn
                                 ? addItemToCart({
                                     ...data,
                                     quantity: 1,
-                                    orderedBy: uid,
+                                    orderedBy: isUser.userCart,
                                     deliveryStatus: "pending",
                                     deliveryDetails: {},
                                   })

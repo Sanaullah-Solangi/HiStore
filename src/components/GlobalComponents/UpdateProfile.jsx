@@ -1,23 +1,14 @@
 // IMPORTING ELEMENTS & COMPONENTS
-import { Checkbox, Form, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  addUserToDB,
-  db,
-  doc,
-  signInWithGoogle,
-  updateDoc,
-} from "../../utils/firebase";
+import { Form, message } from "antd";
+import { useNavigate } from "react-router-dom";
+import { db, doc, updateDoc } from "../../utils/firebase";
 // CONTEXT
 import FormInput from "./FormInput";
 import FormButton from "./FormButton";
 import { useTheme } from "../../contexts/ThemeContext";
-import googleBtn from "../../assets/images/googlebtn.png";
-import { CiUser } from "react-icons/ci";
 import { AiOutlineMail } from "react-icons/ai";
 import { IoCallOutline } from "react-icons/io5";
 import { LiaCitySolid } from "react-icons/lia";
-import { SiNationalrail } from "react-icons/si";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { MdOutlineHomeWork } from "react-icons/md";
@@ -29,18 +20,13 @@ import Loader from "./Loader";
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
-// LOGIN FORM COMPONENT
-const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
-  const navigate = useNavigate();
+// UPDATE PROFILE FORM COMPONENT
+const UpdateProfileForm = ({ setIsModalOpen }) => {
   const [form] = Form.useForm();
   const { theme, color, bgColor, mainColor } = useTheme();
   const [loader, setLoader] = useState(false);
-
-  const {
-    isUser: { user },
-  } = useContext(UserContext);
-
-  if (user) {
+  const { isUser, setIsUser } = useContext(UserContext);
+  if (isUser) {
     const {
       email,
       displayName,
@@ -49,9 +35,8 @@ const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
       company,
       city,
       country,
-    } = user;
+    } = isUser;
 
-    const saveChanges = () => {};
     return loader ? (
       <Loader />
     ) : (
@@ -61,49 +46,34 @@ const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
         name="basic"
         className="profileDetails flex flex-col justify-center items-start shadow-2xl p-4 rounded-md  w-full"
         initialValues={{
-          remember: true,
+          email,
+          displayName,
+          emailVerified,
+          phoneNumber,
+          company,
+          city,
+          country,
         }}
         onFinish={async () => {
           const values = form.getFieldValue();
-          const {
-            email,
-            displayName,
-            emailVerified,
-            phoneNumber,
-            company,
-            city,
-            country,
-          } = values;
-          console.log("email =>", email);
-
+          const obj = {
+            ...isUser,
+            ...values,
+          };
+          console.log(obj);
           setLoader(true);
           try {
-            const userRef = doc(db, "Users", user.uid);
-            console.log("I am working");
+            const userRef = doc(db, "Users", isUser.uid);
             const updated = await updateDoc(userRef, {
-              email: email,
-              displayName: displayName,
-              emailVerified: emailVerified,
-              phoneNumber: phoneNumber,
-              company: company,
-              city: city,
-              country: country,
+              ...obj,
             });
-            message.success("Your Profile Is Successfully Updated!");
-            setStates(
-              email,
-              displayName,
-              emailVerified,
-              phoneNumber,
-              company,
-              city,
-              country
-            );
+            setIsUser(obj);
             setIsModalOpen(false);
             setLoader(false);
+            message.success("Your Profile Is Successfully Updated!");
           } catch (error) {
             setLoader(false);
-            console.log("error of Uploading DP=>", error.message);
+            console.log("error of Uploading DP=>", error);
           }
         }}
         onFinishFailed={onFinishFailed}
@@ -119,8 +89,6 @@ const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
             message={"Please input your displayName!"}
             lable={"Profile Name"}
             id={"displayName"}
-            value={displayName ? displayName : null}
-            enability={enability}
           />
         </div>
         {/* EMAIL */}
@@ -134,7 +102,6 @@ const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
             message={"Please input your email!"}
             lable={"Email"}
             id={"email"}
-            value={email}
           />
         </div>
         {/* VARIFICATION */}
@@ -148,7 +115,6 @@ const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
             message={"emailVerified!"}
             lable={"Email Verification"}
             id={"emailVerified"}
-            value={emailVerified ? "Done" : null}
           />
         </div>
         {/* PHONE NUMBER */}
@@ -162,7 +128,6 @@ const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
             message={"Please input your phone Number!"}
             lable={"Phone Number"}
             id={"phoneNumber"}
-            value={phoneNumber ? phoneNumber : null}
           />
         </div>
         {/* COMPANY NAME */}
@@ -175,7 +140,6 @@ const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
             message={"Please input your Company!"}
             lable={"Company"}
             id={"company"}
-            value={company ? company : null}
           />
         </div>
         {/* CITY */}
@@ -188,7 +152,6 @@ const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
             message={"Please input your City!"}
             lable={"city"}
             id={"city"}
-            value={city ? city : null}
           />
         </div>
         {/* COUNTRY */}
@@ -201,7 +164,6 @@ const UpdateProfileForm = ({ setIsModalOpen, enability, setStates }) => {
             message={"Please input your Country!"}
             lable={"country"}
             id={"country"}
-            value={country ? country : null}
           />
         </div>
 

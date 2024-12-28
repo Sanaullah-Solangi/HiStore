@@ -18,7 +18,6 @@ function LogInPage() {
   const logIn = async (formInstance) => {
     const values = formInstance.getFieldValue();
     const { username, email, password } = values;
-    const userEmail = localStorage.getItem("email");
     setLoader(true);
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);

@@ -14,7 +14,6 @@ function Navigations() {
   const [isHover, setIsHover] = useState(false);
   const [navVisibility, setNavVisibility] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
-  const userEmail = localStorage.getItem("email");
 
   return (
     <header
@@ -137,7 +136,7 @@ function Navigations() {
           >
             CONTACT
           </Link>
-          {userEmail == "admin@gmail.com" ? (
+          {isUser?.email == "admin@gmail.com" ? (
             /***** USER NAVIGATIONS *****/
             <div className="mr-5 cursor-pointer font-medium md:border-none md:w-auto md:px-0 md:py-0 border-b border-gray-400  w-full flex justify-between items-center md:hidden relative">
               <span

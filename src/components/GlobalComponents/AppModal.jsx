@@ -19,7 +19,6 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
   const { theme, bgColor, color, mainColor } = useContext(ThemeContext);
   const [isHover, setIsHover] = useState(true);
   const [helper, setHelper] = useState(0);
-  const uid = localStorage.getItem("uid");
   // FUNCTIONS & OTHERS
   const navigate = useNavigate();
   // DESTRUCTING OBJECT
@@ -127,11 +126,11 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
                 {/* ADD TO CART BTN */}
                 <button
                   onClick={() => {
-                    isUser.isLogIn
+                    isUser?.isLogIn
                       ? addItemToCart({
                           ...productInfo,
                           quantity: 1,
-                          orderedBy: uid,
+                          orderedBy: isUser?.userCart,
                           deliveryStatus: "pending",
                           deliveryDetails: {},
                         })

@@ -46,6 +46,12 @@ const signInWithGoogle = async (navigate) => {
     const token = credential.accessToken;
     const user = result.user;
     const ref = doc(db, "Users", user.uid);
+    if (navigate) {
+      navigate("/");
+      console.log("NAVIGATE KI TYPE IN IF GOOGLE=>", Boolean(navigate));
+    } else {
+      console.log("NAVIGATE KI TYPE IN ELSE GOOGLE=>", Boolean(navigate));
+    }
 
     return user;
   } catch (error) {
@@ -58,25 +64,47 @@ const signInWithGoogle = async (navigate) => {
 
 const addUserToDB = async (username, user, navigate) => {
   try {
-    const { email, photoURL, uid, displayName, phoneNumber, emailVerified } =
-      user;
+    const {
+      email,
+      photoURL,
+      uid,
+      displayName,
+      phoneNumber,
+      emailVerified,
+      accessToken,
+    } = user;
+
     const ref = doc(db, "Users", uid);
+    console.log("REF IN ADUSERTODB =>", user);
     await setDoc(ref, {
       email,
       photoURL,
       uid,
+      accessToken,
       displayName: username ? username : displayName,
       emailVerified,
       phoneNumber,
       company: null,
       city: null,
       country: null,
+      userCart: `cartFor_${uid}`,
+      userOrders: [],
     });
 
     if (email == "admin@gmail.com") {
-      navigate("/admin");
+      if (navigate) {
+        navigate("/admin");
+        console.log("NAVIGATE KI TYPE IN IF DB=>", Boolean(navigate));
+      } else {
+        console.log("NAVIGATE KI TYPE IN ELSE DB=>", Boolean(navigate));
+      }
     } else {
-      navigate("/");
+      if (navigate) {
+        navigate("/");
+        console.log("NAVIGATE KI TYPE IN IF DB=>", Boolean(navigate));
+      } else {
+        console.log("NAVIGATE KI TYPE IN ELSE DB=>", Boolean(navigate));
+      }
     }
   } catch (error) {
     console.log(error);

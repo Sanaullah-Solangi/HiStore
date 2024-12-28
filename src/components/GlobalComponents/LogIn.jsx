@@ -83,7 +83,6 @@ const LogInForm = ({ logIn }) => {
         type={"button"}
         myFunc={async () => {
           const user = await signInWithGoogle(navigate);
-          addUserToDB(user, navigate);
         }}
         imgSrc={googleBtn}
         bgColor={"transparent"}

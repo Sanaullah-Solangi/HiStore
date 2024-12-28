@@ -2,19 +2,18 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 export const CartContext = createContext();
 function CartContextProvider({ children }) {
+  const { isUser, flagToResetCartItems } = useContext(UserContext);
   const [cartItems, setCartItems] = useState([]);
   const [deliveredItems, setDeliveredItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const uid = localStorage.getItem("uid");
   const order = localStorage.getItem("order");
-  const { flagToResetCartItems } = useContext(UserContext);
   useEffect(() => {
     setCartItems([]);
   }, [flagToResetCartItems]);
 
   // GETTING ALL ITEMS FROM STORAGE
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem(uid));
+    const data = JSON.parse(localStorage.getItem(isUser?.userCart));
     const items = JSON.parse(localStorage.getItem(order));
     if (Array.isArray(data) && data.length != 0) {
       setCartItems([...data]);
@@ -22,12 +21,11 @@ function CartContextProvider({ children }) {
     if (Array.isArray(items) && items.length != 0) {
       setDeliveredItems([...items]);
     }
-  }, [uid]);
-
+  }, [isUser?.userCart]);
   // SETTING ITEMS TO CART LIST
   useEffect(() => {
     if (cartItems.length != 0) {
-      localStorage.setItem(uid, JSON.stringify(cartItems));
+      localStorage.setItem(isUser.userCart, JSON.stringify(cartItems));
     }
   }, [cartItems]);
 

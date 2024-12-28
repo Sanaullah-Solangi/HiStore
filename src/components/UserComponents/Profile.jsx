@@ -5,6 +5,7 @@ import { MdCameraEnhance, MdOutlineHomeWork } from "react-icons/md";
 import FormButton from "../GlobalComponents/FormButton";
 import UpdateProfileForm from "../GlobalComponents/UpdateProfile";
 import defaultDp from "../../assets/images/dp.jpeg";
+import dpLoader from "../../assets/images/dpLoader3.gif";
 import {
   db,
   doc,
@@ -27,10 +28,9 @@ import { LiaCitySolid } from "react-icons/lia";
 import { TbBuildingEstate } from "react-icons/tb";
 import FormModal from "../GlobalComponents/FormModal";
 function Profile() {
-  const {
-    isUser: { user },
-  } = useContext(UserContext);
-  if (user) {
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  const { isUser, setIsUser } = useContext(UserContext);
+  if (isUser) {
     const {
       email,
       displayName,
@@ -39,23 +39,13 @@ function Profile() {
       company,
       city,
       country,
-      photoURL,
-    } = user;
+    } = isUser;
     // CONTEXTS
     const { mainColor } = useContext(ThemeContext);
-    const { profileDp, setProfileDp } = useContext(LogoUrl);
     // STATES
-    const [emailState, setEmail] = useState(email);
-    const [displayNameState, setDisplayName] = useState(displayName);
-    const [emailVerifiedState, setEmailVerified] = useState(emailVerified);
-    const [phoneNumberState, setPhoneNumber] = useState(phoneNumber);
-    const [companyState, setCompany] = useState(company);
-    const [cityState, setCity] = useState(city);
-    const [countryState, setCountry] = useState(country);
     const [loader, setLoader] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
-    setProfileDp(photoURL);
     //! FUNCTION TO UPDATE PROFILE DP
     const updateProfileDP = async (file) => {
       setLoader(true);
@@ -66,12 +56,17 @@ function Profile() {
         message.success("Your DP Is Susseccfully Uploaded!");
         const DpUrl = await getDownloadURL(DPsRef);
         message.info("Updating Your DP!");
-        const userRef = doc(db, "Users", user.uid);
+        const userRef = doc(db, "Users", isUser.uid);
+        const obj = {
+          ...isUser,
+          photoURL: DpUrl,
+        };
         const updated = await updateDoc(userRef, {
           photoURL: DpUrl,
         });
+        localStorage.setItem("loggedInUser", JSON.stringify(obj));
+        setIsUser(obj);
         message.success("Your DP Is Successfully Updated!");
-        setProfileDp(DpUrl);
 
         setLoader(false);
       } catch (error) {
@@ -79,24 +74,7 @@ function Profile() {
         console.log("error of Uploading DP=>", error.message);
       }
     };
-    //! FUNCTION TO SET STATES
-    const setStates = (
-      email,
-      displayName,
-      emailVerified,
-      phoneNumber,
-      company,
-      city,
-      country
-    ) => {
-      setEmail(email);
-      setDisplayName(displayName);
-      setEmailVerified(emailVerified);
-      setPhoneNumber(phoneNumber);
-      setCompany(company);
-      setCity(city);
-      setCountry(country);
-    };
+
     return loader ? (
       <Loader />
     ) : (
@@ -106,9 +84,9 @@ function Profile() {
         style={{ boxShadow: "0 0 10px rgba(0,0,0,0.2)" }}
       >
         <FormModal
+          displayName={displayName}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          setStates={setStates}
         />
         {/* PROFILE HEADER */}
         <div
@@ -123,7 +101,7 @@ function Profile() {
           <div className="w-[170px] h-[170px] overflowh rounded-[100%] absolute left-[50%] -translate-x-[50%] bottom-[0%] translate-y-[50%] flex justify-center items-center p-2 bg-white">
             {/* DP */}
             <img
-              src={profileDp ? profileDp : defaultDp}
+              src={loggedInUser ? loggedInUser.photoURL : defaultDp}
               width={"100%"}
               height={"100%"}
               className="rounded-full "
@@ -142,7 +120,10 @@ function Profile() {
                 id="updateDP"
                 className="hidden"
                 onChange={(e) => {
-                  console.log("Updating Profile DP=>", e.target.files[0]);
+                  console.log(
+                    "CALLING UPDATE DP FUNCTION=>",
+                    e.target.files[0]
+                  );
                   updateProfileDP(e.target.files[0]);
                 }}
               />
@@ -158,7 +139,7 @@ function Profile() {
               <FaRegUser fontSize={"22px"} /> Name :
             </span>
             <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {displayNameState ? displayNameState : "Not Provided"}
+              {displayName ? displayName : "Not Provided"}
             </span>
           </div>
           {/* EMAIL */}
@@ -169,7 +150,7 @@ function Profile() {
             </span>
 
             <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {emailState}
+              {email}
             </span>
           </div>
           {/* VARIFICATION */}
@@ -179,7 +160,7 @@ function Profile() {
               Email Varification :
             </span>
             <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {emailVerifiedState ? "Done" : "Not Varified"}
+              {emailVerified ? "Done" : "Not Varified"}
             </span>
           </div>
           {/* PHONE NUMBER */}
@@ -189,7 +170,7 @@ function Profile() {
               Phone Number :
             </span>
             <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {phoneNumberState ? phoneNumberState : "Not Provided"}
+              {phoneNumber ? phoneNumber : "Not Provided"}
             </span>
           </div>
           {/* COMPANY NAME */}
@@ -199,7 +180,7 @@ function Profile() {
             </span>
 
             <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {companyState ? companyState : "Not Provided"}
+              {company ? company : "Not Provided"}
             </span>
           </div>
           {/* CITY */}
@@ -208,7 +189,7 @@ function Profile() {
               <LiaCitySolid fontSize={"22px"} /> City :
             </span>
             <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {cityState ? cityState : "Not Provided"}
+              {city ? city : "Not Provided"}
             </span>
           </div>
           {/* COUNTRY */}
@@ -217,7 +198,7 @@ function Profile() {
               <TbBuildingEstate fontSize={"22px"} /> Country :
             </span>
             <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {countryState ? countryState : "Not Provided"}
+              {country ? country : "Not Provided"}
             </span>
           </div>
 
@@ -231,10 +212,6 @@ function Profile() {
             }}
           />
         </div>
-        {/* <UpdateProfileForm
-          enability={enability}
-          updateProfileFields={updateProfileFields}
-        /> */}
       </div>
     );
   }

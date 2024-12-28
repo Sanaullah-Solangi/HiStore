@@ -48,7 +48,7 @@ function Orders() {
       <div className="container relative pb-24 mx-auto overflow-hidden ">
         {/* === CONTENT SECTION === */}
         <div className="py-6 md:col-span-3 ">
-          {isUser.isLogIn ? (
+          {isUser?.isLogIn ? (
             deliveredItems.map((item, ind) => {
               return (
                 <div

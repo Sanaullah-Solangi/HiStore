@@ -24,13 +24,13 @@ function Header() {
   const { theme, setTheme, mainColor } = useTheme();
   const { imgUrl, profileDp, setProfileDp } = useContext(LogoUrl);
   const { cartItems, searchTerm, setSearchTerm } = useContext(CartContext);
-  const { isUser } = useContext(UserContext);
+  const { isUser, setIsUser } = useContext(UserContext);
   const [isHover, setIsHover] = useState(false);
   const [helper, setHelper] = useState(0);
   const [avatarMenuVisibility, setAvatarMenuVisibility] = useState(false);
   const { pathname } = useLocation();
-  const uid = localStorage.getItem("uid");
-  const userEmail = localStorage.getItem("email");
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
   useEffect(() => {
     if (searchTerm != "" && pathname.slice(0, 15) != "/productlisting") {
       navigate(`/productlisting/all`);
@@ -50,7 +50,11 @@ function Header() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const res = await signOut(auth);
-          console.log(res);
+          const obj = {
+            isLogIn: false,
+          };
+          localStorage.setItem("loggedInUser", JSON.stringify(obj));
+          setIsUser(obj);
           Swal.fire({
             title: "LogedOut!",
             text: "Your Are Successfully Loged Out.",
@@ -100,7 +104,7 @@ function Header() {
           {/* SHOPING CART ICON */}
           <Link to={"/cartitems"}>
             <Badge
-              count={isUser.isLogIn ? cartItems.length : ""}
+              count={loggedInUser?.isLogIn ? cartItems.length : ""}
               color={`${mainColor}`}
             >
               <PiShoppingCartSimple
@@ -172,7 +176,7 @@ function Header() {
             />
           )}
           {/* LOGOUT & LOGiN BTNS */}
-          {isUser.isLogIn ? (
+          {loggedInUser?.isLogIn ? (
             // LOG IN HONE PER YE SHOW HOGA
             <div className="relative">
               <Avatar
@@ -182,8 +186,8 @@ function Header() {
                     : setAvatarMenuVisibility(true);
                 }}
                 src={`${
-                  isUser.user.photoURL
-                    ? profileDp
+                  isUser?.photoURL
+                    ? loggedInUser.photoURL
                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOH2aZnIHWjMQj2lQUOWIL2f4Hljgab0ecZQ&s"
                 }`}
                 fontSize={"1.8rem"}
@@ -194,7 +198,7 @@ function Header() {
                 style={{
                   visibility: `${avatarMenuVisibility ? "visible" : "hidden"}`,
                   height: `${
-                    userEmail == "admin@gmail.com" ? "165px" : "125px"
+                    loggedInUser.email == "admin@gmail.com" ? "165px" : "125px"
                   }`,
                 }}
                 className="absolute w-[150px] h-[125px] z-[60] top-[90%] left-[-400%] overflow-hidden "
@@ -205,7 +209,7 @@ function Header() {
                   }}
                   className="absolute z-40 top-[0%] left-0 w-[100%] h-[100%] bg-[rgb(210,212,214)] flex justify-start items-start flex-col    rounded-l-lg overflow-hidden transition-all duration-100 ease-linear border-r-8 border-gray-400"
                 >
-                  {userEmail == "admin@gmail.com" ? (
+                  {loggedInUser.email == "admin@gmail.com" ? (
                     <Link
                       className="w-full"
                       to={"/admin"}

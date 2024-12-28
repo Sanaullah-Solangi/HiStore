@@ -86,8 +86,8 @@ const SignUpForm = ({ signUp }) => {
       <FormButton
         type={"button"}
         myFunc={async () => {
-          const user = await signInWithGoogle(navigate);
-          addUserToDB(user, navigate);
+          const user = await signInWithGoogle();
+          addUserToDB(null, user, navigate);
         }}
         imgSrc={googleBtn}
         bgColor={"transparent"}

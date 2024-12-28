@@ -24,7 +24,6 @@ import LoginToViewCart from "./LoginToViewCart";
 Link;
 // CART COMPONENT STARTS
 function CartItems() {
-  const uid = localStorage.getItem("uid");
   const { isUser } = useContext(UserContext);
   const navigate = useNavigate();
   const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
@@ -56,10 +55,9 @@ function CartItems() {
       <div className="container relative grid grid-cols-5 gap-4 pb-24 mx-auto overflow-hidden ">
         {/* === CONTENT SECTION === */}
         <div className="py-6 col-span-5 md:col-span-3 ">
-          {isUser.isLogIn ? (
+          {isUser?.isLogIn ? (
             cartItems.map((item, ind) => {
-              console.log(item);
-              if (item.orderedBy == uid) {
+              if (item.orderedBy == isUser.userCart) {
                 return (
                   <div
                     style={{
@@ -75,7 +73,7 @@ function CartItems() {
                     {/* DELETE BTN */}
                     <DeleteFilled
                       onClick={() => {
-                        isUser
+                        isUser.isLogIn
                           ? removeItemFromCartList(item.id)
                           : navigate("/auth/login");
                       }}
@@ -135,7 +133,7 @@ function CartItems() {
                         <Button
                           title="Increase Item quantity"
                           onClick={() => {
-                            isUser
+                            isUser.isLogIn
                               ? addItemToCart(item)
                               : navigate("/auth/login");
                           }}
@@ -152,7 +150,7 @@ function CartItems() {
                           title="Decrease Item quantity"
                           disabled={item.quantity > 1 ? false : true}
                           onClick={() => {
-                            isUser
+                            isUser.isLogIn
                               ? decreaseItemQuantity(item.id)
                               : navigate("/auth/login");
                           }}

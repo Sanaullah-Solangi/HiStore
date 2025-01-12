@@ -30,103 +30,102 @@ import ScrollTop from "../components/GlobalComponents/ScrollTop";
 import PicColors from "../components/GlobalComponents/ColorPicker";
 import CheckOut from "../components/HomeComponents/CheckOut";
 import { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import UserContextProvider, { UserContext } from "../contexts/UserContext";
 import AdminLayout from "../pages/AdminLayout";
-import Users from "../pages/Users";
 import AdminProducts from "../pages/Products";
 import Dashboard from "../pages/Dashboard";
 import AdminOrders from "../pages/Orders";
+import UsersPage from "../pages/UsersPage";
 function AppRouter() {
-  const { isUser } = useContext(UserContext);
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   return (
     <BrowserRouter>
-      <ScrollTop />
-      <Routes>
-        {/* AUTH ROUTES STACK */}
-        <Route
-          path="/auth"
-          element={
-            <>
-              <PicColors />
-              <Outlet />
-            </>
-          }
-        >
-          <Route path="signup" element={<SignUpPage />} />
-          <Route path="login" element={<LogInPage />} />
-          <Route path="forgotpassword" element={<ForgotPasswordPage />} />
-        </Route>
-
-        {/* ADMIN ROUTES STACK */}
-        <Route
-          path="/admin"
-          element={
-            loggedInUser?.email == "admin@gmail.com" ? (
+      <UserContextProvider>
+        <ScrollTop />
+        <Routes>
+          {/* AUTH ROUTES STACK */}
+          <Route
+            path="/auth"
+            element={
               <>
-                <Header />
-                <Navigations />
                 <PicColors />
-                <AdminLayout />
+                <Outlet />
               </>
-            ) : (
-              <Navigate to={"/"} />
-            )
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="users" element={<Users />} />
-          <Route path="products" element={<AdminProducts />} />
-          <Route path="orders" element={<AdminOrders />} />
-        </Route>
-        {/* USER ROUTES STACK */}
-        <Route
-          path="/user"
-          element={
-            loggedInUser?.isLogIn ? (
-              <>
+            }
+          >
+            <Route path="signup" element={<SignUpPage />} />
+            <Route path="login" element={<LogInPage />} />
+            <Route path="forgotpassword" element={<ForgotPasswordPage />} />
+          </Route>
+
+          {/* ADMIN ROUTES STACK */}
+          <Route
+            path="/admin"
+            element={
+              loggedInUser?.email == "admin@gmail.com" ? (
+                <>
+                  <AdminLayout />
+                </>
+              ) : (
+                <Navigate to={"/"} />
+              )
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="users" element={<UsersPage />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="orders" element={<AdminOrders />} />
+          </Route>
+          {/* USER ROUTES STACK */}
+          <Route
+            path="/user"
+            element={
+              loggedInUser?.isLogIn ? (
+                <>
+                  <Header />
+                  <Navigations />
+                  <PicColors />
+                  <Outlet />
+                </>
+              ) : (
+                <Navigate to={"/"} />
+              )
+            }
+          >
+            <Route path="profile" element={<Profile />} />
+            <Route path="orders" element={<Orders />} />
+          </Route>
+
+          {/* HOME ROUTES STACK */}
+          <Route
+            path="/"
+            element={
+              <div>
                 <Header />
                 <Navigations />
                 <PicColors />
                 <Outlet />
-              </>
-            ) : (
-              <Navigate to={"/"} />
-            )
-          }
-        >
-          <Route path="profile" element={<Profile />} />
-          <Route path="orders" element={<Orders />} />
-        </Route>
-
-        {/* HOME ROUTES STACK */}
-        <Route
-          path="/"
-          element={
-            <div>
-              <Header />
-              <Navigations />
-              <PicColors />
-              <Outlet />
-              <Footer />
-            </div>
-          }
-        >
-          <Route index element={<HomePage />} />
-          <Route path="hero" element={<Hero />} />
-          <Route path="services" element={<Services />} />
-          <Route path="categories" element={<Categories />} />
-          <Route path="featuredproducts" element={<FeaturedProds />} />
-          <Route path="cartitems" element={<CartItems />} />
-          <Route path="checkout" element={<CheckOut />} />
-          <Route
-            path="productlisting/:searchQuery"
-            element={<ProductListing />}
-          />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-      {/* <Footer /> */}
+                <Footer />
+              </div>
+            }
+          >
+            <Route index element={<HomePage />} />
+            <Route path="hero" element={<Hero />} />
+            <Route path="services" element={<Services />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="featuredproducts" element={<FeaturedProds />} />
+            <Route path="cartitems" element={<CartItems />} />
+            <Route path="checkout" element={<CheckOut />} />
+            <Route
+              path="productlisting/:searchQuery"
+              element={<ProductListing />}
+            />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+        {/* <Footer /> */}
+      </UserContextProvider>
     </BrowserRouter>
   );
 }

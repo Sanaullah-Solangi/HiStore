@@ -25,6 +25,7 @@ Link;
 // CART COMPONENT STARTS
 function CartItems() {
   const { isUser } = useContext(UserContext);
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const navigate = useNavigate();
   const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
   const {
@@ -55,9 +56,9 @@ function CartItems() {
       <div className="container relative grid grid-cols-5 gap-4 pb-24 mx-auto overflow-hidden ">
         {/* === CONTENT SECTION === */}
         <div className="py-6 col-span-5 md:col-span-3 ">
-          {isUser?.isLogIn ? (
+          {loggedInUser?.isLogIn ? (
             cartItems.map((item, ind) => {
-              if (item.orderedBy == isUser.userCart) {
+              if (item.orderedBy == loggedInUser.userCart) {
                 return (
                   <div
                     style={{
@@ -73,7 +74,7 @@ function CartItems() {
                     {/* DELETE BTN */}
                     <DeleteFilled
                       onClick={() => {
-                        isUser.isLogIn
+                        loggedInUser.isLogIn
                           ? removeItemFromCartList(item.id)
                           : navigate("/auth/login");
                       }}
@@ -133,7 +134,7 @@ function CartItems() {
                         <Button
                           title="Increase Item quantity"
                           onClick={() => {
-                            isUser.isLogIn
+                            loggedInUser.isLogIn
                               ? addItemToCart(item)
                               : navigate("/auth/login");
                           }}
@@ -150,7 +151,7 @@ function CartItems() {
                           title="Decrease Item quantity"
                           disabled={item.quantity > 1 ? false : true}
                           onClick={() => {
-                            isUser.isLogIn
+                            loggedInUser.isLogIn
                               ? decreaseItemQuantity(item.id)
                               : navigate("/auth/login");
                           }}

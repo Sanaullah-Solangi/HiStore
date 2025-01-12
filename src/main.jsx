@@ -1,5 +1,4 @@
 // CONTEXTS
-import UserContextProvider from "./contexts/UserContext.jsx";
 import LogoUrlProvider from "./contexts/LogoContext.jsx";
 import ThemeContextProvider from "./contexts/ThemeContext.jsx";
 import CartContextProvider from "./contexts/CartContext.jsx";
@@ -19,17 +18,15 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <UserContextProvider>
-        <LoaderContextProvider>
-          <LogoUrlProvider>
-            <ThemeContextProvider>
-              <CartContextProvider>
-                <AppRouter />
-              </CartContextProvider>
-            </ThemeContextProvider>
-          </LogoUrlProvider>
-        </LoaderContextProvider>
-      </UserContextProvider>
+      <LoaderContextProvider>
+        <LogoUrlProvider>
+          <ThemeContextProvider>
+            <CartContextProvider>
+              <AppRouter />
+            </CartContextProvider>
+          </ThemeContextProvider>
+        </LogoUrlProvider>
+      </LoaderContextProvider>
     </QueryClientProvider>
   </StrictMode>
 );

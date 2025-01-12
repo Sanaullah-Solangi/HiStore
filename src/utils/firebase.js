@@ -20,10 +20,14 @@ import {
   getFirestore,
   onSnapshot,
   updateDoc,
+  query,
+  where,
+  limit,
+  orderBy,
+  getCountFromServer,
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useState } from "react";
-
 const firebaseConfig = {
   apiKey: "AIzaSyBILntw32izD6Jh-gO9DuL_bVSPWRshEYg",
   authDomain: "histore-296d9.firebaseapp.com",
@@ -48,9 +52,6 @@ const signInWithGoogle = async (navigate) => {
     const ref = doc(db, "Users", user.uid);
     if (navigate) {
       navigate("/");
-      console.log("NAVIGATE KI TYPE IN IF GOOGLE=>", Boolean(navigate));
-    } else {
-      console.log("NAVIGATE KI TYPE IN ELSE GOOGLE=>", Boolean(navigate));
     }
 
     return user;
@@ -61,54 +62,46 @@ const signInWithGoogle = async (navigate) => {
     console.log(errorMessage);
   }
 };
+const addUserToDB = (username, user, ref, navigate) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log("MEN DATA ADD KR RHA HUN", user);
+      const {
+        email,
+        photoURL,
+        uid,
+        displayName,
+        phoneNumber,
+        emailVerified,
+        accessToken,
+      } = user;
 
-const addUserToDB = async (username, user, navigate) => {
-  try {
-    const {
-      email,
-      photoURL,
-      uid,
-      displayName,
-      phoneNumber,
-      emailVerified,
-      accessToken,
-    } = user;
-
-    const ref = doc(db, "Users", uid);
-    console.log("REF IN ADUSERTODB =>", user);
-    await setDoc(ref, {
-      email,
-      photoURL,
-      uid,
-      accessToken,
-      displayName: username ? username : displayName,
-      emailVerified,
-      phoneNumber,
-      company: null,
-      city: null,
-      country: null,
-      userCart: `cartFor_${uid}`,
-      userOrders: [],
-    });
-
-    if (email == "admin@gmail.com") {
-      if (navigate) {
-        navigate("/admin");
-        console.log("NAVIGATE KI TYPE IN IF DB=>", Boolean(navigate));
-      } else {
-        console.log("NAVIGATE KI TYPE IN ELSE DB=>", Boolean(navigate));
-      }
-    } else {
-      if (navigate) {
-        navigate("/");
-        console.log("NAVIGATE KI TYPE IN IF DB=>", Boolean(navigate));
-      } else {
-        console.log("NAVIGATE KI TYPE IN ELSE DB=>", Boolean(navigate));
-      }
+      console.log("YE CHECK KR LYA K DATA PEHEL SE HAI YA NHI");
+      await setDoc(ref, {
+        email,
+        photoURL,
+        uid,
+        accessToken,
+        displayName: username ? username : displayName,
+        emailVerified,
+        phoneNumber,
+        company: null,
+        city: null,
+        country: null,
+        userCart: `cartFor_${uid}`,
+        userOrders: [],
+      });
+      console.log("YE USER PEHEL NHI THA");
+      console.log("ADDUSER KA KAAM KHATAM");
+      let reply = await getDoc(ref);
+      reply = reply.data();
+      resolve(reply); // Resolve jab try successfully complete ho
+     
+    } catch (error) {
+      console.log(error);
+      reject(false); // Reject jab error aaye
     }
-  } catch (error) {
-    console.log(error);
-  }
+  });
 };
 
 export {
@@ -131,8 +124,13 @@ export {
   getDocs,
   deleteDoc,
   updateDoc,
+  query,
+  where,
+  limit,
+  orderBy,
   onSnapshot,
   addUserToDB,
+  getCountFromServer,
   // STORAGE METHODS
   ref,
   uploadBytes,

@@ -7,7 +7,18 @@ import { CartContext } from "../../contexts/CartContext";
 import { useTheme } from "../../contexts/ThemeContext";
 import { LogoUrl } from "../../contexts/LogoContext";
 // COMPONENTS & FUNCTIONS
-import { signOut, auth } from "../../utils/firebase";
+import {
+  signOut,
+  auth,
+  getDocs,
+  db,
+  collection,
+  where,
+  query,
+  limit,
+  getDoc,
+  doc,
+} from "../../utils/firebase";
 // ICONS & OTHERS
 import { CiSearch } from "react-icons/ci";
 import { PiShoppingCartSimple } from "react-icons/pi";
@@ -22,7 +33,7 @@ import defaultDp from "../../assets/images/dp.jpeg";
 function Header() {
   const navigate = useNavigate();
   const { theme, setTheme, mainColor } = useTheme();
-  const { imgUrl, profileDp, setProfileDp } = useContext(LogoUrl);
+  const { imgUrl } = useContext(LogoUrl);
   const { cartItems, searchTerm, setSearchTerm } = useContext(CartContext);
   const { isUser, setIsUser } = useContext(UserContext);
   const [isHover, setIsHover] = useState(false);
@@ -76,6 +87,11 @@ function Header() {
       });
     }
   }
+  async function loginuser() {
+    const userRef = doc(db, "Users", loggedInUser?.uid);
+    const userData = await getDoc(userRef);
+    console.log("USER DATA IN HEADER=>", userData.data());
+  }
   return (
     <header className="text-gray-600 body-font ">
       {/* WRAPPER */}
@@ -86,9 +102,9 @@ function Header() {
         </a>
         {/* === NAGIGATIONS ===*/}
         <nav className="md:ml-auto  flex flex-wrap items-center gap-4 text-base justify-center">
-          {/* SEARCHBAR */}
-          <label className="inputCover border border-gray-300 px-4 py-1 rounded-full flex justify-between items-center ">
-            {/* INPUT */}
+          {/* SEARCHBAR 
+           <label className="inputCover border border-gray-300 px-4 py-1 rounded-full flex justify-between items-center ">
+             INPUT 
             <input
               type="text"
               className="border-none outline-none bg-transparent"
@@ -98,9 +114,9 @@ function Header() {
                 setSearchTerm(e.target.value);
               }}
             />
-            {/* SEARCH ICON */}
+            SEARCH ICON 
             <CiSearch className="text-gray-900" fontSize={"1.5rem"} />
-          </label>
+          </label> */}
           {/* SHOPING CART ICON */}
           <Link to={"/cartitems"}>
             <Badge
@@ -136,6 +152,7 @@ function Header() {
               setIsHover(false);
               setHelper(0);
             }}
+            onClick={loginuser}
           />
           {/* THEME ICONS */}
           {theme == "light" ? (
@@ -197,9 +214,7 @@ function Header() {
               <div
                 style={{
                   visibility: `${avatarMenuVisibility ? "visible" : "hidden"}`,
-                  height: `${
-                    loggedInUser.email == "admin@gmail.com" ? "165px" : "125px"
-                  }`,
+                  height: "125px",
                 }}
                 className="absolute w-[150px] h-[125px] z-[60] top-[90%] left-[-400%] overflow-hidden "
               >
@@ -223,17 +238,20 @@ function Header() {
                     </Link>
                   ) : null}
                   {/* PROFILE LINK */}
-                  <Link
-                    className="w-full"
-                    to={"/user/profile"}
-                    onClick={() => {
-                      setAvatarMenuVisibility(false);
-                    }}
-                  >
-                    <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
-                      Profile
-                    </p>
-                  </Link>
+                  {loggedInUser.email != "admin@gmail.com" ? (
+                    <Link
+                      className="w-full"
+                      to={"/user/profile"}
+                      onClick={() => {
+                        setAvatarMenuVisibility(false);
+                      }}
+                    >
+                      <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
+                        Profile
+                      </p>
+                    </Link>
+                  ) : null}
+
                   {/* USER ORDERS LINK */}
                   <Link
                     className="w-full"

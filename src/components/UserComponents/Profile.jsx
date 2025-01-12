@@ -3,9 +3,8 @@ import { UserContext } from "../../contexts/UserContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { MdCameraEnhance, MdOutlineHomeWork } from "react-icons/md";
 import FormButton from "../GlobalComponents/FormButton";
-import UpdateProfileForm from "../GlobalComponents/UpdateProfile";
+import FormModal from "../GlobalComponents/FormModal";
 import defaultDp from "../../assets/images/dp.jpeg";
-import dpLoader from "../../assets/images/dpLoader3.gif";
 import {
   db,
   doc,
@@ -18,202 +17,235 @@ import {
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import Loader from "../GlobalComponents/Loader";
-import { LogoUrl } from "../../contexts/LogoContext";
-import FormInput from "../GlobalComponents/FormInput";
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 import { LuCheckCheck } from "react-icons/lu";
 import { IoCallOutline } from "react-icons/io5";
 import { LiaCitySolid } from "react-icons/lia";
 import { TbBuildingEstate } from "react-icons/tb";
-import FormModal from "../GlobalComponents/FormModal";
+import { Card, Container, Paper, Typography, Box, Avatar } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+const ProfileHeader = styled(Box)(({ theme, mainColor }) => ({
+  background: `linear-gradient(135deg, ${mainColor} 0%, ${mainColor}dd 100%)`,
+  padding: "2rem",
+  borderRadius: "16px 16px 0 0",
+  position: "relative",
+  marginBottom: "4rem",
+  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+}));
+
+const ProfileAvatar = styled(Avatar)(({ theme }) => ({
+  width: 150,
+  height: 150,
+  border: "4px solid white",
+  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+  position: "absolute",
+  bottom: 0,
+  left: "50%",
+  transform: "translate(-50%, 50%)",
+}));
+
+const InfoItem = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "1rem",
+  padding: "1rem",
+  borderRadius: "12px",
+  backgroundColor: "#f8f9fa",
+  marginBottom: "1rem",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    backgroundColor: "#f1f3f5",
+    transform: "translateY(-5px)",
+  },
+}));
+
 function Profile() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const { isUser, setIsUser } = useContext(UserContext);
-  if (isUser) {
-    const {
-      email,
-      displayName,
-      emailVerified,
-      phoneNumber,
-      company,
-      city,
-      country,
-    } = isUser;
-    // CONTEXTS
-    const { mainColor } = useContext(ThemeContext);
-    // STATES
-    const [loader, setLoader] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const navigate = useNavigate();
-    //! FUNCTION TO UPDATE PROFILE DP
-    const updateProfileDP = async (file) => {
-      setLoader(true);
-      const DPsRef = ref(storage, `usersDP/${file.name}`);
-      try {
-        message.info("Uploading Your DP");
-        const data = await uploadBytes(DPsRef, file);
-        message.success("Your DP Is Susseccfully Uploaded!");
-        const DpUrl = await getDownloadURL(DPsRef);
-        message.info("Updating Your DP!");
-        const userRef = doc(db, "Users", isUser.uid);
-        const obj = {
-          ...isUser,
-          photoURL: DpUrl,
-        };
-        const updated = await updateDoc(userRef, {
-          photoURL: DpUrl,
-        });
-        localStorage.setItem("loggedInUser", JSON.stringify(obj));
-        setIsUser(obj);
-        message.success("Your DP Is Successfully Updated!");
+  const [loader, setLoader] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { mainColor } = useContext(ThemeContext);
+  const navigate = useNavigate();
 
-        setLoader(false);
-      } catch (error) {
-        setLoader(false);
-        console.log("error of Uploading DP=>", error.message);
-      }
-    };
+  if (!isUser) return null;
 
-    return loader ? (
-      <Loader />
-    ) : (
-      // MAIN CONTAINER
-      <div
-        className="flex flex-col  items-center gap-5 w-full rounded-lg  h-full pb-20"
-        style={{ boxShadow: "0 0 10px rgba(0,0,0,0.2)" }}
-      >
+  const {
+    email,
+    displayName,
+    emailVerified,
+    phoneNumber,
+    company,
+    city,
+    country,
+  } = isUser;
+
+  const updateProfileDP = async (file) => {
+    setLoader(true);
+    const DPsRef = ref(storage, `usersDP/${file.name}`);
+    try {
+      message.info("Uploading Your DP");
+      const data = await uploadBytes(DPsRef, file);
+      message.success("Your DP Is Successfully Uploaded!");
+      const DpUrl = await getDownloadURL(DPsRef);
+      message.info("Updating Your DP!");
+      const userRef = doc(db, "Users", isUser.uid);
+      const obj = {
+        ...isUser,
+        photoURL: DpUrl,
+      };
+      await updateDoc(userRef, {
+        photoURL: DpUrl,
+      });
+      localStorage.setItem("loggedInUser", JSON.stringify(obj));
+      setIsUser(obj);
+      message.success("Your DP Is Successfully Updated!");
+      setLoader(false);
+    } catch (error) {
+      setLoader(false);
+      console.log("error of Uploading DP=>", error.message);
+    }
+  };
+
+  return loader ? (
+    <Loader />
+  ) : (
+    <Container
+      maxWidth="md"
+      sx={{ py: 4 }}
+      className="h-screen overflow-y-auto adminProfile"
+    >
+      <Card sx={{ borderRadius: "16px", overflow: "visible" }}>
         <FormModal
           displayName={displayName}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
         />
-        {/* PROFILE HEADER */}
-        <div
-          className="profileImage flex justify-center  items-center w-full h-[160px] relative mb-20"
-          style={{ backgroundColor: `${mainColor}` }}
-        >
-          {/* HEADING */}
-          <h1 className="text-white font-medium text-2xl mb-10">
+
+        <ProfileHeader mainColor={mainColor}>
+          <Typography variant="h4" color="white" textAlign="center" mb={8}>
             Profile Details
-          </h1>
-          {/* DP WRAPPER */}
-          <div className="w-[170px] h-[170px] overflowh rounded-[100%] absolute left-[50%] -translate-x-[50%] bottom-[0%] translate-y-[50%] flex justify-center items-center p-2 bg-white">
-            {/* DP */}
-            <img
-              src={loggedInUser ? loggedInUser.photoURL : defaultDp}
-              width={"100%"}
-              height={"100%"}
-              className="rounded-full "
-            />
-            {/* LABEL OF UPDATE DP BTN */}
-            <label
-              htmlFor="updateDP"
-              className=" rounded-[100%] absolute left-[70%]  top-[0] flex justify-center items-center p-2 bg-gray-200 cursor-pointer"
-            >
-              {/* CAMERA ICON */}
-              <MdCameraEnhance fontSize={"22px"} />
-              {/* INPUT FOR UPDATE DP */}
-              <input
-                type="file"
-                name="updateDP"
-                id="updateDP"
-                className="hidden"
-                onChange={(e) => {
-                  console.log(
-                    "CALLING UPDATE DP FUNCTION=>",
-                    e.target.files[0]
-                  );
-                  updateProfileDP(e.target.files[0]);
-                }}
-              />
-            </label>
-          </div>
-        </div>
-        <div></div>
-        {/*================ DETAILS FORM ================*/}
-        <div className="profileDetails flex flex-col justify-center items-start shadow-2xl p-4 rounded-md md:w-[50%] w-[90%]">
-          {/* NAME */}
-          <div className="w-full text-md grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-0 items-center">
-            <span className="w-[90%] flex items-center justify-start gap-2 md:border-b border-gray-300 pb-2 md:mb-5">
-              <FaRegUser fontSize={"22px"} /> Name :
-            </span>
-            <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {displayName ? displayName : "Not Provided"}
-            </span>
-          </div>
-          {/* EMAIL */}
-          <div className="w-full text-md grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-0 items-center">
-            <span className="w-[90%] flex items-center justify-start gap-2 md:border-b border-gray-300 pb-2 md:mb-5">
-              <AiOutlineMail fontSize={"22px"} />
-              Email :
-            </span>
-
-            <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {email}
-            </span>
-          </div>
-          {/* VARIFICATION */}
-          <div className="w-full text-md grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-0 items-center">
-            <span className="w-[90%] flex items-center justify-start gap-2 md:border-b border-gray-300 pb-2 md:mb-5">
-              <LuCheckCheck fontSize={"22px"} />
-              Email Varification :
-            </span>
-            <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {emailVerified ? "Done" : "Not Varified"}
-            </span>
-          </div>
-          {/* PHONE NUMBER */}
-          <div className="w-full text-md grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-0 items-center">
-            <span className="w-[90%] flex items-center justify-start gap-2 md:border-b border-gray-300 pb-2 md:mb-5">
-              <IoCallOutline fontSize={"22px"} />
-              Phone Number :
-            </span>
-            <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {phoneNumber ? phoneNumber : "Not Provided"}
-            </span>
-          </div>
-          {/* COMPANY NAME */}
-          <div className="w-full text-md grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-0 items-center">
-            <span className="w-[90%] flex items-center justify-start gap-2 md:border-b border-gray-300 pb-2 md:mb-5">
-              <MdOutlineHomeWork fontSize={"22px"} /> Company :
-            </span>
-
-            <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {company ? company : "Not Provided"}
-            </span>
-          </div>
-          {/* CITY */}
-          <div className="w-full text-md grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-0 items-center">
-            <span className="w-[90%] flex items-center justify-start gap-2 md:border-b border-gray-300 pb-2 md:mb-5">
-              <LiaCitySolid fontSize={"22px"} /> City :
-            </span>
-            <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {city ? city : "Not Provided"}
-            </span>
-          </div>
-          {/* COUNTRY */}
-          <div className="w-full text-md grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-0 items-center">
-            <span className="w-[90%] flex items-center justify-start gap-2 md:border-b border-gray-300 pb-2 md:mb-5">
-              <TbBuildingEstate fontSize={"22px"} /> Country :
-            </span>
-            <span className="w-[90%] flex items-center justify-start gap-2 border md:border-b border-gray-300 rounded-full md:pb-2 p-2 mb-5 ">
-              {country ? country : "Not Provided"}
-            </span>
-          </div>
-
-          {/* SUBMIT BTN */}
-          <FormButton
-            type={"primary"}
-            text={"Update Profile"}
-            buttonVariant="contained"
-            myFunc={() => {
-              setIsModalOpen(true);
+          </Typography>
+          <ProfileAvatar
+            src={loggedInUser?.photoURL || defaultDp}
+            alt={displayName}
+          >
+            {displayName?.charAt(0)}
+          </ProfileAvatar>
+          <label
+            htmlFor="updateDP"
+            style={{
+              position: "absolute",
+              bottom: "-75px",
+              right: "calc(50% - 100px)",
+              backgroundColor: "#fff",
+              borderRadius: "50%",
+              padding: "8px",
+              cursor: "pointer",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+              zIndex: 1,
             }}
-          />
-        </div>
-      </div>
-    );
-  }
+          >
+            <MdCameraEnhance size={24} color={mainColor} />
+            <input
+              type="file"
+              id="updateDP"
+              hidden
+              onChange={(e) => updateProfileDP(e.target.files[0])}
+            />
+          </label>
+        </ProfileHeader>
+
+        <Box sx={{ p: 4, pt: 6 }}>
+          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-2">
+            <InfoItem>
+              <FaRegUser size={24} color={mainColor} />
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="caption" color="text.secondary">
+                  Name
+                </Typography>
+                <Typography>{displayName || "Not Provided"}</Typography>
+              </Box>
+            </InfoItem>
+
+            <InfoItem>
+              <AiOutlineMail size={24} color={mainColor} />
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="caption" color="text.secondary">
+                  Email
+                </Typography>
+                <Typography>{email}</Typography>
+              </Box>
+            </InfoItem>
+          </div>
+          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-2">
+            <InfoItem>
+              <LuCheckCheck size={24} color={mainColor} />
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="caption" color="text.secondary">
+                  Email Verification
+                </Typography>
+                <Typography>
+                  {emailVerified ? "Verified" : "Not Verified"}
+                </Typography>
+              </Box>
+            </InfoItem>
+
+            <InfoItem>
+              <IoCallOutline size={24} color={mainColor} />
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="caption" color="text.secondary">
+                  Phone Number
+                </Typography>
+                <Typography>{phoneNumber || "Not Provided"}</Typography>
+              </Box>
+            </InfoItem>
+          </div>
+          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-2">
+            <InfoItem>
+              <MdOutlineHomeWork size={24} color={mainColor} />
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="caption" color="text.secondary">
+                  Company
+                </Typography>
+                <Typography>{company || "Not Provided"}</Typography>
+              </Box>
+            </InfoItem>
+
+            <InfoItem>
+              <LiaCitySolid size={24} color={mainColor} />
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="caption" color="text.secondary">
+                  City
+                </Typography>
+                <Typography>{city || "Not Provided"}</Typography>
+              </Box>
+            </InfoItem>
+          </div>
+
+          <InfoItem>
+            <TbBuildingEstate size={24} color={mainColor} />
+            <Box sx={{ flex: 1 }}>
+              <Typography variant="caption" color="text.secondary">
+                Country
+              </Typography>
+              <Typography>{country || "Not Provided"}</Typography>
+            </Box>
+          </InfoItem>
+
+          <Box sx={{ mt: 4, textAlign: "center" }}>
+            <FormButton
+              type="primary"
+              text="Update Profile"
+              buttonVariant="contained"
+              myFunc={() => setIsModalOpen(true)}
+            />
+          </Box>
+        </Box>
+      </Card>
+    </Container>
+  );
 }
+
 export default Profile;

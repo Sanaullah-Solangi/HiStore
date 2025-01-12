@@ -219,3 +219,8 @@ section {
 .ant-form-item {
   margin: 0% !important;
 }
+
+
+.adminProfile::-webkit-scrollbar{
+  display: none;
+}

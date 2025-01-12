@@ -1,12 +1,14 @@
 // IMPORTING ELEMENTS & COMPONENTS
 import { Checkbox, Form } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // CONTEXT
 import { useTheme } from "../../contexts/ThemeContext";
 import FormInput from "./FormInput";
 import FormButton from "./FormButton";
-import { addUserToDB, signInWithGoogle } from "../../utils/firebase";
+import { signInWithGoogle } from "../../utils/firebase";
 import googleBtn from "../../assets/images/googlebtn.png";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -14,9 +16,9 @@ const onFinishFailed = (errorInfo) => {
 
 // SIGN UP FORM COMPONENT
 const SignUpForm = ({ signUp }) => {
-  const navigate = useNavigate();
   const [form] = Form.useForm();
   const { theme, color, bgColor, mainColor } = useTheme();
+  const { isUser, setIsUser } = useContext(UserContext);
   return (
     // FORM
     <Form
@@ -87,7 +89,6 @@ const SignUpForm = ({ signUp }) => {
         type={"button"}
         myFunc={async () => {
           const user = await signInWithGoogle();
-          addUserToDB(null, user, navigate);
         }}
         imgSrc={googleBtn}
         bgColor={"transparent"}

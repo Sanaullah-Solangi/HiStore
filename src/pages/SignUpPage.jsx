@@ -7,10 +7,11 @@ import {
   createUserWithEmailAndPassword,
 } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 import SignUpImage from "../assets/images/Illustration.png";
 import elips from "../assets/images/Ellipse.png";
+import { UserContext } from "../contexts/UserContext";
 
 // SIGN UP PAGE COMPONENT
 function SignUpPage() {
@@ -18,15 +19,18 @@ function SignUpPage() {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const { bgColor, color } = useContext(ThemeContext);
+  const { isUser, setIsUser } = useContext(UserContext);
+
   // FUNCTION TO SIGN UP || CREATE USER
   const signUp = async (formInstance) => {
     const values = formInstance.getFieldValue();
     const { username, email, password } = values;
     setLoader(true);
     try {
+      localStorage.setItem("username", username);
       const user = await createUserWithEmailAndPassword(auth, email, password);
-      await addUserToDB(username, user.user, navigate);
       formInstance.resetFields();
+
       setLoader(false);
       Swal.fire({
         title: "Congratulations!",
@@ -38,9 +42,10 @@ function SignUpPage() {
         timer: 1500, // Alert ko 1.5 second ke liye show karega
       });
     } catch (error) {
+      formInstance.resetFields();
       setLoader(false);
       console.log(error.message);
-      if (error.message != "Firebase: Error (auth/email-already-in-use).") {
+      if (error.message == "Firebase: Error (auth/email-already-in-use).") {
         Swal.fire({
           title: "User Already Exists!",
           text: "An account with this email already exists. Please log in or use a different email to sign up.",
@@ -49,7 +54,7 @@ function SignUpPage() {
           confirmButtonColor: "#3085d6",
         });
       } else if (
-        error.message !=
+        error.message ==
         "Firebase: Password should be at least 6 characters (auth/weak-password)."
       ) {
         Swal.fire({
@@ -68,8 +73,6 @@ function SignUpPage() {
           confirmButtonColor: "#d33",
         });
       }
-
-      formInstance.resetFields();
     }
   };
   return loader ? (

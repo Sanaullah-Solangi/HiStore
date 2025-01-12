@@ -16,7 +16,16 @@ import { Image } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import HeadingBorder from "../GlobalComponents/HeadingBorder";
 import NoResults from "../GlobalComponents/NoMatch";
-
+import {
+  getDocs,
+  db,
+  collection,
+  query,
+  where,
+  limit,
+  orderBy,
+  getCountFromServer,
+} from "../../utils/firebase";
 const categoriesArray = [
   "all",
   "beauty",
@@ -52,13 +61,13 @@ function ProductListing() {
   const { isProductExist, addItemToCart, searchTerm } = useContext(CartContext);
   //STATES
   const { searchQuery } = useParams();
-  const [limit, setLimit] = useState(5);
+  const [itemLimit, setitemLimit] = useState(5);
   const [skip, setSkip] = useState(0);
   const [total, setTotal] = useState(0);
   const [categories, setCategories] = useState([...categoriesArray]);
   const [category, setCategory] = useState(searchQuery);
   const [sortBy, setSortBy] = useState("none");
-  const [orderBy, setOrderBy] = useState("asc");
+  const [sortDirection, setSortDirection] = useState("asc");
 
   const [loader, setLoader] = useState(true);
   const [loadMore, setLoadMore] = useState(true);
@@ -72,15 +81,15 @@ function ProductListing() {
     setIsSearched(true);
   }, [searchTerm]);
 
-  // GETTING DATA ON CHANGING LIMIT STATE
+  // GETTING DATA ON CHANGING itemLIMIT STATE
   useEffect(() => {
     getProducts();
     setIsSearched(false);
-  }, [limit]);
+  }, [itemLimit]);
 
-  // CHANGING LIMIT ON SCROLLING TO THE END
+  // CHANGING itemLIMIT ON SCROLLING TO THE END
   useEffect(() => {
-    if (limit <= total) {
+    if (itemLimit <= total) {
       window.addEventListener("scroll", getDataOnScroll);
 
       return () => {
@@ -89,14 +98,14 @@ function ProductListing() {
     }
   }, [loadMore]);
 
-  // CHECK SCROLL POSITION IF LAST PRODUCT IS REACHED THEN INCREASES LIMIT AND CALLS getPoduct FUNCTION
+  // CHECK SCROLL POSITION IF LAST PRODUCT IS REACHED THEN INCREASES itemLIMIT AND CALLS getPoduct FUNCTION
   const getDataOnScroll = () => {
     const scrollHeight = window.scrollY;
     const productDistance = document.querySelector(
       ".productListingCard:last-child"
     ).offsetTop;
     if (scrollHeight >= productDistance - 200) {
-      setLimit(limit + 10);
+      setitemLimit(itemLimit + 10);
     }
   };
 
@@ -105,20 +114,35 @@ function ProductListing() {
     if (!isSearched) {
       try {
         setLoader(true);
-        const response = await fetch(
-          `https://dummyjson.com/products/${
-            category == "all" ? "" : `category/${category}`
-          }?limit=${limit}&skip=${skip}&sortBy=${
-            sortBy == "none" ? "" : sortBy
-          }&order=${orderBy}`
-        );
+        const prodRef = collection(db, "Products");
+        const productQueryConditions = [
+          category !== "all" && where("category", "==", category),
+          sortBy !== "none" && orderBy(sortBy, sortDirection),
+          limit(itemLimit),
+        ].filter(Boolean);
 
-        const res = await response.json();
-        setProducts(res.products);
-        setTotal(res.total);
+        const productQuery = query(
+          collection(db, "Products"),
+          ...productQueryConditions
+        );
+        const totalProducts = await getCountFromServer(prodRef);
+        const products = await getDocs(productQuery);
+        const data = products.docs.map((doc) => {
+          return doc.data();
+        });
+        // const response = await fetch(
+        //   `https://dummyjson.com/products/${
+        //     category == "all" ? "" : `category/${category}`
+        //   }?limit=${itemLimit}&skip=${skip}&sortBy=${
+        //     sortBy == "none" ? "" : sortBy
+        //   }&order=${sortDirection}`
+        // );
+        // const res = await response.json();
+        setProducts(data);
+        setTotal(totalProducts.data().count);
         setLoader(false);
         setLoadMore(!loadMore);
-        return res;
+        return data;
       } catch (error) {
         setLoader(false);
         setLoadMore(false);
@@ -156,8 +180,6 @@ function ProductListing() {
     }, 500);
     isFilterOpen ? setIsFilterOpen(false) : setIsFilterOpen(true);
   };
-  
-  // console.log(products);
 
   return (
     <>
@@ -249,16 +271,16 @@ function ProductListing() {
                   </select>
                 </label>
                 {/* ORDER BY*/}
-                <label className="text-black" htmlFor="orderBy">
+                <label className="text-black" htmlFor="sortDirection">
                   Order By
                   <select
                     className="rounded-lg w-full border border-gray-300 mt-1"
                     type="text"
-                    id="orderBy"
+                    id="sortDirection"
                     placeholder="Order By"
-                    value={orderBy}
+                    value={sortDirection}
                     onChange={(e) => {
-                      setOrderBy(e.target.value);
+                      setSortDirection(e.target.value);
                     }}
                   >
                     <option style={{ color: "black " }} value={"asc"}>

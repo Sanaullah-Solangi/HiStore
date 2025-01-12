@@ -1,5 +1,4 @@
 import { auth, signInWithEmailAndPassword } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import LogInForm from "../components/GlobalComponents/LogIn";
 import Loader from "../components/GlobalComponents/Loader";
@@ -13,7 +12,6 @@ function LogInPage() {
   // STATES
   const [loader, setLoader] = useState(false);
   const { bgColor, color } = useContext(ThemeContext);
-  const navigate = useNavigate();
   //  FUNCTION TO LOGIN USER
   const logIn = async (formInstance) => {
     const values = formInstance.getFieldValue();
@@ -22,6 +20,7 @@ function LogInPage() {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
       formInstance.resetFields();
+
       setLoader(false);
       Swal.fire({
         title: "Logged In!",
@@ -30,12 +29,6 @@ function LogInPage() {
         showConfirmButton: true,
         timer: 2500, // Alert ko 1.5 second ke liye show karega
       });
-
-      if (user.user.email == "admin@gmail.com") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
     } catch (error) {
       setLoader(false);
       console.log(error.message);

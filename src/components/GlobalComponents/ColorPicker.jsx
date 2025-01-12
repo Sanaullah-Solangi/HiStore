@@ -26,15 +26,7 @@ const PicColors = () => {
         style={{ display: "none" }}
       />
     </label>
-    // <ColorPicker
-    //   defaultValue="#1677ff"
-    //   size="large"
-    //   onChange={(value) => {
-    //     setMainColor(value.toHexString());
-    //   }}
-    //   value={mainColor}
-    //   className="fixed left-0 top-9"
-    // />
+   
   );
 };
 

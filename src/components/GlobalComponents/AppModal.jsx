@@ -19,6 +19,7 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
   const { theme, bgColor, color, mainColor } = useContext(ThemeContext);
   const [isHover, setIsHover] = useState(true);
   const [helper, setHelper] = useState(0);
+  const userCart = localStorage.getItem("userCart");
   // FUNCTIONS & OTHERS
   const navigate = useNavigate();
   // DESTRUCTING OBJECT
@@ -130,7 +131,7 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
                       ? addItemToCart({
                           ...productInfo,
                           quantity: 1,
-                          orderedBy: isUser?.userCart,
+                          orderedBy: userCart,
                           deliveryStatus: "pending",
                           deliveryDetails: {},
                         })

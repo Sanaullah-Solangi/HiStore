@@ -1,31 +1,37 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { UserContext } from "./UserContext";
+// import { UserContext } from "./UserContext";
 export const CartContext = createContext();
 function CartContextProvider({ children }) {
-  const { isUser, flagToResetCartItems } = useContext(UserContext);
+  // const { flagToResetCartItems } = useContext(UserContext);
   const [cartItems, setCartItems] = useState([]);
   const [deliveredItems, setDeliveredItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const order = localStorage.getItem("order");
-  useEffect(() => {
-    setCartItems([]);
-  }, [flagToResetCartItems]);
-
+  const userCart = localStorage.getItem("userCart");
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  // useEffect(() => {
+  //   setCartItems([]);
+  // }, [flagToResetCartItems]);
   // GETTING ALL ITEMS FROM STORAGE
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem(isUser?.userCart));
-    const items = JSON.parse(localStorage.getItem(order));
-    if (Array.isArray(data) && data.length != 0) {
-      setCartItems([...data]);
+    if (userCart == loggedInUser.userCart) {
+      const data = JSON.parse(localStorage.getItem(userCart));
+      const items = JSON.parse(localStorage.getItem(order));
+      // console.log("CARTED ITEM IN USEEFFECT", data);
+      if (Array.isArray(data) && data.length != 0) {
+        setCartItems([...data]);
+      }
+      if (Array.isArray(items) && items.length != 0) {
+        setDeliveredItems([...items]);
+      }
+    } else {
+      setCartItems([]);
     }
-    if (Array.isArray(items) && items.length != 0) {
-      setDeliveredItems([...items]);
-    }
-  }, [isUser?.userCart]);
+  }, [userCart]);
   // SETTING ITEMS TO CART LIST
   useEffect(() => {
     if (cartItems.length != 0) {
-      localStorage.setItem(isUser.userCart, JSON.stringify(cartItems));
+      localStorage.setItem(userCart, JSON.stringify(cartItems));
     }
   }, [cartItems]);
 

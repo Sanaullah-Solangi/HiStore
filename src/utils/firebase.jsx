@@ -96,7 +96,6 @@ const addUserToDB = (username, user, ref, navigate) => {
       let reply = await getDoc(ref);
       reply = reply.data();
       resolve(reply); // Resolve jab try successfully complete ho
-     
     } catch (error) {
       console.log(error);
       reject(false); // Reject jab error aaye

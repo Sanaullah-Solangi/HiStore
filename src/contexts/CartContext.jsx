@@ -14,7 +14,7 @@ function CartContextProvider({ children }) {
   // }, [flagToResetCartItems]);
   // GETTING ALL ITEMS FROM STORAGE
   useEffect(() => {
-    if (userCart == loggedInUser.userCart) {
+    if (userCart == loggedInUser?.userCart) {
       const data = JSON.parse(localStorage.getItem(userCart));
       const items = JSON.parse(localStorage.getItem(order));
       // console.log("CARTED ITEM IN USEEFFECT", data);

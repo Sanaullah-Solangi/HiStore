@@ -38,6 +38,7 @@ import AdminOrders from "../pages/Orders";
 import UsersPage from "../pages/UsersPage";
 function AppRouter() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  console.log(loggedInUser?.isLogIn);
   return (
     <BrowserRouter>
       <UserContextProvider>
@@ -47,10 +48,15 @@ function AppRouter() {
           <Route
             path="/auth"
             element={
-              <>
-                <PicColors />
-                <Outlet />
-              </>
+              loggedInUser?.isLogIn &&
+              loggedInUser?.email != "admin@gmail.com" ? (
+                <Navigate to={"/"} />
+              ) : (
+                <>
+                  <PicColors />
+                  <Outlet />
+                </>
+              )
             }
           >
             <Route path="signup" element={<SignUpPage />} />
@@ -62,6 +68,7 @@ function AppRouter() {
           <Route
             path="/admin"
             element={
+              loggedInUser?.isLogIn &&
               loggedInUser?.email == "admin@gmail.com" ? (
                 <>
                   <AdminLayout />

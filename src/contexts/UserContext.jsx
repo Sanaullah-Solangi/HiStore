@@ -37,21 +37,19 @@ function UserContextProvider({ children }) {
           usersDataFromDB
         );
 
-        let currentUser = usersDataFromDB.filter((data) => {
-          if (data.email == user.email) {
-            return user;
-          }
-        });
-        console.log(currentUser[0]);
+        let currentUser = usersDataFromDB.findIndex(
+          (data) => data.email == user.email
+        );
+        console.log("currentUser =>", currentUser);
         let obj = {};
 
-        if (currentUser.length == 0) {
+        if (currentUser == -1) {
           const userData = await addUserToDB(username, user, docRef, navigate);
           obj = { isLogIn: true, ...userData };
           localStorage.setItem("username", null);
         } else {
           obj = {
-            ...currentUser[0],
+            ...usersDataFromDB[currentUser],
             isLogIn: true,
           };
         }

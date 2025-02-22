@@ -38,7 +38,7 @@ import AdminOrders from "../pages/Orders";
 import UsersPage from "../pages/UsersPage";
 function AppRouter() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  console.log(loggedInUser?.isLogIn);
+  console.log("LOGGED IN USER =>", loggedInUser?.email);
   return (
     <BrowserRouter>
       <UserContextProvider>
@@ -48,8 +48,7 @@ function AppRouter() {
           <Route
             path="/auth"
             element={
-              loggedInUser?.isLogIn &&
-              loggedInUser?.email != "admin@gmail.com" ? (
+              loggedInUser?.isLogIn ? (
                 <Navigate to={"/"} />
               ) : (
                 <>
@@ -68,8 +67,7 @@ function AppRouter() {
           <Route
             path="/admin"
             element={
-              loggedInUser?.isLogIn &&
-              loggedInUser?.email == "admin@gmail.com" ? (
+              loggedInUser?.email === "admin@gmail.com" ? (
                 <>
                   <AdminLayout />
                 </>

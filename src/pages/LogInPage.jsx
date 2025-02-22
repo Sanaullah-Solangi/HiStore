@@ -20,7 +20,7 @@ function LogInPage() {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
       formInstance.resetFields();
-
+      window.location.href = "/";
       setLoader(false);
       Swal.fire({
         title: "Logged In!",

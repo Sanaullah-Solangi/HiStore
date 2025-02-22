@@ -30,7 +30,7 @@ function SignUpPage() {
       localStorage.setItem("username", username);
       const user = await createUserWithEmailAndPassword(auth, email, password);
       formInstance.resetFields();
-
+      window.location.href = "/";
       setLoader(false);
       Swal.fire({
         title: "Congratulations!",

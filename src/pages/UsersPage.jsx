@@ -4,7 +4,6 @@ import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { ThemeContext } from "../contexts/ThemeContext";
 import UserTable from "../components/UserComponents/UserTable";
 import AddUserModal from "../components/UserComponents/AddUserModal";
-import StickyHeader from "../components/DashBoardComponents/StickyHeader";
 
 const { Content } = Layout;
 const { Title } = Typography;

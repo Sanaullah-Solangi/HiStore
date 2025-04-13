@@ -3,12 +3,21 @@
 @tailwind utilities;
 
 @font-face {
+  font-family: "Jost";
+  src: url(./assets/fonts/Jost-Regular.ttf);
+}
+@font-face {
   font-family: "poppins";
   src: url(./assets/fonts/Poppins-Regular.ttf);
 }
 
 * {
-  font-family: "poppins", sans-serif !important;
+  font-family: "Jost", sans-serif;
+  scroll-behavior: smooth;
+}
+
+html {
+  font-size: 62.5%;
 }
 
 body,
@@ -21,6 +30,7 @@ section {
   -moz-transition: all linear 0.1s;
   -ms-transition: all linear 0.1s;
   -o-transition: all linear 0.1s;
+  padding-block: 3rem;
 }
 
 .inputCover {
@@ -88,57 +98,25 @@ section {
   border-color: transparent transparent rgb(244, 55, 55) transparent;
 }
 
-/*!=== SERVICES SECTION ===*/
-
-/* .servicesCard {
-  flex: 1 1 40%;
-} */
-
-.servicesCard:hover > .serviceIconCover > .serviceIcon {
-  color: white;
-}
-
 /*!=== CATEGORY SECTION ===*/
 
-.categoriesSubHeading {
+.categories-sub-heading {
   font-size: 1.2rem;
 }
 
-.categoriesImgCover > img {
+.categories-img-cover > img {
   background-color: rgb(243, 243, 241);
 }
 
-:is(.categoriesImgCover, .FeaturedProdsImgCover):hover > img {
+:is(.categories-img-cover, .featured-prods-card):hover > img {
   filter: brightness(1.02);
   -webkit-filter: brightness(1.02);
 }
 
 /*!=== FEATURED PRODUCTS & PRODUCTS DETAIL SECTION ===*/
-.featuredProdsContainer {
-  padding-bottom: 120px;
-}
-.featuredProdsItemHeading {
-  font-size: 18px;
-}
-.FeaturedProdsWarranty {
-  font-size: 16px;
-}
 
-.FeaturedProdsImgCover,
 .prodDetailImg {
   background-color: rgb(245, 245, 245);
-}
-
-.viewAllProductsBtn {
-  position: absolute !important;
-  bottom: 5% !important;
-  left: 50% !important;
-  transform: translate(-50%);
-  z-index: 1 !important;
-  -webkit-transform: translate(-50%);
-  -moz-transform: translate(-50%);
-  -ms-transform: translate(-50%);
-  -o-transform: translate(-50%);
 }
 
 .AppModal {
@@ -220,7 +198,6 @@ section {
   margin: 0% !important;
 }
 
-
-.adminProfile::-webkit-scrollbar{
+.adminProfile::-webkit-scrollbar {
   display: none;
 }

@@ -6,31 +6,44 @@ import category4 from "../../assets/images/category7.png";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { Link } from "react-router-dom";
 import HeadingBorder from "../GlobalComponents/HeadingBorder";
+const categories = [
+  {
+    route: "/productlisting/mens-shirts",
+    src: category1,
+    heading: "mens shirts",
+    count: "9 Products",
+  },
+  {
+    route: "/productlisting/womens-dresses",
+    src: category2,
+    heading: "Womens Dresses",
+    count: "9 Products",
+  },
+  {
+    route: "/productlisting/womens-jewellery",
+    src: category3,
+    heading: "Womens Jewellery",
+    count: "9 Products",
+  },
+  {
+    route: "/productlisting/sports-accessories",
+    src: category4,
+    heading: "Sports Accesories",
+    count: "9 Products",
+  },
+];
 function Categories() {
-  const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
-  const [helper, setHelper] = useState(0);
-  const [isHover, setIsHover] = useState(false);
+  const { theme, textColor, bgColor, mainColor } = useContext(ThemeContext);
   return (
-    <section
-      className="text-gray-600 body-font"
-      style={{
-        color: `${color}`,
-        backgroundColor: `${bgColor}`,
-      }}
-    >
+    <section id="categories" className="text-gray-600 body-font">
       <div className="container px-5 py-16 mx-auto">
         {/* MAIN HEADING */}
         <div className="text-center mb-10 flex justify-center items-center flex-col">
-          <h1
-            style={{
-              color: `${theme == "light" ? "#4b5563" : "white"}`,
-            }}
-            className="mainHeading categoriesHeading capitalize relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7"
-          >
+          <h1 className="main-heading categories-heading capitalize relative w-fit sm:text-5xl text-4xl font-medium text-center title-font text-gray-900 mb-7">
             Shop by categories
             <HeadingBorder />
           </h1>
-          <p className="categoriesPara text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
+          <p className="categories-para text-[1.6rem] leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
             Blue bottle crucifix vinyl post-ironic four dollar toast vegan
             taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
             pug.
@@ -38,156 +51,52 @@ function Categories() {
         </div>
         {/* CATEGORIES CARDS */}
         <div className="flex flex-wrap -m-4">
-          {/* 1ST */}
-          <Link
-            to={"/productlisting/mens-shirts"}
-            className="categoriesCard cursor-pointer p-4 lg:w-1/4 sm:w-1/2 w-full"
-          >
-            <div
-              onMouseOver={() => {
-                setIsHover(true);
-                setHelper(1);
-              }}
-              onMouseLeave={() => {
-                setIsHover(false);
-                setHelper(0);
-              }}
+          {categories.map((category) => (
+            <Link
+              to={category.route}
+              className="cursor-pointer p-4 lg:w-1/4 sm:w-1/2 w-full"
             >
-              <div className="categoriesImgCover rounded-lg h-80 overflow-hidden">
-                <img
-                  alt="content"
-                  className="object-cover object-center h-full w-full transition-all duration-100 ease-linear "
-                  src={category1}
-                />
+              <div className="categories-card">
+                <div className="categories-img-cover rounded-lg overflow-hidden">
+                  <img
+                    alt="content"
+                    className="object-cover object-center h-full w-full transition-all duration-100 ease-linear "
+                    src={category.src}
+                  />
+                </div>
+                <h2 className="categories-sub-heading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1">
+                  {category.heading}
+                </h2>
+                <p className="category-count leading-relaxed text-base text-center">
+                  {category.count}
+                </p>
               </div>
-              <h2
-                className="categoriesSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1"
-                style={{
-                  color: `${
-                    isHover && helper == 1 ? `${mainColor}` : `${color}`
-                  }`,
-                }}
-              >
-                Mens Shirts
-              </h2>
-              <p className="leading-relaxed text-base text-center">
-                9 Products
-              </p>
-            </div>
-          </Link>
-          {/* 2ND */}
-          <Link
-            className="categoriesCard cursor-pointer p-4 lg:w-1/4 sm:w-1/2 w-full"
-            to={"/productlisting/womens-dresses"}
-          >
-            <div
-              onMouseOver={() => {
-                setIsHover(true);
-                setHelper(2);
-              }}
-              onMouseLeave={() => {
-                setIsHover(false);
-                setHelper(0);
-              }}
-            >
-              <div className="categoriesImgCover rounded-lg h-80 overflow-hidden">
-                <img
-                  alt="content"
-                  className="object-cover object-center h-full w-full transition-all duration-100 ease-linear "
-                  src={category2}
-                />
-              </div>
-              <h2
-                className="categoriesSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1"
-                style={{
-                  color: `${
-                    isHover && helper == 2 ? `${mainColor}` : `${color}`
-                  }`,
-                }}
-              >
-                Womens Dresses
-              </h2>
-              <p className="leading-relaxed text-base text-center">
-                9 Products
-              </p>
-            </div>
-          </Link>
-          {/* 3RD */}
-          <Link
-            className="categoriesCard cursor-pointer p-4 lg:w-1/4 sm:w-1/2 w-full"
-            to={"/productlisting/womens-jewellery"}
-          >
-            <div
-              onMouseOver={() => {
-                setIsHover(true);
-                setHelper(3);
-              }}
-              onMouseLeave={() => {
-                setIsHover(false);
-                setHelper(0);
-              }}
-            >
-              <div className="categoriesImgCover rounded-lg h-80 overflow-hidden">
-                <img
-                  alt="content"
-                  className="object-cover object-center h-full w-full transition-all duration-100 ease-linear "
-                  src={category3}
-                />
-              </div>
-              <h2
-                className="categoriesSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1"
-                style={{
-                  color: `${
-                    isHover && helper == 3 ? `${mainColor}` : `${color}`
-                  }`,
-                }}
-              >
-                Womens Jewellery
-              </h2>
-              <p className="leading-relaxed text-base text-center">
-                9 Products
-              </p>
-            </div>
-          </Link>
-          {/* 4RTH */}
-          <Link
-            className="categoriesCard cursor-pointer p-4 lg:w-1/4 sm:w-1/2 w-full"
-            to={"/productlisting/sports-accessories"}
-          >
-            <div
-              onMouseOver={() => {
-                setIsHover(true);
-                setHelper(4);
-              }}
-              onMouseLeave={() => {
-                setIsHover(false);
-                setHelper(0);
-              }}
-            >
-              <div className="categoriesImgCover rounded-lg h-80 overflow-hidden">
-                <img
-                  alt="content"
-                  className="object-cover object-center h-full w-full transition-all duration-100 ease-linear "
-                  src={category4}
-                />
-              </div>
-              <h2
-                className="categoriesSubHeading uppercase title-font text-center font-medium text-gray-900 mt-6 mb-1"
-                style={{
-                  color: `${
-                    isHover && helper == 4 ? `${mainColor}` : `${color}`
-                  }`,
-                }}
-              >
-                Sprts Accesories
-              </h2>
-              <p className="leading-relaxed text-base text-center">
-                9 Products
-              </p>
-            </div>
-          </Link>
+            </Link>
+          ))}
         </div>
       </div>
+      <style jsx global>{`
+        #categories {
+          color: ${textColor};
+          background-color: ${bgColor};
+        }
+        .main-heading {
+          color: ${theme == "light" ? "#4b5563" : "white"};
+        }
+        .categories-img-cover {
+          height: 30rem;
+        }
+        .categories-sub-heading {
+          color: ${textColor};
+          font-size: 2rem;
+        }
+        .categories-card:hover > .categories-sub-heading {
+          color: ${mainColor};
+        }
+        .category-count {
+          font-size: 1.6rem;
+        }
+      `}</style>
     </section>
   );
 }

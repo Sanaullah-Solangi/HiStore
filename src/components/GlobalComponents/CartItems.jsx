@@ -27,7 +27,8 @@ function CartItems() {
   const { isUser } = useContext(UserContext);
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const navigate = useNavigate();
-  const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
+  const { theme, textColor, bgColor, borderColor, mainColor } =
+    useContext(ThemeContext);
   const {
     cartItems,
     addItemToCart,
@@ -48,7 +49,7 @@ function CartItems() {
   return cartItems.length != 0 ? (
     <section
       style={{
-        color: `${color}`,
+        color: `${textColor}`,
         backgroundColor: `${bgColor}`,
       }}
       className="text-gray-600 body-font "
@@ -174,68 +175,64 @@ function CartItems() {
           )}
         </div>
         {/* === ORDER SUMMARY === */}
-        <div
-          style={{
-            color: `${color}`,
-            backgroundColor: `${bgColor}`,
-            border: "none !important",
-          }}
-          className="orderSummary col-span-5  md:col-span-2 py-5   "
-        >
-          <h1 className="px-5  font-bold  text-2xl">Order Summary</h1>
-          {/* SUMMARY OF AMOUNT & QUANTITY */}
-          <div className="amountAndQuantity p-5 flex flex-col gap-3">
-            {/* TOTAL AMOUNT */}
-            <div className="flex items-center flex-wrap text-xl pb-2 mb-3 border-b border-gray-400">
-              <span
-                style={{ fontSize: "22px" }}
-                className="totalAmount flex items-center justify-between w-full"
-              >
-                <div>
-                  <DollarOutlined /> Amount
-                </div>
-                <span className="flex items-center">{totalAmount}</span>
-              </span>
-            </div>
-            {/* TOTAL Tax */}
-            <div className="flex items-center flex-wrap text-xl pb-2 mb-3 border-b border-gray-400">
-              <span
-                style={{ fontSize: "22px" }}
-                className="totalQuantity flex items-center justify-between w-full"
-              >
-                <div>
-                  <DollarOutlined /> Total Tax
-                </div>
-                <span className="ml-5 font-bold flex items-center">0.00</span>
-              </span>
-            </div>
-            {/* TOTAL QUANTITY */}
-            <div className="flex items-center flex-wrap text-xl pb-2 mb-3 border-b border-gray-400">
-              <span
-                style={{ fontSize: "22px" }}
-                className="totalQuantity flex items-center justify-between w-full"
-              >
-                <div>
-                  <ProductOutlined /> Total Quantity
-                </div>
-                <span className="ml-5 font-bold flex items-center">
-                  {totalQuantity}
-                </span>
-              </span>
-            </div>
-
-            {/* BUTTON TO PROCESS NEXT */}
-            <Link to={"/checkout"} className="w-full">
-              <button
-                style={{ fontSize: "22px", backgroundColor: `${mainColor}` }}
-                className="flex items-center justify-center gap-2 text-white p-4 rounded  border-0 px-6 focus:outline-none uppercase text-base w-full"
-              >
-                <IoBagCheckOutline /> Checkout
-              </button>
-            </Link>
+        <div className="orderSummary col-span-5  md:col-span-2 py-5   ">
+          <h1>Order Summary</h1>
+          {/* TOTAL AMOUNT */}
+          <div className="totalAmount">
+            <span>Amount</span>
+            <span>{totalAmount}</span>
           </div>
+          {/* TOTAL Tax */}
+          <div className="discount">
+            <span>Discount</span>
+            <span>0.00</span>
+          </div>
+          {/* TOTAL QUANTITY */}
+          <div className="totalQuantity">
+            <span>Total Quantity</span>
+            <span>{totalQuantity}</span>
+          </div>
+          {/* BUTTON TO PROCESS NEXT */}
+          <Link to={"/checkout"} className="w-full">
+            <button
+              style={{ fontSize: "22px", backgroundColor: `${mainColor}` }}
+              className="flex items-center justify-center gap-2 text-white p-4 rounded  border-0 px-6 focus:outline-none uppercase text-base w-full"
+            >
+              <IoBagCheckOutline /> Checkout
+            </button>
+          </Link>
         </div>
       </div>
+      <style jsx global>{`
+        .orderSummary {
+          color: ${textColor};
+          background: ${bgColor};
+          border: 1px solid ${borderColor} !important;
+          margin-top: 1.5rem;
+          padding: 1rem 2rem;
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+        .orderSummary h1 {
+          font-weight: bold;
+          font-size: 2rem;
+          text-align: center;
+        }
+        .totalAmount,
+        .discount,
+        .totalQuantity {
+          font-size: 2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          border-bottom: 1px solid #9ca3af;
+        }
+        :is(.totalAmount, .discount, .totalQuantity) > span:last-child {
+          color: red;
+        }
+      `}</style>
     </section>
   ) : (
     <EmptyData />

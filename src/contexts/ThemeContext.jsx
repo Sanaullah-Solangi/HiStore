@@ -7,19 +7,28 @@ function ThemeContextProvider({ children }) {
   const [mainColor, setMainColor] = useState("#FF7200");
   const [bgColor, setBgColor] = useState("white");
   const [bgHoverColor, setBgHoverColor] = useState("#e5e7eb");
+  const [bgHelperColor, setBgHelperColor] = useState("#E4E4E4");
   const [textColor, setTextColor] = useState("rgb(27,31,35)");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [secondaryTextColor, setsecondaryTextColor] = useState("#9ca3af");
+  const [borderColor, setBorderColor] = useState("#d9d9d9");
+  const [shadowColor, setShadowColor] = useState("#d9d9d9");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
   useEffect(() => {
-    theme === "light" ? setBgColor("white") : setBgColor("rgb(27,31,35)");
+    theme === "light" ? setBgColor("white") : setBgColor("#000000");
     theme === "light" ? setTextColor("rgb(27,31,35)") : setTextColor("white");
+    theme === "light" ? setBgHoverColor("#f0f0f0") : setBgHoverColor("#111111");
     theme === "light"
-      ? setBgHoverColor("rgb(240,240,240)")
-      : setBgHoverColor("rgb(37,41,45)");
+      ? setBgHelperColor("#E4E4E4")
+      : setBgHelperColor("#222222");
+    theme === "light" ? setBorderColor("#d9d9d9") : setBorderColor("#222222");
+    theme === "light"
+      ? setShadowColor("0 0px 15px #0000001A")
+      : setShadowColor("0 0px 15px #FFFFFF1A");
   }, [theme]);
 
   return (
@@ -27,11 +36,15 @@ function ThemeContextProvider({ children }) {
       value={{
         theme,
         setTheme,
-        bgColor,
-        textColor,
-        mainColor,
-        bgHoverColor,
         setMainColor,
+        mainColor,
+        bgColor,
+        bgHoverColor,
+        bgHelperColor,
+        textColor,
+        secondaryTextColor,
+        borderColor,
+        shadowColor,
         sidebarOpen,
         toggleSidebar,
       }}

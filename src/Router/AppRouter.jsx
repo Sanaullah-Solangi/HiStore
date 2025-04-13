@@ -36,6 +36,7 @@ import AdminProducts from "../pages/Products";
 import Dashboard from "../pages/Dashboard";
 import AdminOrders from "../pages/Orders";
 import UsersPage from "../pages/UsersPage";
+import ShoppingCart from "../components/ShoppingCart";
 function AppRouter() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   console.log("LOGGED IN USER =>", loggedInUser?.email);
@@ -65,7 +66,7 @@ function AppRouter() {
 
           {/* ADMIN ROUTES STACK */}
           <Route
-            path="/admin"
+            path="https://histore-admin-panel.vercel.app/"
             element={
               loggedInUser?.email === "admin@gmail.com" ? (
                 <>
@@ -122,6 +123,7 @@ function AppRouter() {
             <Route path="featuredproducts" element={<FeaturedProds />} />
             <Route path="cartitems" element={<CartItems />} />
             <Route path="checkout" element={<CheckOut />} />
+            <Route path="/shopping-cart" element={<ShoppingCart />} />
             <Route
               path="productlisting/:searchQuery"
               element={<ProductListing />}

@@ -57,7 +57,8 @@ const categoriesArray = [
 function ProductListing() {
   //CONTEXTS
   const { isUser } = useContext(UserContext);
-  const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
+  const { theme, textColor, bgColor, mainColor, shadowColor } =
+    useContext(ThemeContext);
   const { isProductExist, addItemToCart, searchTerm } = useContext(CartContext);
   //STATES
   const { searchQuery } = useParams();
@@ -185,7 +186,7 @@ function ProductListing() {
     <>
       <section
         style={{
-          color: `${color}`,
+          color: `${textColor}`,
           backgroundColor: `${bgColor}`,
         }}
         className="text-gray-600 body-font "
@@ -195,9 +196,9 @@ function ProductListing() {
           {/* HEADING SECTION */}
           <div className="text-center mb-10 flex justify-center items-center flex-col">
             <h1
-              className="mainHeading FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7"
+              className="main-heading FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7"
               style={{
-                color: `${color}`,
+                color: `${textColor}`,
               }}
             >
               All Products Listing
@@ -310,7 +311,13 @@ function ProductListing() {
                     <div
                       key={data?.id}
                       className="productListingCard "
-                      style={{ boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}
+                      style={{
+                        boxShadow: `0 0 10px ${
+                          theme == "black"
+                            ? "rgba(255,255,255,0.2)"
+                            : "rgba(0,0,0,0.1)"
+                        }`,
+                      }}
                     >
                       <div className="bg-gray-100 rounded-lg">
                         {/* CARD IMAGE */}
@@ -357,14 +364,14 @@ function ProductListing() {
                           {/* PRICE & TOTAL */}
                           <div className="flex justify-between icon-link">
                             <p
-                              style={{ color: `${color}` }}
+                              style={{ color: `${textColor}` }}
                               className="flex justify-between items-center gap-2 text-gray-900 font-bold"
                             >
                               <DollarOutlined style={{ fontSize: "22px" }} />{" "}
                               {Math.round(data.price)}
                             </p>
                             <p
-                              style={{ color: `${color}` }}
+                              style={{ color: `${textColor}` }}
                               className="flex justify-between items-center gap-2 text-gray-900 font-bold"
                             >
                               <span>Total</span>
@@ -430,6 +437,11 @@ function ProductListing() {
             </div>
           </div>
         </div>
+        <style jsx global>{`
+          .productListingCard {
+            box-shadow: ;
+          }
+        `}</style>
       </section>
       {loader && <Loader />}
     </>

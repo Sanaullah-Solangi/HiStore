@@ -8,7 +8,7 @@ import AppModal from "../GlobalComponents/AppModal";
 import Loader from "../GlobalComponents/Loader";
 import NotFound from "../GlobalComponents/NotFound";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -26,7 +26,7 @@ import HeadingBorder from "../GlobalComponents/HeadingBorder";
 // FEATURED PRODUCTS COMPONENT
 function FeaturedProds() {
   // CONTEXTS
-  const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
+  const { theme, textColor, bgColor, mainColor } = useContext(ThemeContext);
   const { isProductExist } = useContext(CartContext);
   // STATES
   const [Id, setId] = useState(1);
@@ -35,6 +35,7 @@ function FeaturedProds() {
   const [productInfo, setProductInfo] = useState({});
   const [loader, setLoader] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const navigate = useNavigate();
 
   // HOOKS
   useEffect(() => {
@@ -85,33 +86,22 @@ function FeaturedProds() {
   ) : notFound ? (
     <NotFound />
   ) : (
-    <section
-      className="text-gray-600 body-font"
-      style={{
-        color: `${color}`,
-        backgroundColor: `${bgColor}`,
-      }}
-    >
+    <section id="featured-products" className="text-gray-600 body-font">
       <AppModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         productInfo={productInfo}
       />
-      <div className="container featuredProdsContainer relative px-5 pt-16 mx-auto">
+      <div className="container featured-prods-container relative px-5 pt-16 mx-auto">
         {/* MAIN HEADING */}
         <div className="text-center mb-10 flex justify-center items-center flex-col">
-          <h1
-            className="mainHeading FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7"
-            style={{
-              color: `${color}`,
-            }}
-          >
+          <h1 className="main-heading Featured-prods-heading uppercase relative w-fitsm:text-5xl text-4xl font-medium text-center title-font text-gray-900 mb-7">
             Featured Products
             <HeadingBorder />
           </h1>
         </div>
         {/* FEATURED CARDS */}
-        <div className="flex flex-wrap -m-4">
+        <div className="flex flex-wrap ">
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
             spaceBetween={1}
@@ -158,28 +148,26 @@ function FeaturedProds() {
                         ? setIsModalOpen(false)
                         : setIsModalOpen(true);
                     }}
-                    className="FeaturedProdsCard cursor-grab "
+                    className="featured-prods-card cursor-grab "
                   >
-                    <div className="FeaturedProdsImgCover object-contain object-center mb-2 rounded-lg h-96 overflow-hidden">
-                      <img
-                        alt="content"
-                        className="object-contain object-center w-full h-full transition-all duration-100 ease-linear "
-                        src={data?.images[0]}
-                      />
-                    </div>
+                    <img
+                      alt="content"
+                      className="featured-prods-img transition-all duration-100 ease-linear "
+                      src={data?.images[0]}
+                    />
+                    {/* PRODUCT SHORT INFO */}
                     <div className="flex justify-between">
-                      {/* PRODUCT SHORT INFO */}
                       <div>
                         <p
-                          className="featuredProdsItemHeading leading-relaxed text-gray-600 font-medium uppercase "
+                          className="featured-prods-item-heading leading-relaxed text-gray-600 font-medium uppercase "
                           style={{
-                            color: `${color}`,
+                            color: `${textColor}`,
                           }}
                         >
                           {data.title}
                         </p>
                         <span
-                          className="FeaturedProdsWarranty capitalize title-font text-black  mt-6 mb-1"
+                          className="featured-prods-warranty capitalize title-font text-black  mt-6 mb-1"
                           style={{
                             color: `${theme == "light" ? "black" : "white"}`,
                           }}
@@ -187,23 +175,24 @@ function FeaturedProds() {
                           {data.warrantyInformation}
                         </span>
                         <br />
-                        <span style={{ color: `${mainColor}` }}>
+                        <span
+                          className="prod-rate"
+                          style={{ color: `${mainColor}` }}
+                        >
                           ${data.price}
                         </span>
                       </div>
                       {/* ICON TO INDICATE THIS ITEM IS CARTED */}
-                      <div>
-                        {isProductExist(data.id) ? (
-                          <ShoppingCartOutlined
-                            style={{
-                              color: `${theme == "light" ? "black" : "orange"}`,
-                            }}
-                            className="text-2xl"
-                          />
-                        ) : (
-                          ""
-                        )}
-                      </div>
+                      {isProductExist(data.id) ? (
+                        <ShoppingCartOutlined
+                          style={{
+                            color: `${theme == "light" ? "black" : "orange"}`,
+                          }}
+                          className="text-4xl"
+                        />
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                   {/* </Link> */}
@@ -213,20 +202,67 @@ function FeaturedProds() {
           </Swiper>
         </div>
         {/* VIEW ALL PRODUCTS */}
-        <Link to={"/productlisting/all"}>
-          <Button
-            variant={`${theme == "black" ? "outlined" : "contained"}`}
-            style={{
-              backgroundColor: `${theme == "black" ? "" : `${mainColor}`}`,
-              color: `${theme == "black" ? "white" : ""}`,
-              border: `${theme == "black" ? "2px solid white" : ""}`,
-            }}
-            className="viewAllProductsBtn"
-          >
-            View All Products
-          </Button>
-        </Link>
+        <Button
+          variant={`${theme == "black" ? "outlined" : "contained"}`}
+          className="view-all-products-btn"
+          onClick={() => navigate("/productlisting/all")}
+        >
+          View All Products
+        </Button>
       </div>
+      <style jsx global>{`
+        #fetured-products {
+          color: ${textColor};
+          background: ${bgColor};
+        }
+
+        .main-heading {
+          color: ${theme == "light" ? "#4b5563" : "white"};
+        }
+
+        .swiper-slide {
+          min-height: fit-content !important;
+          height: 43rem;
+        }
+        .featured-prods-card {
+          height: 100% !important;
+        }
+
+        .featured-prods-item-heading {
+          font-size: 1.8rem;
+          font-family: "poppins", sans-serif;
+        }
+        .featured-prods-card > .featured-prods-img {
+          background-color: rgb(245, 245, 245);
+          width: 100% !important;
+          height: 70% !important;
+          object-fit: contain;
+        }
+
+        .prod-rate {
+          font-size: 2rem;
+        }
+        .featured-prods-warranty {
+          font-size: 1.6rem;
+        }
+        .swiper-button-next,
+        .swiper-button-prev {
+          top: 30% !important;
+        }
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+          color: ${mainColor};
+        }
+        .view-all-products-btn {
+          font-size: 1.4rem;
+          background-color: ${theme == "black" ? "" : mainColor};
+          color: ${theme == "black" ? "white" : ""};
+          border: ${theme == "black" ? "1px solid white" : ""};
+          position: relative;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      `}</style>
     </section>
   );
 }

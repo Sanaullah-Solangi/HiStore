@@ -36,8 +36,6 @@ function Header() {
   const { imgUrl } = useContext(LogoUrl);
   const { cartItems, searchTerm, setSearchTerm } = useContext(CartContext);
   const { isUser, setIsUser } = useContext(UserContext);
-  const [isHover, setIsHover] = useState(false);
-  const [helper, setHelper] = useState(0);
   const [avatarMenuVisibility, setAvatarMenuVisibility] = useState(false);
   const { pathname } = useLocation();
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -124,34 +122,16 @@ function Header() {
               color={`${mainColor}`}
             >
               <PiShoppingCartSimple
-                fontSize={"1.8rem"}
-                className=" cursor-pointer"
-                style={{ color: `${isHover && helper == 1 ? mainColor : ""}` }}
-                onMouseOver={() => {
-                  setIsHover(true);
-                  setHelper(1);
-                }}
-                onMouseLeave={() => {
-                  setIsHover(false);
-                  setHelper(0);
-                }}
+                fontSize={"3rem"}
+                className="icon cursor-pointer"
               />
             </Badge>
           </Link>
 
           {/* SETTING ICON */}
           <IoSettingsOutline
-            fontSize={"1.8rem"}
-            className="cursor-pointer"
-            style={{ color: `${isHover && helper == 2 ? mainColor : ""}` }}
-            onMouseOver={() => {
-              setIsHover(true);
-              setHelper(2);
-            }}
-            onMouseLeave={() => {
-              setIsHover(false);
-              setHelper(0);
-            }}
+            fontSize={"3rem"}
+            className="icon cursor-pointer"
             onClick={loginuser}
           />
           {/* THEME ICONS */}
@@ -161,17 +141,8 @@ function Header() {
               onClick={() => {
                 setTheme("black");
               }}
-              fontSize={"1.8rem"}
-              className="cursor-pointer transition-all duration-150 ease-linear"
-              style={{ color: `${isHover && helper == 3 ? mainColor : ""}` }}
-              onMouseOver={() => {
-                setIsHover(true);
-                setHelper(3);
-              }}
-              onMouseLeave={() => {
-                setIsHover(false);
-                setHelper(0);
-              }}
+              fontSize={"3rem"}
+              className="icon cursor-pointer transition-all duration-150 ease-linear"
             />
           ) : (
             // SUN
@@ -179,17 +150,8 @@ function Header() {
               onClick={() => {
                 setTheme("light");
               }}
-              fontSize={"1.8rem"}
-              className="cursor-pointer transition-all duration-150 ease-linear"
-              style={{ color: `${isHover && helper == 4 ? mainColor : ""}` }}
-              onMouseOver={() => {
-                setIsHover(true);
-                setHelper(4);
-              }}
-              onMouseLeave={() => {
-                setIsHover(false);
-                setHelper(0);
-              }}
+              fontSize={"3rem"}
+              className="icon cursor-pointer transition-all duration-150 ease-linear"
             />
           )}
           {/* LOGOUT & LOGiN BTNS */}
@@ -198,17 +160,18 @@ function Header() {
             <div className="relative">
               <Avatar
                 onClick={() => {
-                  avatarMenuVisibility
-                    ? setAvatarMenuVisibility(false)
-                    : setAvatarMenuVisibility(true);
+                  navigate("/user/profile");
+                  // avatarMenuVisibility
+                  //   ? setAvatarMenuVisibility(false)
+                  //   : setAvatarMenuVisibility(true);
                 }}
                 src={`${
                   isUser?.photoURL
                     ? loggedInUser.photoURL
                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOH2aZnIHWjMQj2lQUOWIL2f4Hljgab0ecZQ&s"
                 }`}
-                fontSize={"1.8rem"}
-                className="cursor-pointer relative z-50"
+                fontSize={"3rem"}
+                className="icon cursor-pointer relative z-50"
               />
               {/* AVATAR SIDEMENU */}
               <div
@@ -232,7 +195,7 @@ function Header() {
                         setAvatarMenuVisibility(false);
                       }}
                     >
-                      <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
+                      <p className="cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
                         Dashboard
                       </p>
                     </Link>
@@ -246,7 +209,7 @@ function Header() {
                         setAvatarMenuVisibility(false);
                       }}
                     >
-                      <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
+                      <p className="cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
                         Profile
                       </p>
                     </Link>
@@ -260,7 +223,7 @@ function Header() {
                       setAvatarMenuVisibility(false);
                     }}
                   >
-                    <p className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
+                    <p className="cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2 border-gray-600 text-base font-bold font-mono w-full hover:bg-[rgb(201,198,198)] uppercase transition-all duration-100 ease-linear">
                       Orders
                     </p>
                   </Link>
@@ -269,7 +232,7 @@ function Header() {
                     onClick={() => {
                       logOut();
                     }}
-                    className=" cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2  border-gray-600 text-base font-bold font-mono w-full uppercase transition-all duration-100 ease-linear hover:bg-red-700 hover:border-red-700 hover:text-white"
+                    className="cursor-pointer py-2 px-5 whitespace-nowrap text-black  border-b-2  border-gray-600 text-base font-bold font-mono w-full uppercase transition-all duration-100 ease-linear hover:bg-red-700 hover:border-red-700 hover:text-white"
                   >
                     LogOut
                   </p>
@@ -282,21 +245,17 @@ function Header() {
               onClick={() => {
                 navigate("/auth/login");
               }}
-              fontSize={"1.8rem"}
-              className="cursor-pointer transition-all duration-150 ease-linear"
-              style={{ color: `${isHover && helper == 5 ? mainColor : ""}` }}
-              onMouseOver={() => {
-                setIsHover(true);
-                setHelper(5);
-              }}
-              onMouseLeave={() => {
-                setIsHover(false);
-                setHelper(0);
-              }}
+              fontSize={"3rem"}
+              className="icon cursor-pointer transition-all duration-150 ease-linear"
             />
           )}
         </nav>
       </div>
+      <style jsx global>{`
+        .icon:hover {
+          color: ${mainColor};
+        }
+      `}</style>
     </header>
   );
 }

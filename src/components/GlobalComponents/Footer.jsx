@@ -33,7 +33,7 @@ const socialMedia = [
 // FOOTER COMPONENTS
 function Footer() {
   const { imgUrl, lightLogo } = useContext(LogoUrl);
-  const { theme, bgColor, color } = useContext(ThemeContext);
+  const { theme, bgColor, textColor } = useContext(ThemeContext);
   return (
     <footer
       className="text-gray-600 body-font"
@@ -55,7 +55,7 @@ function Footer() {
           </Link>
           {/* PARAGRAPHR */}
           <p
-            style={{ color: `${color}` }}
+            style={{ color: `${textColor}` }}
             className="mt-5 text-[1.4rem] capitalize text-gray-500"
           >
             Air plant banjo lyft occupy retro adaptogen indego
@@ -66,7 +66,7 @@ function Footer() {
           {links.map((link) => (
             <div className="lg:w-1/3 md:w-1/2 w-full px-4">
               <h2
-                style={{ color: `${color}` }}
+                style={{ color: `${textColor}` }}
                 className="footer-menu-heading title-font font-medium text-gray-900 tracking-widest text-sm mb-3"
               >
                 {link.heading}
@@ -75,7 +75,7 @@ function Footer() {
                 {link.subLinks.map((subLink) => (
                   <li>
                     <a
-                      style={{ color: `${color}` }}
+                      style={{ color: `${textColor}` }}
                       className="text-gray-600 hover:text-gray-800"
                     >
                       {subLink}
@@ -92,7 +92,7 @@ function Footer() {
         <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
           {/* COPYRIGHT */}
           <p
-            style={{ color: `${color}` }}
+            style={{ color: `${textColor}` }}
             className="text-gray-500 text-[1.7rem] text-center sm:text-left"
           >
             © 2024 SANAULLAH
@@ -100,7 +100,7 @@ function Footer() {
           {/* SOCIAL MEDIA ICONS */}
           <span className="social-media-link inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start gap-5">
             {socialMedia.map((media) => (
-              <a style={{ color: `${color}` }} className="text-gray-500">
+              <a style={{ color: `${textColor}` }} className="text-gray-500">
                 {media.link}
               </a>
             ))}

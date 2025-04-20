@@ -43,10 +43,9 @@ function Categories() {
             Shop by categories
             <HeadingBorder />
           </h1>
-          <p className="categories-para text-[1.6rem] leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
-            Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-            taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
-            pug.
+          <p className="categories-para capitalize text-[1.6rem] leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
+            Explore our wide range of categories to find exactly what you need —
+            from fashion and electronics to home essentials and more.
           </p>
         </div>
         {/* CATEGORIES CARDS */}

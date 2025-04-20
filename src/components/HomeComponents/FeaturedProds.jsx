@@ -211,7 +211,7 @@ function FeaturedProds() {
         </Button>
       </div>
       <style jsx global>{`
-        #fetured-products {
+        #featured-products {
           color: ${textColor};
           background: ${bgColor};
         }
@@ -220,9 +220,9 @@ function FeaturedProds() {
           color: ${theme == "light" ? "#4b5563" : "white"};
         }
 
-        .swiper-slide {
+        .featured-prods-container .swiper-slide {
           min-height: fit-content !important;
-          height: 43rem;
+          height: 40rem !important;
         }
         .featured-prods-card {
           height: 100% !important;
@@ -245,8 +245,9 @@ function FeaturedProds() {
         .featured-prods-warranty {
           font-size: 1.6rem;
         }
-        .swiper-button-next,
-        .swiper-button-prev {
+        .featured-prods-container
+          .swiper
+          :is(.swiper-button-next, .swiper-button-prev) {
           top: 30% !important;
         }
         .swiper-button-next::after,

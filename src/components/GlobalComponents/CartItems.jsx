@@ -27,7 +27,7 @@ function CartItems() {
   const { isUser } = useContext(UserContext);
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const navigate = useNavigate();
-  const { theme, textColor, bgColor, borderColor, mainColor } =
+  const { theme, shadowColor, textColor, bgColor, borderColor, mainColor } =
     useContext(ThemeContext);
   const {
     cartItems,
@@ -62,15 +62,8 @@ function CartItems() {
               if (item.orderedBy == loggedInUser.userCart) {
                 return (
                   <div
-                    style={{
-                      border: `${
-                        theme == "black"
-                          ? "2px solid rgba(255,255,255,0.4)"
-                          : ""
-                      }`,
-                    }}
                     key={item.id}
-                    className=" flex  cartItemCard rounded-md relative mb-5"
+                    className="flex cart-item-card rounded-md relative mb-5"
                   >
                     {/* DELETE BTN */}
                     <DeleteFilled
@@ -79,11 +72,11 @@ function CartItems() {
                           ? removeItemFromCartList(item.id)
                           : navigate("/auth/login");
                       }}
-                      className="removeCardIcon absolute p-2 right-0  top-0 hover:text-white text-gray-200  hover:bg-red-700 bg-red-500 cursor-pointer  transition-all duration-100 ease-linear"
+                      className="remove-card-icon absolute p-2 right-0  top-0 hover:text-white text-gray-200  hover:bg-red-700 bg-red-500 cursor-pointer  transition-all duration-100 ease-linear "
                     />
                     {/* ITEM IMAGE */}
                     <img
-                      className="bg-gray-100 cartImg object-contain"
+                      className="cart-item-img bg-gray-100 object-contain"
                       src={
                         Array.isArray(item.images)
                           ? item.images[0]
@@ -92,9 +85,9 @@ function CartItems() {
                       alt="content"
                     />
                     {/* ===== CARD CONTENT ===== */}
-                    <div className="p-4  rounded-lg h-70 ">
+                    <div className="cart-item-content flex flex-col justify-between p-7  rounded-lg ">
                       {/* BRAND */}
-                      <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font">
+                      <h3 className="brand tracking-widest text-indigo-500 text-xs font-medium title-font">
                         {item.brand}
                       </h3>
                       {/* TITLE */}
@@ -102,19 +95,19 @@ function CartItems() {
                         style={{
                           color: `${theme == "black" ? "white" : "black"}`,
                         }}
-                        className="text-lg text-gray-900 font-medium title-font mb-4"
+                        className="title text-gray-900 font-medium title-font mb-4"
                       >
                         {item.title}
                       </h2>
                       {/* DESCRIPTION */}
-                      <p className="leading-relaxed text-base">
+                      <p className="desc leading-relaxed text-base">
                         {item.description}
                       </p>
 
                       {/* AMOUNT & QUANTITY */}
                       <div className="flex  items-center flex-wrap">
                         <p className="leading-relaxed flex items-center gap-2 font-bold text-2xl"></p>
-                        <p className="leading-relaxed flex items-center gap-2 font-bold text-2xl ">
+                        <p className="calculation leading-relaxed flex items-center gap-2 font-bold  ">
                           <span className="flex gap-2">
                             <DollarOutlined />
                             {Math.round(item.price)}
@@ -175,46 +168,77 @@ function CartItems() {
           )}
         </div>
         {/* === ORDER SUMMARY === */}
-        <div className="orderSummary col-span-5  md:col-span-2 py-5   ">
+        <div className="order-summary col-span-5  md:col-span-2 py-5   ">
           <h1>Order Summary</h1>
-          {/* TOTAL AMOUNT */}
-          <div className="totalAmount">
-            <span>Amount</span>
-            <span>{totalAmount}</span>
+          <div className="summary-content-wrapper">
+            <div className="summary-content">
+              {/* TOTAL AMOUNT */}
+              <div className="totalAmount">
+                <span>Amount</span>
+                <span>{totalAmount}</span>
+              </div>
+              {/* TOTAL Tax */}
+              <div className="discount">
+                <span>Discount</span>
+                <span>0.00</span>
+              </div>
+              {/* TOTAL QUANTITY */}
+              <div className="totalQuantity">
+                <span>Total Quantity</span>
+                <span>{totalQuantity}</span>
+              </div>
+            </div>
+            <div className="btns">
+              {/* BUTTON TO PROCESS NEXT */}
+              <button
+                className="btn"
+                onClick={() => navigate("/productlisting/all")}
+              >
+                <IoBagCheckOutline />
+                Continue Shopping
+              </button>
+              {/* BUTTON TO CONTINUE SHOPPING */}
+              <button className="btn" onClick={() => navigate("/checkout")}>
+                <IoBagCheckOutline />
+                Proceed to Checkout
+              </button>
+            </div>
           </div>
-          {/* TOTAL Tax */}
-          <div className="discount">
-            <span>Discount</span>
-            <span>0.00</span>
-          </div>
-          {/* TOTAL QUANTITY */}
-          <div className="totalQuantity">
-            <span>Total Quantity</span>
-            <span>{totalQuantity}</span>
-          </div>
-          {/* BUTTON TO PROCESS NEXT */}
-          <Link to={"/checkout"} className="w-full">
-            <button
-              style={{ fontSize: "22px", backgroundColor: `${mainColor}` }}
-              className="flex items-center justify-center gap-2 text-white p-4 rounded  border-0 px-6 focus:outline-none uppercase text-base w-full"
-            >
-              <IoBagCheckOutline /> Checkout
-            </button>
-          </Link>
         </div>
       </div>
       <style jsx global>{`
-        .orderSummary {
+        .order-summary {
           color: ${textColor};
           background: ${bgColor};
           border: 1px solid ${borderColor} !important;
           margin-top: 1.5rem;
           padding: 1rem 2rem;
+          height: 45rem;
+        }
+        .order-summary,
+        .summary-content-wrapper,
+        .summary-content,
+        .btns,
+        .btn {
           display: flex;
-          flex-direction: column;
+        }
+
+        .order-summary,
+        .summary-content-wrapper,
+        .summary-content,
+        .btns {
+          flex-direction: column !important;
+        }
+        .summary-content-wrapper {
+          height: 100%;
+          padding-bottom: 1rem;
+        }
+        .summary-content-wrapper,
+        .summary-content {
+          justify-content: space-between;
           gap: 2rem;
         }
-        .orderSummary h1 {
+        .order-summary h1 {
           font-weight: bold;
           font-size: 2rem;
           text-align: center;
@@ -231,6 +255,63 @@ function CartItems() {
         }
         :is(.totalAmount, .discount, .totalQuantity) > span:last-child {
           color: red;
+        }
+        .cart-item-card {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          height: fit-content;
+          border: ${theme == "black" ? `2px solid${borderColor}` : ""};
+        }
+
+        .cart-item-content {
+          display: flex;
+        }
+
+        .remove-card-icon {
+          font-size: 2rem;
+          border-bottom-left-radius: 10px;
+        }
+        .cart-item-img {
+          height: 24rem;
+          min-width: 25rem;
+          background: ${shadowColor};
+        }
+        .brand {
+          font-size: 1.5rem;
+        }
+        .title {
+          font-size: 2.2rem;
+        }
+        .desc {
+          font-size: 1.6rem;
+        }
+        .calculation {
+          font-size: 2rem;
+        }
+        .btns {
+          gap: 1rem;
+        }
+        .btn {
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          color: white;
+          padding: 1rem;
+          border: none;
+          border-radius: 3px;
+          font-size: 2rem;
+          width: 100%;
+          border: 1px solid ${mainColor};
+          background: transparent;
+          color: ${mainColor};
+          transition: all 0.1s linear;
+        }
+        .btn:hover {
+          border: 1px solid transparent;
+          background: ${mainColor};
+          color: white;
+        }
+        .btn:focus {
+          outline: none;
         }
       `}</style>
     </section>

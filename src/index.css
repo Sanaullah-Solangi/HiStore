@@ -131,20 +131,16 @@ section {
 }
 /*!=== PRODUCTS LISTING STYLING ===*/
 
-.productListingContainer {
+.product-listing-container {
   padding: 0 1rem !important;
 }
-.productListingCard {
+.product-listing-card {
   flex: 1 1 30% !important;
 }
 
-.productListingCartBtn {
+.product-listing-cart-btn {
   gap: 0.7rem !important;
   margin-top: 1rem !important;
-}
-
-.filterInputs > label {
-  margin-bottom: 1rem !important;
 }
 
 /*!=== LOADER ===*/
@@ -159,20 +155,11 @@ section {
 }
 
 /*!=== CART ITEMS CARDS ===*/
-.removeCardIcon {
-  font-size: 20px;
-  border-bottom-left-radius: 10px;
-}
-
-.cartItemCard {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
 
 .quantityBtn {
   border: none !important;
   outline: none !important;
 }
-
 .quantityBtn:nth-child(1):hover {
   background-color: rgb(30, 128, 247) !important;
 }
@@ -183,7 +170,7 @@ section {
 .quantityBtn:nth-child(2):disabled {
   border: 1px solid white !important;
 }
-
+/* 
 .cartImg {
   height: 15rem;
   width: 15rem;
@@ -192,7 +179,7 @@ section {
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
-}
+} */
 
 .ant-form-item {
   margin: 0% !important;

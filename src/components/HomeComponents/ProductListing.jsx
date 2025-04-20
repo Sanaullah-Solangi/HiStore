@@ -53,6 +53,21 @@ const categoriesArray = [
   "womens-shoes",
   "womens-watches",
 ];
+const filterOptions = [
+  { label: "category", id: "category", type: "text", options: categoriesArray },
+  {
+    label: "sort-by",
+    id: "sortBy",
+    type: "text",
+    options: ["none", "brand", "title", "price"],
+  },
+  {
+    label: "order-by",
+    id: "sort-Direction",
+    type: "text",
+    options: ["accending", "decsending"],
+  },
+];
 
 function ProductListing() {
   //CONTEXTS
@@ -103,7 +118,7 @@ function ProductListing() {
   const getDataOnScroll = () => {
     const scrollHeight = window.scrollY;
     const productDistance = document.querySelector(
-      ".productListingCard:last-child"
+      ".product-listing-card:last-child"
     ).offsetTop;
     if (scrollHeight >= productDistance - 200) {
       setitemLimit(itemLimit + 10);
@@ -196,7 +211,7 @@ function ProductListing() {
           {/* HEADING SECTION */}
           <div className="text-center mb-10 flex justify-center items-center flex-col">
             <h1
-              className="main-heading FeaturedProdsHeading uppercase relative w-fit sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-7"
+              className="main-heading  uppercase relative w-fit sm:text-5xl text-2xl font-medium text-center title-font text-gray-900 mb-7"
               style={{
                 color: `${textColor}`,
               }}
@@ -212,7 +227,7 @@ function ProductListing() {
               onClick={() => {
                 isFilterOpen ? setIsFilterOpen(false) : setIsFilterOpen(true);
               }}
-              className="absolute flex gap-2 -top-10 left-0 text-2xl cursor-pointer"
+              className="absolute flex gap-2 -top-14 left-0 text-4xl cursor-pointer"
             >
               {isFilterOpen ? (
                 <IoClose className="text-3xl" />
@@ -223,210 +238,130 @@ function ProductListing() {
             </div>
 
             {/* FILTER CONTAINER */}
-            <div
-              className="filterContainer h-screen transition-all duration-200 absolute z-20 bg-white rounded-lg gap-4 p-4"
-              style={{
-                boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                left: `${isFilterOpen ? "0" : "-100%"}`,
-              }}
-            >
-              <h1 className="text-2xl text-black font-bold mb-4">Filter</h1>
-              <div className="filterInputs flex flex-col h-full">
-                {/* CATEGORY */}
-                <label className="text-black" htmlFor="category">
-                  Category
-                  <select
-                    className="rounded-lg w-full border border-gray-300 mt-1 capitalize"
-                    type="text"
-                    id="category"
-                    onChange={(e) => {
-                      setCategory(e.target.value);
-                    }}
-                  >
-                    {categories.map((data, ind) => {
-                      return (
-                        <option key={ind} value={data} className="capitalize">
-                          {data}
+            <div className="filter-container h-screen transition-all duration-200 absolute z-20 bg-white rounded-lg gap-4 p-4">
+              <div className="filter-inputs flex flex-col h-full">
+                {filterOptions.map((filter) => (
+                  <label className="text-black capitalize" htmlFor={filter.id}>
+                    {filter.label}
+                    <select
+                      className="rounded-lg w-full border border-gray-300 mt-1 capitalize"
+                      type="text"
+                      id="category"
+                      onChange={(e) => {
+                        setCategory(e.target.value);
+                      }}
+                    >
+                      {filter.options.map((option) => (
+                        <option
+                          key={option}
+                          value={option}
+                          className="capitalize"
+                        >
+                          {option}
                         </option>
-                      );
-                    })}
-                  </select>
-                </label>
-                {/* SORT BY */}
-                <label className="text-black" htmlFor="sortBy">
-                  SortBy
-                  <select
-                    className="rounded-lg w-full border border-gray-300 mt-1"
-                    type="number"
-                    id="sortBy"
-                    placeholder="Sort By"
-                    value={sortBy}
-                    onChange={(e) => {
-                      setSortBy(e.target.value);
-                    }}
-                  >
-                    <option value={"none"}>None</option>
-                    <option value={"brand"}>Brand</option>
-                    <option value={"title"}>Title</option>
-                    <option value={"price"}>price</option>
-                  </select>
-                </label>
-                {/* ORDER BY*/}
-                <label className="text-black" htmlFor="sortDirection">
-                  Order By
-                  <select
-                    className="rounded-lg w-full border border-gray-300 mt-1"
-                    type="text"
-                    id="sortDirection"
-                    placeholder="Order By"
-                    value={sortDirection}
-                    onChange={(e) => {
-                      setSortDirection(e.target.value);
-                    }}
-                  >
-                    <option style={{ color: "black " }} value={"asc"}>
-                      Accending
-                    </option>
-                    <option value={"desc"}>Decsending</option>
-                  </select>
-                </label>
+                      ))}
+                    </select>
+                  </label>
+                ))}
 
                 {/* APPLY BTN */}
                 <Button
                   onClick={() => filterData()}
                   variant="contained"
-                  className="w-full filterBtn"
-                  style={{ backgroundColor: `${mainColor}` }}
+                  className="w-full filter-btn"
                 >
                   Apply All
                 </Button>
               </div>
             </div>
             {/* CONTENT CONTAINER */}
-            <div className="productListingContainer flex w-full gap-4 flex-wrap ">
+            <div className="product-listing-container flex w-full gap-4 flex-wrap ">
               {/* CARD */}
               {products.length != 0 ? (
                 products?.map((data) => {
                   return (
                     <div
                       key={data?.id}
-                      className="productListingCard "
-                      style={{
-                        boxShadow: `0 0 10px ${
-                          theme == "black"
-                            ? "rgba(255,255,255,0.2)"
-                            : "rgba(0,0,0,0.1)"
-                        }`,
-                      }}
+                      className="product-listing-card flex flex-col"
                     >
-                      <div className="bg-gray-100 rounded-lg">
-                        {/* CARD IMAGE */}
-                        <Image
-                          height={"15rem"}
-                          width={"100%"}
-                          className=" rounded  object-contain object-center mb-6"
-                          src={data.images[0]}
-                          alt="content"
-                        />
-                        {/* PRODUCT DETAILS */}
-                        <div
-                          className="p-6 flex flex-col "
+                      {/* CARD IMAGE */}
+                      <Image
+                        height={"15rem"}
+                        width={"100%"}
+                        className="rounded object-contain object-center mb-6 bg-gray-100"
+                        src={data.images[0]}
+                        alt="content"
+                      />
+                      {/* PRODUCT DETAILS */}
+                      <div className="cart-content p-6 flex flex-col ">
+                        {/* PRODUCT BRAND */}
+                        <h3 className="brand tracking-widest text-indigo-500 font-medium title-font">
+                          {data.brand}
+                        </h3>
+                        {/* TITLE */}
+                        <h2
                           style={{
-                            border: `${
-                              theme == "black"
-                                ? "2px solid rgba(10,10,10,0.2)"
-                                : ""
-                            }`,
-                            backgroundColor: `${
-                              theme === "black" ? "black" : "white"
+                            color: `${
+                              theme == "light" ? "rgb(17, 24, 39 )" : "white"
                             }`,
                           }}
+                          className="title font-medium title-font h-16"
                         >
-                          {/* PRODUCT BRAND */}
-                          <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font">
-                            {data.brand}
-                          </h3>
-                          {/* TITLE */}
-                          <h2
-                            style={{
-                              color: `${
-                                theme == "light" ? "rgb(17, 24, 39 )" : "white"
-                              }`,
-                            }}
-                            className="text-lg font-medium title-font h-16"
-                          >
-                            {data.title}
-                          </h2>
-                          {/* DESCRIPTION */}
-                          <p className="leading-relaxed text-base h-48">
-                            {data.description}
+                          {data.title}
+                        </h2>
+                        {/* DESCRIPTION */}
+                        <p className="desc leading-relaxed text-base h-48">
+                          {data.description}
+                        </p>
+                        {/* PRICE & TOTAL */}
+                        <div className="flex justify-between icon-link">
+                          <p className="price">
+                            <DollarOutlined style={{ fontSize: "22px" }} />
+                            {Math.round(data.price)}
                           </p>
-                          {/* PRICE & TOTAL */}
-                          <div className="flex justify-between icon-link">
-                            <p
-                              style={{ color: `${textColor}` }}
-                              className="flex justify-between items-center gap-2 text-gray-900 font-bold"
-                            >
-                              <DollarOutlined style={{ fontSize: "22px" }} />{" "}
-                              {Math.round(data.price)}
-                            </p>
-                            <p
-                              style={{ color: `${textColor}` }}
-                              className="flex justify-between items-center gap-2 text-gray-900 font-bold"
-                            >
-                              <span>Total</span>
-                              {isProductExist(data.id)
-                                ? Math.round(
-                                    data.price *
-                                      isProductExist(data.id).quantity
-                                  )
-                                : 0}
-                            </p>
-                          </div>
-                          {/* ADD TO CART BTN */}
-                          <Button
-                            onClick={() => {
-                              isUser?.isLogIn
-                                ? addItemToCart({
-                                    ...data,
-                                    quantity: 1,
-                                    orderedBy: isUser.userCart,
-                                    deliveryStatus: "pending",
-                                    deliveryDetails: {},
-                                  })
-                                : navigate("/auth/login");
-                            }}
-                            className="productListingCartBtn w-full"
-                            variant={`${
-                              theme == "black" ? "outlined" : "contained"
-                            }`}
-                            style={{
-                              backgroundColor: `${
-                                theme == "light" ? `${mainColor}` : ""
-                              }`,
-                              color: `${theme == "black" ? "white" : ""}`,
-                              border: `${
-                                theme == "black" ? "2px solid white" : ""
-                              }`,
-                            }}
-                          >
-                            {isProductExist(data.id) ? (
-                              <>
-                                Increase Quantity
-                                <span>
-                                  ( {isProductExist(data.id).quantity} )
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                Add to Cart
-                                <ShoppingCartOutlined
-                                  style={{ fontSize: "22px" }}
-                                />
-                              </>
-                            )}
-                          </Button>
+                          <p className="total-amount">
+                            <span>Total</span>
+                            {isProductExist(data.id)
+                              ? Math.round(
+                                  data.price * isProductExist(data.id).quantity
+                                )
+                              : 0}
+                          </p>
                         </div>
+                        {/* ADD TO CART BTN */}
+                        <Button
+                          onClick={() => {
+                            isUser?.isLogIn
+                              ? addItemToCart({
+                                  ...data,
+                                  quantity: 1,
+                                  orderedBy: isUser.userCart,
+                                  deliveryStatus: "pending",
+                                  deliveryDetails: {},
+                                })
+                              : navigate("/auth/login");
+                          }}
+                          className="cart-btn w-full flex"
+                          variant={`${
+                            theme == "black" ? "outlined" : "contained"
+                          }`}
+                        >
+                          {isProductExist(data.id) ? (
+                            <>
+                              Increase Quantity
+                              <span>
+                                ( {isProductExist(data.id).quantity} )
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              Add to Cart
+                              <ShoppingCartOutlined
+                                style={{ fontSize: "1.6rem" }}
+                              />
+                            </>
+                          )}
+                        </Button>
                       </div>
                     </div>
                   );
@@ -438,8 +373,70 @@ function ProductListing() {
           </div>
         </div>
         <style jsx global>{`
-          .productListingCard {
-            box-shadow: ;
+          .filter-container {
+            box-shadow: ${shadowColor};
+            left: ${isFilterOpen ? "0" : "-100%"};
+            opacity: ${isFilterOpen ? "1" : "0"};
+            width: 25%;
+          }
+          .filter-inputs > label {
+            margin-bottom: 1rem !important;
+            font-size: 1.6rem;
+          }
+          .filter-inputs > label > select {
+            font-size: 1.4rem;
+            padding: 1rem;
+          }
+
+          .filter-inputs > label > select:focus {
+            border-color: ${mainColor} !important;
+            box-shadow: none !important;
+          }
+
+          .filter-btn {
+            background: ${mainColor};
+            font-size: 1.6rem;
+            font-weight: normal;
+            text-transform: capitalize;
+            font-family: "Jost", sans-serif;
+          }
+
+          .product-listing-card {
+            box-shadow: ${shadowColor};
+          }
+
+          .cart-content {
+            border: ${theme == "black" ? "2px solid rgba(10,10,10,0.2)" : ""};
+            background: ${theme === "black" ? "black" : "white"};
+            justify-content: space-between !important;
+            flex: 1 1 100%;
+            justify-content: end !important;
+          }
+          .brand,
+          .desc {
+            font-size: 1.5rem;
+          }
+          .title {
+            font-size: 2rem;
+          }
+
+          .price,
+          .total-amount {
+            font-size: 1.7rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            font-weight: bold;
+            color: ${textColor};
+          }
+          .cart-btn {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            gap: 2rem;
+            background: ${theme == "light" ? `${mainColor}` : ""};
+            color: ${theme == "black" ? "white" : ""};
+            border: ${theme == "black" ? "2px solid white" : ""};
           }
         `}</style>
       </section>

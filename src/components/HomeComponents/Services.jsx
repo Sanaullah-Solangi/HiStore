@@ -15,8 +15,8 @@ const myServices = [
   },
   {
     icon: <FaDollarSign />,
-    heading: "MONEY GUARANTEE",
-    desc: "Lorem ipsum 30 days money back guarantee",
+    heading: "MONEY BACK GUARANTEE",
+    desc: "Hassle-free returns with our 30-day money-back guarantee.",
   },
   {
     icon: <IoFootball />,

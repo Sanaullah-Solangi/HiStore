@@ -62,7 +62,7 @@ const ValidationMessage = styled(Typography)(({ isError }) => ({
   marginLeft: "0.5rem",
 }));
 
-function UpdateProfileForm({ setIsModalOpen }) {
+function UpdateProductForm({ setIsModalOpen }) {
   const { mainColor, isDark } = useContext(ThemeContext);
   const { isUser, setIsUser } = useContext(UserContext);
   const [formData, setFormData] = useState({
@@ -125,7 +125,7 @@ function UpdateProfileForm({ setIsModalOpen }) {
     <Container maxWidth="sm">
       <StyledCard mainColor={mainColor} isDark={isDark}>
         <Typography variant="h5" align="center" gutterBottom>
-          Update Profile
+          Update Product
         </Typography>
         <form onSubmit={handleSubmit}>
           <Box
@@ -209,4 +209,4 @@ function UpdateProfileForm({ setIsModalOpen }) {
   );
 }
 
-export default UpdateProfileForm;
+export default UpdateProductForm;

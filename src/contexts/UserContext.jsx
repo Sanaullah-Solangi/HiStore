@@ -23,7 +23,7 @@ function UserContextProvider({ children }) {
   useEffect(() => {
     const subscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log(user);
+        // console.log(user);
         const username = localStorage.getItem("username");
         const docRef = doc(db, "Users", user.uid);
         const collectionRef = collection(db, "Users");
@@ -31,16 +31,16 @@ function UserContextProvider({ children }) {
         usersDataFromDB = usersDataFromDB.docs.map((doc) => {
           return doc.data();
         });
-        console.log(
-          "USERDATA FROM DB=>",
-          Boolean(usersDataFromDB),
-          usersDataFromDB
-        );
+        // console.log(
+        //   "USERDATA FROM DB=>",
+        //   Boolean(usersDataFromDB),
+        //   usersDataFromDB
+        // );
 
         let currentUser = usersDataFromDB.findIndex(
           (data) => data.email == user.email
         );
-        console.log("currentUser =>", currentUser);
+        // console.log("currentUser =>", currentUser);
         let obj = {};
 
         if (currentUser == -1) {

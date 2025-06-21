@@ -131,14 +131,14 @@ section {
 }
 /*!=== PRODUCTS LISTING STYLING ===*/
 
-.product-listing-container {
+.all-products-container {
   padding: 0 1rem !important;
 }
-.product-listing-card {
+.all-products-card {
   flex: 1 1 30% !important;
 }
 
-.product-listing-cart-btn {
+.all-products-cart-btn {
   gap: 0.7rem !important;
   margin-top: 1rem !important;
 }

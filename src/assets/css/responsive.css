@@ -3,7 +3,7 @@
 @media (width <=1030px) {
   /*!=== PRODUCTS LISTING STYLING ===*/
 
-  .productListingCard {
+  .all-products-card {
     flex: 1 1 50% !important;
   }
 }

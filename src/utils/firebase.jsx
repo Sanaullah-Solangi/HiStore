@@ -65,7 +65,7 @@ const signInWithGoogle = async (navigate) => {
 const addUserToDB = (username, user, ref, navigate) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("MEN DATA ADD KR RHA HUN", user);
+      // console.log("MEN DATA ADD KR RHA HUN", user);
       const {
         email,
         photoURL,
@@ -76,7 +76,7 @@ const addUserToDB = (username, user, ref, navigate) => {
         accessToken,
       } = user;
 
-      console.log("YE CHECK KR LYA K DATA PEHEL SE HAI YA NHI");
+      // console.log("YE CHECK KR LYA K DATA PEHEL SE HAI YA NHI");
       await setDoc(ref, {
         email,
         photoURL,

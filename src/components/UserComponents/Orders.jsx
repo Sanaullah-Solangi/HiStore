@@ -1,25 +1,16 @@
 // REACT HOOKS
-import { useContext, useState } from "react";
+import { useContext } from "react";
 // CONTXTS
 import { CartContext } from "../../contexts/CartContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { UserContext } from "../../contexts/UserContext";
 // COMPONENTS
-import EmptyData from "../GlobalComponents/EmptyData";
+import StatusMessage from "../ui/StatusMessage";
 // ICONS & OTHERS
 import { RiArrowRightDoubleLine } from "react-icons/ri";
-import { Button } from "antd";
-import { IoBagCheckOutline } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  DeleteFilled,
-  DollarOutlined,
-  ProductOutlined,
-  PlusOutlined,
-  MinusOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
-import LoginToViewCart from "../GlobalComponents/LoginToViewCart";
+import { useNavigate } from "react-router-dom";
+import { DollarOutlined, CloseOutlined } from "@ant-design/icons";
+
 // CART COMPONENT STARTS
 function Orders() {
   const { isUser } = useContext(UserContext);
@@ -112,13 +103,30 @@ function Orders() {
               );
             })
           ) : (
-            <LoginToViewCart />
+            
+              <StatusMessage
+                status={"warning"}
+                title={"Please log in to view your cart"}
+                subTitle={"You need to log in to see the items in your cart"}
+                onClick={() => navigate("/auth/login")}
+                btnTxt={"Log in"}
+              />
+            
           )}
         </div>
       </div>
     </section>
   ) : (
-    <EmptyData />
+    // <EmptyData />
+    <StatusMessage
+      status={"warning"}
+      title={"Your cartasd is empty"}
+      subTitle={
+        " It looks like you haven't added any items to your cart yet. Browse products and add them to your cart."
+      }
+      onClick={() => navigate("/all-products/all")}
+      btnTxt={"Start Shopping"}
+    />
   );
 }
 export default Orders;

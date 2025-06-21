@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import SideMenu from "../components/GlobalComponents/SideMenu";
+import SideMenu from "../components/layout/SideMenu";
 
 function UserDetails() {
   return (

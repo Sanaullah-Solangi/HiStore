@@ -62,8 +62,8 @@ const LogInForm = ({ logIn }) => {
         />
       ))}
 
+      {/* REMEMBER ME CHECKBOX */}
       <div className="w-full flex justify-between items-center">
-        {/* REMEMBER ME CHECKBOX */}
         <RememberMe varient={"login"} />
         <Link
           to={"/auth/forgot-password"}

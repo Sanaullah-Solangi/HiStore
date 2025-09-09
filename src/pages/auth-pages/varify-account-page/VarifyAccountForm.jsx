@@ -48,6 +48,7 @@ const VarifyAccountForm = ({ resetPasswordViaEmail }) => {
           message={"Please Input Your OTP"}
           label={"Verification code"}
           id={"otp"}
+          type={"number"}
         />
 
         <p className="">

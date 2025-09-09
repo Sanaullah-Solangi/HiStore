@@ -171,7 +171,7 @@ function CartItems() {
           )}
         </div>
         {/* === ORDER SUMMARY === */}
-        <div className="order-summary col-span-5 md:col-span-2 py-5 fixed right-14 w-[450px]">
+        <div className="order-summary col-span-5 md:col-span-2 py-5 sticky top-[10px] right-14 w-[450px]">
           <h1>Order Summary</h1>
           <div className="summary-content-wrapper">
             <div className="summary-content">

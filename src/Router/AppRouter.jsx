@@ -47,6 +47,7 @@ import UserContextProvider from "../contexts/UserContext";
 import { jwtDecode } from "jwt-decode";
 function AppRouter() {
   const token = localStorage.getItem("token");
+  console.log("token in router ==>", token);
   let user;
   if (token !== null && token !== "null") {
     console.log("token", token);

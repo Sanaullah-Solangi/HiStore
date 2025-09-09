@@ -1,11 +1,14 @@
 import { auth, sendPasswordResetEmail } from "../../../utils/firebase";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Loader from "../../../components/ui/Loader";
 import Swal from "sweetalert2";
 import varifyAccountImg from "../../../assets/images/varify-account.png";
 import FormContainer from "../../../components/ui/FormContainer";
 import VarifyAccountForm from "./VarifyAccountForm";
+import sendRequest from "../../../helpers/sendRequest";
+import { ApiRoutes } from "../../../constants";
+import { UserContext } from "../../../contexts/UserContext";
 
 // LOGIN PAGE COMPONENT
 function VarifyAccount() {
@@ -14,10 +17,19 @@ function VarifyAccount() {
   const navigate = useNavigate();
   // FUNCTION TO RESET PASSWORD VIA EMAIL
   const resetPasswordViaEmail = async (formInstance) => {
-    const { email } = formInstance.getFieldValue();
+    const { otp } = formInstance.getFieldValue();
+    const userId = localStorage.getItem("userId");
+    console.log("otp ====>", otp, userId);
+    const payload = { userId, otp };
 
     try {
-      const response = await sendPasswordResetEmail(auth, email);
+      const result = await sendRequest(
+        ApiRoutes.verify.verifyOtp,
+        "POST",
+        payload
+      );
+      console.log("result ==>", result);
+      // const response = await sendPasswordResetEmail(auth, email);
       Swal.fire({
         customClass: {
           container: "sweatContainer",

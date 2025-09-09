@@ -11,7 +11,7 @@ function UserContextProvider({ children }) {
     if (token !== null && token !== "null") {
       const decoded = jwtDecode(token);
       setUser(decoded);
-    }
+    } 
   }, []);
   return (
     <UserContext.Provider value={{ user, setUser }}>

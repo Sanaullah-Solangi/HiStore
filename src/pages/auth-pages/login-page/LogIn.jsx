@@ -22,7 +22,7 @@ function LogInPage() {
     const payload = { email, password };
     setLoader(true);
     try {
-      const result = await sendRequest(ApiRoutes.user.login, "POST", payload);
+      const result = await sendRequest(ApiRoutes.auth.login, "POST", payload);
 
       console.log("Login result =>", result);
 

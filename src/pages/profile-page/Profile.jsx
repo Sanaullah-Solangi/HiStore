@@ -2,8 +2,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { MdCameraEnhance } from "react-icons/md";
-import FormButton from "../../components/ui/FormButton";
-import FormModal from "../../components/ui/FormModal";
+import Button from "../../components/ui/Button";
 import defaultDp from "../../assets/images/dp.jpeg";
 import {
   db,
@@ -16,27 +15,30 @@ import {
 } from "../../utils/firebase";
 import { message } from "antd";
 import Loader from "../../components/ui/Loader";
-import UpdateProductForm from "../../components/GlobalComponents/UploadProductForm";
-import UpdateProfileForm from "../../components/GlobalComponents/UpdateProfileForm";
+import AppModal from "../home-page/home-components/featured-products/featured-products-components/AppModal";
+import UpdateProfileForm from "./profile-components/UpdateProfileForm";
 
 function Profile() {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  const { isUser, setIsUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [loader, setLoader] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { mainColor } = useContext(ThemeContext);
-
-  if (!isUser) return null;
+  console.log("user in Profile page =>", user);
+  if (!user) return null;
   // DESTRUCTRING DATA FROM USER'S OBJECT
   const {
     email,
-    displayName,
+    username,
+    accountStatus,
+    gender,
+    address,
+    profilePicture,
     emailVerified,
     phoneNumber,
-    company,
     city,
     country,
-  } = isUser;
+  } = user;
   // UPDATE DP FUNCTION
   const updateProfileDP = async (file) => {
     setLoader(true);
@@ -47,16 +49,16 @@ function Profile() {
       message.success("Your DP Is Successfully Uploaded!");
       const DpUrl = await getDownloadURL(DPsRef);
       message.info("Updating Your DP!");
-      const userRef = doc(db, "Users", isUser.uid);
+      const userRef = doc(db, "Users", user.uid);
       const obj = {
-        ...isUser,
+        ...user,
         photoURL: DpUrl,
       };
       await updateDoc(userRef, {
         photoURL: DpUrl,
       });
       localStorage.setItem("loggedInUser", JSON.stringify(obj));
-      setIsUser(obj);
+      setUser(obj);
       message.success("Your DP Is Successfully Updated!");
       setLoader(false);
     } catch (error) {
@@ -67,7 +69,7 @@ function Profile() {
   const inputFields = [
     {
       title: "Full Name",
-      value: displayName ? displayName : "Not Provided",
+      value: username ? username : "Not Provided",
     },
     {
       title: "Email Address",
@@ -82,8 +84,12 @@ function Profile() {
       value: emailVerified ? "Verified" : "Not Verified",
     },
     {
-      title: "Company",
-      value: company ? company : "Not Provided",
+      title: "Account Status",
+      value: accountStatus ? accountStatus : "Not Provided",
+    },
+    {
+      title: "Gender",
+      value: gender ? gender : "Not Provided",
     },
     {
       title: "City",
@@ -93,11 +99,15 @@ function Profile() {
       title: "Country",
       value: country ? country : "Not Provided",
     },
+    {
+      title: "Address",
+      value: address ? address : "Not Provided",
+    },
   ];
   return loader ? (
     <Loader />
   ) : (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute top-0 left-0 w-full h-64 overflow-hidden">
@@ -130,16 +140,18 @@ function Profile() {
           />
         </div>
         {/* MODAL CONTAINING FORM INSIDE IT TO UPDATE PROFILE */}
-        <FormModal
-          displayName={displayName}
+        <AppModal
+          username={username}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-        />
+        >
+          <UpdateProfileForm />
+        </AppModal>
         {/* PROFILE PAGE CONTAINER */}
         <div className="relative z-10 p-8">
           {/* HEADING */}
           <h1
-            className="text-3xl font-bold mb-8 text-center"
+            className="text-5xl font-bold mb-8 text-center"
             style={{ color: mainColor }}
           >
             Profile Details
@@ -147,10 +159,10 @@ function Profile() {
 
           <div className="flex flex-col md:flex-row gap-8">
             {/* Profile Image Section */}
-            <div className="relative w-48 h-48 mx-auto md:mx-0">
+            <div className="relative w-56 h-56 mx-auto md:mx-0">
               <img
                 src={loggedInUser?.photoURL || defaultDp}
-                alt={displayName || "Profile Picture"}
+                alt={username || "Profile Picture"}
                 className="w-full h-full rounded-full object-cover border-4 border-white shadow-lg"
               />
               {/* LABEL FOR INPUT HAVING INSIDE IT */}
@@ -175,10 +187,10 @@ function Profile() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {inputFields.map((field) => (
                   <div key={field.title} className="space-y-2">
-                    <label className="text-sm text-gray-500">
+                    <label className="text-[1.7rem] text-gray-500">
                       {field.title}
                     </label>
-                    <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
+                    <div className="p-3 text-3xl bg-gray-50 rounded-lg border border-gray-100">
                       {field.value}
                     </div>
                   </div>
@@ -186,7 +198,7 @@ function Profile() {
               </div>
 
               <div className="mt-8 text-center">
-                <FormButton
+                <Button
                   type="primary"
                   text="Update Profile"
                   buttonVariant="contained"

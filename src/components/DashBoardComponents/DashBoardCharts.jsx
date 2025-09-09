@@ -62,7 +62,7 @@ const feedbackData = [
   { month: "Jun", satisfaction: 98 },
 ];
 
-export function DashboardCharts() {
+function DashboardCharts() {
   const { textColor, mainColor, secondaryBgColor } = useContext(ThemeContext);
 
   return (
@@ -170,3 +170,5 @@ export function DashboardCharts() {
     </div>
   );
 }
+
+export default DashboardCharts;

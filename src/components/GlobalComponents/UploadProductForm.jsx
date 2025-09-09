@@ -64,13 +64,13 @@ const ValidationMessage = styled(Typography)(({ isError }) => ({
 
 function UpdateProductForm({ setIsModalOpen }) {
   const { mainColor, isDark } = useContext(ThemeContext);
-  const { isUser, setIsUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [formData, setFormData] = useState({
-    displayName: isUser.displayName || "",
-    phoneNumber: isUser.phoneNumber || "",
-    company: isUser.company || "",
-    city: isUser.city || "",
-    country: isUser.country || "",
+    displayName: user.displayName || "",
+    phoneNumber: user.phoneNumber || "",
+    company: user.company || "",
+    city: user.city || "",
+    country: user.country || "",
   });
   const [errors, setErrors] = useState({});
 
@@ -106,12 +106,12 @@ function UpdateProductForm({ setIsModalOpen }) {
     }
 
     try {
-      const userRef = doc(db, "Users", isUser.uid);
+      const userRef = doc(db, "Users", user.uid);
       await updateDoc(userRef, formData);
 
-      const updatedUser = { ...isUser, ...formData };
+      const updatedUser = { ...user, ...formData };
       localStorage.setItem("loggedInUser", JSON.stringify(updatedUser));
-      setIsUser(updatedUser);
+      setUser(updatedUser);
 
       message.success("Profile updated successfully!");
       setIsModalOpen(false);

@@ -12,7 +12,7 @@ import { CloseOutlined } from "@ant-design/icons";
 
 const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
   // CONTEXT
-  const { isUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { addItemToCart, isProductExist } = useContext(CartContext);
   const { theme, bgColor, textColor, mainColor } = useContext(ThemeContext);
   const [isHover, setIsHover] = useState(true);
@@ -97,7 +97,7 @@ const AppModal = ({ isModalOpen, setIsModalOpen, productInfo }) => {
                 {/* ADD TO CART BTN */}
                 <button
                   onClick={() => {
-                    isUser?.isLogIn
+                    user
                       ? addItemToCart({
                           ...productInfo,
                           quantity: 1,

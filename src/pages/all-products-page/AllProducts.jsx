@@ -71,7 +71,7 @@ const filterOptions = [
 
 function AllProducts() {
   //CONTEXTS
-  const { isUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { theme, textColor, bgColor, mainColor, shadowColor } =
     useContext(ThemeContext);
   const { isProductExist, addItemToCart, searchTerm } = useContext(CartContext);
@@ -243,7 +243,11 @@ function AllProducts() {
             <div className="filter-container h-screen transition-all duration-200 absolute z-20 bg-white rounded-lg gap-4 p-4">
               <div className="filter-inputs flex flex-col h-full">
                 {filterOptions.map((filter) => (
-                  <label className="text-black capitalize" htmlFor={filter.id}>
+                  <label
+                    key={filter.id}
+                    className="text-black capitalize"
+                    htmlFor={filter.id}
+                  >
                     {filter.label}
                     <select
                       className="rounded-lg w-full border border-gray-300 mt-1 capitalize"
@@ -333,11 +337,11 @@ function AllProducts() {
                         {/* ADD TO CART BTN */}
                         <Button
                           onClick={() => {
-                            isUser?.isLogIn
+                            user
                               ? addItemToCart({
                                   ...data,
                                   quantity: 1,
-                                  orderedBy: isUser.userCart,
+                                  orderedBy: user.userCart,
                                   deliveryStatus: "pending",
                                   deliveryDetails: {},
                                 })

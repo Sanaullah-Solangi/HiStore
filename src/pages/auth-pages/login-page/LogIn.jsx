@@ -1,43 +1,54 @@
-import { auth, signInWithEmailAndPassword } from "../../../utils/firebase";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ApiRoutes } from "../../../constants";
+import { UserContext } from "../../../contexts/UserContext";
 import LogInForm from "./LogInForm";
 import Loader from "../../../components/ui/Loader";
-import Swal from "sweetalert2";
 import LogInImage from "../../../assets/images/login.png";
 import FormContainer from "../../../components/ui/FormContainer";
-
+import sendRequest from "../../../helpers/sendRequest";
+import showSweatAlert from "../../../helpers/showSweatAleart";
+import { toast } from "react-toastify";
 // LOGIN PAGE COMPONENT
 function LogInPage() {
-  // STATES
+  // states
+  const { user, setUser } = useContext(UserContext);
   const [loader, setLoader] = useState(false);
-  //  FUNCTION TO LOGIN USER
+  const navigate = useNavigate();
+  //  login function
   const logIn = async (formInstance) => {
     const values = formInstance.getFieldValue();
     const { username, email, password } = values;
+    const payload = { email, password };
     setLoader(true);
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      formInstance.resetFields();
-      window.location.href = "/";
+      const result = await sendRequest(ApiRoutes.user.login, "POST", payload);
+
+      console.log("Login result =>", result);
+
       setLoader(false);
-      Swal.fire({
-        title: "Logged In!",
-        text: "You are successfully logged in.",
-        icon: "success",
-        showConfirmButton: true,
-        timer: 2500, // Alert ko 1.5 second ke liye show karega
-      });
+      if (result.success) {
+        setUser(result.data);
+        localStorage.setItem("token", result.data.token);
+        formInstance.resetFields();
+        toast.success("You are login successfully");
+        // showSweatAlert("Logged In", "You are login successfully", "success", {
+        //   showConfirmationButton: true,
+        //   timer: 800,
+        // }).then(() => {
+        navigate("/");
+        // });
+      }
     } catch (error) {
       setLoader(false);
-      console.log(error.message);
-      Swal.fire({
-        title: "Login Failed!",
-        text: "Your credentials are incorrect. Please try again.",
-        icon: "error",
-        confirmButtonText: "Retry",
-        confirmButtonColor: "#d33",
-      });
-      // formInstance.resetFields();
+      console.log(error);
+      toast.error("Invalid credentials. Please try again!");
+
+      //   showSweatAlert("Log in Failed", error.message, "error", {
+      //     confirmButtonText: "Retry",
+      //     confirmButtonColor: "#d33",
+      //     timer: 2500,
+      //   });
     }
   };
   return loader ? (

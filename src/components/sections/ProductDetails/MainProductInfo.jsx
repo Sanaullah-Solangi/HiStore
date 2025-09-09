@@ -156,7 +156,7 @@ const ProductMainInfo = ({
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <button
             onClick={() => {
-              isUser?.isLogIn
+              user
                 ? addItemToCart({
                     ...productInfo,
                     quantity: 1,

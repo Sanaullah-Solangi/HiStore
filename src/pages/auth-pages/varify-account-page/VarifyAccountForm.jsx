@@ -24,7 +24,7 @@ const onFinishFailed = (errorInfo) => {
   });
 };
 // LOGIN FORM COMPONENT
-const ForgotPasswordForm = ({ resetPasswordViaEmail }) => {
+const VarifyAccountForm = ({ resetPasswordViaEmail }) => {
   const [form] = Form.useForm();
   return (
     // FORM WRAPPER
@@ -44,24 +44,22 @@ const ForgotPasswordForm = ({ resetPasswordViaEmail }) => {
       <div className="flex flex-col w-full gap-5">
         {/* EMAIL INPUT */}
         <FormInput
-          name={"email"}
-          message={"Please Input Your Email"}
-          label={"Email"}
-          id={"email"}
+          name={"otp"}
+          message={"Please Input Your OTP"}
+          label={"Verification code"}
+          id={"otp"}
         />
+
+        <p className="">
+          Did not receive a code?{" "}
+          <span className="text-red-800 font-bold ">Resend</span>
+        </p>
 
         {/* SUBMIT BTN */}
-        <Button
-          type={"primary"}
-          text={"Submit"}
-          buttonVariant="contained"
-        />
+        <Button type={"primary"} text={"Submit"} buttonVariant="contained" />
       </div>
-
-      {/* OR LOG IN WITH GOOGLE */}
-      <GoogleLogin />
     </Form>
   );
 };
 
-export default ForgotPasswordForm;
+export default VarifyAccountForm;

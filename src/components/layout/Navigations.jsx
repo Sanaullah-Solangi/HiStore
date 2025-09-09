@@ -9,7 +9,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 function Navigations() {
   const { mainColor } = useContext(ThemeContext);
-  const { isUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [navVisibility, setNavVisibility] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
   const { pathname } = useLocation();
@@ -108,7 +108,7 @@ function Navigations() {
             )
           )}
 
-          {isUser?.email == "admin@gmail.com" ? (
+          {user?.email == "admin@gmail.com" ? (
             /***** USER NAVIGATIONS *****/
             <div className="user-navigations mr-5 cursor-pointer font-medium md:border-none md:w-auto md:px-0 md:py-0 border-b border-gray-400  w-full flex justify-between items-center md:hidden relative">
               <span

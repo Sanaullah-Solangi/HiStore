@@ -21,7 +21,7 @@ import StatusMessage from "../components/ui/StatusMessage";
 Link;
 // CART COMPONENT STARTS
 function CartItems() {
-  const { isUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const navigate = useNavigate();
   const { theme, shadowColor, textColor, bgColor, borderColor, mainColor } =
@@ -171,7 +171,7 @@ function CartItems() {
           )}
         </div>
         {/* === ORDER SUMMARY === */}
-        <div className="order-summary col-span-5  md:col-span-2 py-5   ">
+        <div className="order-summary col-span-5 md:col-span-2 py-5 fixed right-14 w-[450px]">
           <h1>Order Summary</h1>
           <div className="summary-content-wrapper">
             <div className="summary-content">
@@ -209,7 +209,7 @@ function CartItems() {
           </div>
         </div>
       </div>
-      <style >{`
+      <style>{`
         .order-summary {
           color: ${textColor};
           background: ${bgColor};

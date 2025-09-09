@@ -9,53 +9,64 @@ import {
 } from "react-router-dom";
 
 // PAGES & COMPONENTS
+//Auth-Components
+import SignUp from "../pages/auth-pages/signup-page/SignUp";
+import LogIn from "../pages/auth-pages/login-page/LogIn";
+import ForgotPassword from "../pages/auth-pages/forgot-password-page/ForgotPassword";
+import VarifyAccount from "../pages/auth-pages/varify-account-page/VarifyAccount";
+//Layout-Components
+import Footer from "../components/layout/Footer";
+import Header from "../components/layout/Header";
+import Navigations from "../components/layout/Navigations";
 //Home-Components
 import HomePage from "../pages/home-page/Home";
 import Hero from "../pages/home-page/home-components/Hero";
 import Categories from "../pages/home-page/home-components/Categories";
-import FeaturedProducts from "../pages/home-page/home-components/featured-products/FeaturedProducts";
 import Services from "../pages/home-page/home-components/Services";
-//All-Products
-import AllProducts from "../pages/all-products-page/AllProducts";
-import Header from "../components/layout/Header";
-import Navigations from "../components/layout/Navigations";
-import Footer from "../components/layout/Footer";
+import FeaturedProducts from "../pages/home-page/home-components/featured-products/FeaturedProducts";
+//Cart-Related-Components
 import CartItems from "../pages/CartItems";
-import SignUp from "../pages/auth-pages/signup-page/SignUp";
-import LogIn from "../pages/auth-pages/login-page/LogIn";
-import ForgotPassword from "../pages/auth-pages/forgot-password-page/ForgotPassword";
+import CheckOut from "../pages/CheckOut";
+import AllProducts from "../pages/all-products-page/AllProducts";
+//User-Details
 import Profile from "../pages/profile-page/Profile";
 import Orders from "../components/UserComponents/Orders";
-// UTILITIES
-import ScrollTop from "../utils/ScrollTop";
+//Utilities
+import ScrollTop from "../components/utils/ScrollTop";
 import PicColors from "../components/ui/ColorPicker";
-import CheckOut from "../pages/CheckOut";
 import StatusMessage from "../components/ui/StatusMessage";
+//Admin-Components
 import AdminLayout from "../pages/AdminLayout";
 import AdminProducts from "../pages/Products";
 import Dashboard from "../pages/Dashboard";
-import AdminOrders from "../pages/Orders";
 import UsersPage from "../pages/UsersPage";
 import ShoppingCart from "../components/ShoppingCart";
 import ProductDetails from "../pages/ProductDetails";
-import UserContextProvider, { UserContext } from "../contexts/UserContext";
+//Contexts
+import UserContextProvider from "../contexts/UserContext";
+import { jwtDecode } from "jwt-decode";
 function AppRouter() {
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  console.log("LOGGED IN USER =>", !loggedInUser?.isLogIn);
+  const token = localStorage.getItem("token");
+  let user;
+  if (token !== null && token !== "null") {
+    console.log("token", token);
+    user = jwtDecode(token);
+  }
+  console.log("User in router =>", user);
   return (
     <BrowserRouter>
       <UserContextProvider>
         <ScrollTop />
+        <PicColors />
         <Routes>
           {/* AUTH ROUTES STACK */}
           <Route
             path="/auth"
             element={
-              !loggedInUser?.isLogIn ? (
+              user ? (
                 <Navigate to={"/"} />
               ) : (
                 <>
-                  <PicColors />
                   <Outlet />
                 </>
               )
@@ -63,37 +74,36 @@ function AppRouter() {
           >
             <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<LogIn />} />
-            <Route path="forgotpassword" element={<ForgotPassword />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="varify-account" element={<VarifyAccount />} />
           </Route>
 
           {/* ADMIN ROUTES STACK */}
           <Route
-            path="https://histore-admin-panel.vercel.app/"
+            path="/admin"
             element={
-              loggedInUser?.email === "admin@gmail.com" ? (
-                <>
-                  <AdminLayout />
-                </>
-              ) : (
-                <Navigate to={"/"} />
-              )
+              // loggedInUser?.email === "admin@gmail.com" ? (
+              <>
+                <AdminLayout />
+              </>
+              // ) : (
+              // <Navigate to={"/"} />
+              // )
             }
           >
             <Route index element={<Dashboard />} />
             <Route path="users" element={<UsersPage />} />
             <Route path="products" element={<AdminProducts />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="orders" element={<AdminOrders />} />
           </Route>
           {/* USER ROUTES STACK */}
           <Route
             path="/user"
             element={
-              loggedInUser?.isLogIn ? (
+              user ? (
                 <>
                   <Header />
                   <Navigations />
-                  <PicColors />
                   <Outlet />
                 </>
               ) : (
@@ -112,7 +122,6 @@ function AppRouter() {
               <div>
                 <Header />
                 <Navigations />
-                <PicColors />
                 <Outlet />
                 <Footer />
               </div>
@@ -128,18 +137,19 @@ function AppRouter() {
             <Route path="/shopping-cart" element={<ShoppingCart />} />
             <Route path="all-products/:searchQuery" element={<AllProducts />} />
             <Route path="product-details/:id" element={<ProductDetails />} />
-            <Route
-              path="*"
-              element={
-                <StatusMessage
-                  status="404"
-                  title="404 - Page Not Found"
-                  subTitle="Sorry, the page you're looking for doesn't exist."
-                  btnTxt={"Back Home"}
-                />
-              }
-            />
           </Route>
+          {/* NOT FOUND ROUTE */}
+          <Route
+            path="*"
+            element={
+              <StatusMessage
+                status="404"
+                title="404 - Page Not Found"
+                subTitle="Sorry, the page you're looking for doesn't exist."
+                btnTxt={"Back Home"}
+              />
+            }
+          />
         </Routes>
         {/* <Footer /> */}
       </UserContextProvider>

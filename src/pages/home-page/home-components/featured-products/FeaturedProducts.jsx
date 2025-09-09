@@ -10,6 +10,7 @@ import StatusMessage from "../../../../components/ui/StatusMessage";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "./featured-products-components/ProductCard";
+import ProductDetails from "./featured-products-components/ProductDetails";
 // FEATURED PRODUCTS COMPONENT
 function FeaturedProducts() {
   // CONTEXTS
@@ -83,11 +84,9 @@ function FeaturedProducts() {
     </>
   ) : (
     <section id="featured-products" className="text-gray-600 body-font">
-      <AppModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        productInfo={productInfo}
-      />
+      <AppModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+        <ProductDetails productInfo={productInfo} />
+      </AppModal>
       <div className="container featured-prods-container relative px-5 pt-16 mx-auto">
         {/* MAIN HEADING */}
         <div className="featured-prods-content text-center mb-10 flex justify-center items-center flex-col">

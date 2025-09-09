@@ -2,8 +2,17 @@ import { Form } from "antd";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
-function FormInput({ name, message, label, id, value, enability, type }) {
-  const { mainColor } = useContext(ThemeContext);
+function FormInput({
+  name,
+  message,
+  label,
+  id,
+  value,
+  enability,
+  type,
+  radius,
+}) {
+  const { mainColor, bgColor, textColor, theme } = useContext(ThemeContext);
   const [isFocused, setIsFocused] = useState(false);
   const [inputVal, setInputVal] = useState(value ? value : "");
   return (
@@ -22,21 +31,33 @@ function FormInput({ name, message, label, id, value, enability, type }) {
           htmlFor={id}
           className={`absolute transition-all duration-200 ease-linear px-3 ${
             isFocused || inputVal
-              ? "left-3 -top-3 bg-white"
-              : "left-5 top-5 bg-transparent text-gray-500 "
+              ? `left-4 -top-3 ${theme == "black" && "text-white"} `
+              : "left-5 top-6 bg-transparent text-gray-500 "
           }`}
-          style={{ fontSize: `${isFocused ? "1.2rem" : "1.5rem"}` }}
+          style={{
+            fontSize: `${isFocused || inputVal ? "1.2rem" : "1.5rem"}`,
+            background: bgColor,
+          }}
         >
           {label}
         </label>
         <input
-          className={`w-full py-5 px-7 text-3xl rounded-[50px] bg-transparent`}
+          className={`w-full py-5 px-7 text-3xl ${
+            radius ? "rounded-[5px]" : "rounded-[50px]"
+          } bg-transparent`}
           style={{
             border: `2px solid ${
-              isFocused || inputVal ? mainColor : "rgb(209 213 219)"
+              isFocused || inputVal
+                ? mainColor
+                : theme == "light"
+                ? "rgb(209 213 219)"
+                : "#6b7280"
             }`,
             boxShadow: "none",
             outline: "none",
+            color: textColor,
+            fontWeight: type == "password" ? "bold" : "",
+            fontSize: type == "password" ? "2.1rem" : "",
           }}
           value={inputVal}
           type={type ? type : "text"}

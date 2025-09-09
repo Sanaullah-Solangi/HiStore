@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { DollarOutlined, ProductOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import FormInput from "../components/ui/FormInput";
-import FormButton from "../components/ui/FormButton";
+import Button from "../components/ui/Button";
 import Swal from "sweetalert2";
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
@@ -20,7 +20,7 @@ function CheckOut() {
   const [form] = Form.useForm();
   const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
   const { cartItems, setCartItems } = useContext(CartContext);
-  const { isUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const order = localStorage.getItem("order");
   const navigate = useNavigate();
   const {
@@ -33,7 +33,7 @@ function CheckOut() {
     company,
     city,
     country,
-  } = isUser;
+  } = user;
   // CALCULATING TOTAL AMOUNT OF CART ITEMS
   const totalAmount = cartItems.reduce(
     (total, product) => Math.round(total + product.price * product.quantity),
@@ -61,7 +61,7 @@ function CheckOut() {
 
     localStorage.setItem(order, JSON.stringify(allDeliveredItem));
     setCartItems([]);
-    localStorage.setItem(isUser.userCart, JSON.stringify([]));
+    localStorage.setItem(user.userCart, JSON.stringify([]));
     Swal.fire({
       icon: "success",
       title: "Success!",
@@ -165,7 +165,7 @@ function CheckOut() {
               id={"phone"}
             />
             {/* SUBMIT BTN */}
-            <FormButton
+            <Button
               type={"primary"}
               text={"Place Order"}
               buttonVariant="contained"

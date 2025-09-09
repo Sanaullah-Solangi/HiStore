@@ -24,6 +24,7 @@ body,
 html {
   overflow-x: hidden !important;
 }
+
 section {
   transition: all linear 0.1s;
   -webkit-transition: all linear 0.1s;
@@ -120,7 +121,7 @@ section {
 }
 
 .AppModal {
-  width: 80% !important;
+  width: auto !important;
 }
 
 .FormModal {
@@ -187,4 +188,10 @@ section {
 
 .adminProfile::-webkit-scrollbar {
   display: none;
+}
+
+.toastBody {
+  font-family: "Jost", sans-serif !important;
+  font-size: 1.4rem !important;
+  min-width: fit-content;
 }

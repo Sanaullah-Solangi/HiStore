@@ -1,10 +1,10 @@
-import FormButton from "./FormButton";
+import Button from "./Button";
 import googleBtn from "../../assets/images/googlebtn.png";
 import { useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../../utils/firebase";
 import { useTheme } from "../../contexts/ThemeContext";
 
-function LoginWithGoogle() {
+function GoogleLogin() {
   const { mainColor } = useTheme();
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ function LoginWithGoogle() {
       </div>
 
       {/* GOOGLE BTN */}
-      <FormButton
+      <Button
         type={"button"}
         myFunc={() => {
           signInWithGoogle(navigate);
@@ -31,4 +31,4 @@ function LoginWithGoogle() {
   );
 }
 
-export default LoginWithGoogle;
+export default GoogleLogin;

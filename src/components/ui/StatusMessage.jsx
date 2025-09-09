@@ -29,7 +29,7 @@ function StatusMessage({
           </Button>
         }
       />
-      <styl>{`
+      <style>{`
         .ant-result {
           background: ${bgColor};
           width:100%;
@@ -55,7 +55,7 @@ function StatusMessage({
           color: white !important;
           background: ${mainColor} !important;
         }
-      `}</styl>
+      `}</style>
     </>
   );
 }

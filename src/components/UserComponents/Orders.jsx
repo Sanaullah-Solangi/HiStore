@@ -13,7 +13,7 @@ import { DollarOutlined, CloseOutlined } from "@ant-design/icons";
 
 // CART COMPONENT STARTS
 function Orders() {
-  const { isUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { theme, color, bgColor, mainColor } = useContext(ThemeContext);
   const { deliveredItems } = useContext(CartContext);
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function Orders() {
       <div className="container relative pb-24 mx-auto overflow-hidden ">
         {/* === CONTENT SECTION === */}
         <div className="py-6 md:col-span-3 ">
-          {isUser?.isLogIn ? (
+          {user ? (
             deliveredItems.map((item, ind) => {
               return (
                 <div
@@ -103,15 +103,13 @@ function Orders() {
               );
             })
           ) : (
-            
-              <StatusMessage
-                status={"warning"}
-                title={"Please log in to view your cart"}
-                subTitle={"You need to log in to see the items in your cart"}
-                onClick={() => navigate("/auth/login")}
-                btnTxt={"Log in"}
-              />
-            
+            <StatusMessage
+              status={"warning"}
+              title={"Please log in to view your cart"}
+              subTitle={"You need to log in to see the items in your cart"}
+              onClick={() => navigate("/auth/login")}
+              btnTxt={"Log in"}
+            />
           )}
         </div>
       </div>
@@ -120,7 +118,7 @@ function Orders() {
     // <EmptyData />
     <StatusMessage
       status={"warning"}
-      title={"Your cartasd is empty"}
+      title={"Your cart is empty"}
       subTitle={
         " It looks like you haven't added any items to your cart yet. Browse products and add them to your cart."
       }

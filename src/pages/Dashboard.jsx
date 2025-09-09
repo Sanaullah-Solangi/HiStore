@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Moon, Sun, Menu } from "lucide-react";
 import { Sidebar } from "../components/DashBoardComponents/Sidebar";
 import { SummaryCards } from "../components/DashBoardComponents/SummaryCards";
-import { DashboardCharts } from "../components/DashBoardComponents/DashBoardCharts";
+import DashboardCharts from "../components/DashBoardComponents/DashBoardCharts";
 import { Button } from "antd";
 import { ThemeContext } from "../contexts/ThemeContext";
 import StickyHeader from "../components/DashBoardComponents/StickyHeader";

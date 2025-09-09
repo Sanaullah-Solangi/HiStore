@@ -20,8 +20,8 @@ function SignUp() {
       localStorage.setItem("username", username);
       const user = await createUserWithEmailAndPassword(auth, email, password);
       formInstance.resetFields();
-      window.location.href = "/";
       setLoader(false);
+      window.location.href = "/auth/varify-account";
       Swal.fire({
         title: "Congratulations!",
         text: "Your account has been successfully created.",

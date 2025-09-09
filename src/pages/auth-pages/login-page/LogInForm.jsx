@@ -4,10 +4,28 @@ import { Link, useNavigate } from "react-router-dom";
 import { addUserToDB, signInWithGoogle } from "../../../utils/firebase";
 // CONTEXT
 import FormInput from "../../../components/ui/FormInput";
-import FormButton from "../../../components/ui/FormButton";
+import Button from "../../../components/ui/Button";
 import { useTheme } from "../../../contexts/ThemeContext";
 import googleBtn from "../../../assets/images/googlebtn.png";
-
+import GoogleLogin from "../../../components/ui/GoogleLogin";
+import AuthNavLink from "../../../components/ui/AuthNavLink";
+import RememberMe from "../../../components/ui/RememberMe";
+const inputFields = [
+  {
+    name: "email",
+    message: "please input your email!",
+    label: "Email",
+    id: "email",
+    type: "email",
+  },
+  {
+    name: "password",
+    message: "please input your password!",
+    label: "Password",
+    id: "password",
+    type: "password",
+  },
+];
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -32,62 +50,38 @@ const LogInForm = ({ logIn }) => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      {/* EMAIL INPUT */}
-      <FormInput
-        name={"email"}
-        message={"Please Input Your Email"}
-        label={"Email"}
-        id={"email"}
-      />
-      {/* PASSWORD INPUT */}
-      <FormInput
-        name={"password"}
-        message={"Please input your password!"}
-        label={"Password"}
-        id={"password"}
-      />
+      {/* INPUT FIELDS */}
+      {inputFields.map((field) => (
+        <FormInput
+          key={field.id}
+          name={field.name}
+          message={field.message}
+          label={field.label}
+          id={field.id}
+          type={field.type}
+        />
+      ))}
+
       <div className="w-full flex justify-between items-center">
         {/* REMEMBER ME CHECKBOX */}
-        <Form.Item
-          className=" flex justify-center"
-          name="remember"
-          valuePropName="checked"
-        >
-          <Checkbox style={{ color: `${color}` }}>Remember me</Checkbox>
-        </Form.Item>
+        <RememberMe varient={"login"} />
         <Link
-          to={"/auth/forgotpassword"}
+          to={"/auth/forgot-password"}
           className="text-red-700 cursor-pointer font-bold"
         >
           Forgot Password
         </Link>
       </div>
       {/* SUBMIT BTN */}
-      <FormButton type={"primary"} text={"Submit"} buttonVariant="contained" />
+      <Button type={"primary"} text={"Submit"} buttonVariant="contained" />
       {/* NAVIGATION LINK TO SIGN UP ACCOUNT */}
-      <p style={{ color: `${color}` }} className="my-5 text-2xl">
-        Don't have an account{" "}
-        <Link to="/auth/signup" className="text-blue-500 font-bold">
-          Sign Up
-        </Link>
-      </p>
-      {/* OR LOG IN WITH GOOGLE */}
-      <div className="relative w-full z-10 text-center bg-yellow-500 my-4 mb-10">
-        <p className="font-bold text-gray-400 cursor-pointer absolute  left-[50%] -translate-x-[50%] top-[50%] -translate-y-[50%] bg-white px-3">
-          Or Login With
-        </p>
-        <span className="absolute w-[90%] h-[2px] bg-gray-300 left-[50%] -translate-x-[50%] top-[50%] -translate-y-[50%] -z-10"></span>
-      </div>
-      {/* GOOGLE BTN */}
-      <FormButton
-        type={"button"}
-        myFunc={async () => {
-          const user = await signInWithGoogle(navigate);
-        }}
-        imgSrc={googleBtn}
-        bgColor={"transparent"}
-        txtColor={mainColor}
+      <AuthNavLink
+        path="/auth/signup"
+        para="Don't have an account"
+        title="Sign Up"
       />
+      {/* OR LOG IN WITH GOOGLE */}
+      <GoogleLogin />
     </Form>
   );
 };

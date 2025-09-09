@@ -17,38 +17,52 @@ function ForgotPassword() {
     const { email } = formInstance.getFieldValue();
 
     try {
-      const response = await sendPasswordResetEmail(auth, email);
-      Swal.fire({
-        customClass: {
-          container: "sweatContainer",
-          popup: "sweatPopup",
-          title: "sweatTitle",
-          htmlContainer: "sweatPara",
-          confirmButton: "sweatBtn",
-          cancelButton: "sweatBtn",
-        },
-        icon: "success",
-        title: "Email Sent!",
-        text: "Password reset email has been sent to your email. Please check your inbox.",
-      });
+      const res = await fetch(
+        "http://localhost:4002/api/password/forgot-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "text/html",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      console.log("response email", email);
+      console.log("response =>", res);
+      // const response = await sendPasswordResetEmail(auth, email);
+      // Swal.fire({
+      //   customClass: {
+      //     container: "sweatContainer",
+      //     popup: "sweatPopup",
+      //     title: "sweatTitle",
+      //     htmlContainer: "sweatPara",
+      //     confirmButton: "sweatBtn",
+      //     cancelButton: "sweatBtn",
+      //   },
+      //   icon: "success",
+      //   title: "Email Sent!",
+      //   text: "Password reset email has been sent to your email. Please check your inbox.",
+      // });
       formInstance.resetFields();
-      navigate("/auth/login");
+      // navigate("/auth/login");
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      Swal.fire({
-        customClass: {
-          container: "sweatContainer",
-          popup: "sweatPopup",
-          title: "sweatTitle",
-          htmlContainer: "sweatPara",
-          confirmButton: "sweatBtn",
-          cancelButton: "sweatBtn",
-        },
-        icon: "error",
-        title: "Error",
-        text: `Error: ${errorMessage}`,
-      });
+      // Swal.fire({
+      //   customClass: {
+      //     container: "sweatContainer",
+      //     popup: "sweatPopup",
+      //     title: "sweatTitle",
+      //     htmlContainer: "sweatPara",
+      //     confirmButton: "sweatBtn",
+      //     cancelButton: "sweatBtn",
+      //   },
+      //   icon: "error",
+      //   title: "Error",
+      //   text: `Error: ${errorMessage}`,
+      // });
     }
   };
 

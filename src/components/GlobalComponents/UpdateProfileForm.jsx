@@ -1,11 +1,9 @@
 // IMPORTING ELEMENTS & COMPONENTS
 import { Form, message } from "antd";
-import { useNavigate } from "react-router-dom";
 import { db, doc, updateDoc } from "../../utils/firebase";
 // CONTEXT
 import FormInput from "../ui/FormInput";
-import FormButton from "../ui/FormButton";
-import { useTheme } from "../../contexts/ThemeContext";
+import Button from "../ui/Button";
 import { AiOutlineMail } from "react-icons/ai";
 import { IoCallOutline } from "react-icons/io5";
 import { LiaCitySolid } from "react-icons/lia";
@@ -83,10 +81,9 @@ const onFinishFailed = (errorInfo) => {
 // UPDATE PROFILE FORM COMPONENT
 const UpdateProfileForm = ({ setIsModalOpen }) => {
   const [form] = Form.useForm();
-  const { theme, color, bgColor, mainColor } = useTheme();
   const [loader, setLoader] = useState(false);
-  const { isUser, setIsUser } = useContext(UserContext);
-  if (isUser) {
+  const { user, setUser } = useContext(UserContext);
+  if (user) {
     const {
       email,
       displayName,
@@ -95,7 +92,7 @@ const UpdateProfileForm = ({ setIsModalOpen }) => {
       company,
       city,
       country,
-    } = isUser;
+    } = user;
 
     return loader ? (
       <Loader />
@@ -117,17 +114,17 @@ const UpdateProfileForm = ({ setIsModalOpen }) => {
         onFinish={async () => {
           const values = form.getFieldValue();
           const obj = {
-            ...isUser,
+            ...user,
             ...values,
           };
           console.log(obj);
           setLoader(true);
           try {
-            const userRef = doc(db, "Users", isUser.uid);
+            const userRef = doc(db, "Users", user.uid);
             const updated = await updateDoc(userRef, {
               ...obj,
             });
-            setIsUser(obj);
+            setUser(obj);
             setIsModalOpen(false);
             setLoader(false);
             message.success("Your Profile Is Successfully Updated!");
@@ -139,7 +136,7 @@ const UpdateProfileForm = ({ setIsModalOpen }) => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        {/* NAME */}
+        {/* INPUT FIELDS */}
         {inputFields.map((field) => (
           <div className="w-full text-md grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-0 items-center">
             <span className="w-[90%] flex items-center justify-start gap-2 md:border-b border-gray-300 pb-2">
@@ -155,7 +152,7 @@ const UpdateProfileForm = ({ setIsModalOpen }) => {
         ))}
 
         {/* SUBMIT BTN */}
-        <FormButton
+        <Button
           type={"submit"}
           text={"Save Changes"}
           buttonVariant="contained"

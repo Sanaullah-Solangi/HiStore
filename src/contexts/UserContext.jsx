@@ -10,8 +10,9 @@ function UserContextProvider({ children }) {
   useEffect(() => {
     if (token !== null && token !== "null") {
       const decoded = jwtDecode(token);
+      console.log("decoded data in context =>", decoded);
       setUser(decoded);
-    } 
+    }
   }, []);
   return (
     <UserContext.Provider value={{ user, setUser }}>

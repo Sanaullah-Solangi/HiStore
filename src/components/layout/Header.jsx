@@ -49,13 +49,13 @@ function Header() {
         if (result?.isConfirmed) {
           localStorage.setItem("token", null);
           setUser(null);
-          toast.success("You are loged out successfully");
           showSweatAlert(
             "Loged out",
             "You are loged out successfully",
             "success",
             {
               timer: 800,
+              showConfirmButton: false,
             }
           ).then((result) => {
             if (result.isConfirmed) {

@@ -1,4 +1,7 @@
 const sendRequest = async (url, method, data) => {
+  console.log("url ===>", url);
+  console.log("method ===>", method);
+  console.log("data ===>", data);
   try {
     const options = {
       headers: {

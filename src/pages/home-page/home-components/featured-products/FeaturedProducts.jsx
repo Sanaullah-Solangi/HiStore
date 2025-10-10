@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "./featured-products-components/ProductCard";
 import ProductDetails from "./featured-products-components/ProductDetails";
+import sendRequest from "../../../../helpers/sendRequest";
 // FEATURED PRODUCTS COMPONENT
 function FeaturedProducts() {
   // CONTEXTS
@@ -36,36 +37,39 @@ function FeaturedProducts() {
     setNotFound(false);
     getProductInfo(Id);
   }, [Id]);
-  const getProducts = () => {
-    fetch("https://dummyjson.com/products")
-      .then((res) => res.json())
-      .then((res) => {
-        // console.log("res->", res);
-        setProducts(res.products);
-        setLoader(false);
-        res.message ? setNotFound(true) : setNotFound(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setNotFound(true);
-        setLoader(false);
-      });
+  const getProducts = async () => {
+    try {
+      const { products } = await sendRequest("https://dummyjson.com/products");
+      setProducts(products);
+      setLoader(false);
+      products ? setNotFound(false) : setNotFound(true);
+    } catch (error) {
+      console.log("get products ------>", error);
+      setNotFound(true);
+      setLoader(false);
+    }
   };
 
-  const getProductInfo = (id) => {
-    fetch(`https://dummyjson.com/products/${id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        // console.log("res->", res);
-        setProductInfo(res);
-        setLoader(false);
-        res.message ? setNotFound(true) : setNotFound(false);
+  const getProductInfo = async (id) => {
+    sendRequest(`https://dummyjson.com/products/${id}`)
+      .then((product) => {
+        console.log("chain product ------->", product);
       })
-      .catch((err) => {
-        console.log(err);
-        setNotFound(true);
-        setLoader(false);
-      });
+      .catch((error) => {
+        console.log("chain error ------->", error);
+      })
+      .finally(() => console.log("chain finally --------->"));
+    try {
+      const product = await sendRequest(`https://dummyjson.com/products/${id}`);
+      console.log(product);
+      setProductInfo(product);
+      setLoader(false);
+      product ? setNotFound(false) : setNotFound(true);
+    } catch (error) {
+      console.log("Featured product ----->", error);
+      setNotFound(true);
+      setLoader(false);
+    }
   };
 
   return loader ? (

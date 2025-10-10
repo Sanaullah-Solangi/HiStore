@@ -6,6 +6,7 @@ import PopularProducts from "../components/sections/ProductDetails/PopularProduc
 import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
+import sendRequest from "../helpers/sendRequest.js";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -14,23 +15,35 @@ const ProductDetails = () => {
   useEffect(() => {
     getProductInfo(id);
   }, []);
-  const getProductInfo = (id) => {
-    fetch(`https://dummyjson.com/products/${id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("id in func ==>", id);
+  const getProductInfo = async (id) => {
+    try {
+      const result = await sendRequest(`https://dummyjson.com/products/${id}`);
+      console.log("result in ProductDetails ------>", result);
+      setProductInfo(result);
+      setNotFound(true);
+      res.message ? setNotFound(true) : setNotFound(false);
+      console.log("data in products details -------->", data);
+    } catch (error) {
+      console.log(error);
+      setNotFound(true);
+      setLoader(false);
+    }
+    // fetch(`https://dummyjson.com/products/${id}`)
+    //   .then((res) => res.json())
+    //   .then((res) => {
+    //     console.log("id in func ==>", id);
 
-        // console.clear();
-        console.log("res->", res);
-        setProductInfo(res);
-        // setLoader(false);
-        // res.message ? setNotFound(true) : setNotFound(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        // setNotFound(true);
-        // setLoader(false);
-      });
+    //     // console.clear();
+    //     console.log("res->", res);
+    //     setProductInfo(res);
+    //     // setLoader(false);
+    //     // res.message ? setNotFound(true) : setNotFound(false);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     // setNotFound(true);
+    //     // setLoader(false);
+    //   });
   };
   /* const product = {
     id: 1,

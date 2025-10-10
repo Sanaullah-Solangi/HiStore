@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import ForgotPasswordImg from "../../../assets/images/forgotPassword.png";
 import ForgotPasswordForm from "./ForgotPasswordForm";
 import FormContainer from "../../../components/ui/FormContainer";
+import { ApiRoutes } from "../../../constants";
+import sendRequest from "../../../helpers/sendRequest.js";
 
 // LOGIN PAGE COMPONENT
 function ForgotPassword() {
@@ -17,17 +19,23 @@ function ForgotPassword() {
     const { email } = formInstance.getFieldValue();
 
     try {
-      const res = await fetch(
-        "http://localhost:4002/api/password/forgot-password",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "text/html",
-          },
-          body: JSON.stringify({ email }),
-        }
+      const result = await sendRequest(
+        ApiRoutes.password.forgotPassword,
+        "POST",
+        { email }
       );
+      const data = result.json();
+      // const res = await fetch(
+      //   "http://localhost:4002/api/password/forgot-password",
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Accept: "text/html",
+      //     },
+      //     body: JSON.stringify({ email }),
+      //   }
+      // );
 
       console.log("response email", email);
       console.log("response =>", res);

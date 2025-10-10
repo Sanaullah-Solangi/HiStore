@@ -6,6 +6,10 @@ import FormInput from "../../../components/ui/FormInput";
 import Button from "../../../components/ui/Button";
 import Swal from "sweetalert2";
 import GoogleLogin from "../../../components/ui/GoogleLogin";
+import sendRequest from "../../../helpers/sendRequest";
+import { ApiRoutes } from "../../../constants";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 // FUNCTION TO INDICATE ANY ERROR
 const onFinishFailed = (errorInfo) => {
@@ -24,7 +28,8 @@ const onFinishFailed = (errorInfo) => {
   });
 };
 // LOGIN FORM COMPONENT
-const VarifyAccountForm = ({ resetPasswordViaEmail }) => {
+const VerifyAccountForm = ({ resetPasswordViaEmail }) => {
+  const userId = localStorage.getItem("userId");
   const [form] = Form.useForm();
   return (
     // FORM WRAPPER
@@ -52,8 +57,16 @@ const VarifyAccountForm = ({ resetPasswordViaEmail }) => {
         />
 
         <p className="">
-          Did not receive a code?{" "}
-          <span className="text-red-800 font-bold ">Resend</span>
+          Did not receive a code or expired the OTP?{" "}
+          <button
+            type="button"
+            onClick={() =>
+              sendRequest(ApiRoutes.verify.resedOtp, "POST", { userId })
+            }
+            className="text-red-800 font-bold "
+          >
+            Resend
+          </button>
         </p>
 
         {/* SUBMIT BTN */}
@@ -63,4 +76,4 @@ const VarifyAccountForm = ({ resetPasswordViaEmail }) => {
   );
 };
 
-export default VarifyAccountForm;
+export default VerifyAccountForm;

@@ -17,38 +17,40 @@ function LogInPage() {
   const navigate = useNavigate();
   //  login function
   const logIn = async (formInstance) => {
-    const values = formInstance.getFieldValue();
-    const { username, email, password } = values;
-    const payload = { email, password };
-    setLoader(true);
     try {
+      const { username, email, password } = formInstance.getFieldValue();
+      const payload = { email, password };
+      setLoader(true);
       const result = await sendRequest(ApiRoutes.auth.login, "POST", payload);
 
       console.log("Login result =>", result);
 
       setLoader(false);
-      if (result.success) {
+      if (result && result?.success) {
         setUser(result.data);
         localStorage.setItem("token", result.data.token);
         formInstance.resetFields();
-        toast.success("You are login successfully");
-        // showSweatAlert("Logged In", "You are login successfully", "success", {
-        //   showConfirmationButton: true,
-        //   timer: 800,
-        // }).then(() => {
-        navigate("/");
-        // });
+        showSweatAlert(
+          "Congratulations!",
+          "You are login successfully",
+          "success",
+          {
+            showConfirmButton: false,
+            timer: 1200,
+          }
+        ).then(() => {
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        });
       }
     } catch (error) {
       setLoader(false);
       console.log(error);
-      toast.error("Invalid credentials. Please try again!");
-
-      //   showSweatAlert("Log in Failed", error.message, "error", {
-      //     confirmButtonText: "Retry",
-      //     confirmButtonColor: "#d33",
-      //     timer: 2500,
-      //   });
+      showSweatAlert("Log in Failed", error.message, "error", {
+        confirmButtonText: "Retry",
+        confirmButtonColor: "#d33",
+      });
     }
   };
   return loader ? (

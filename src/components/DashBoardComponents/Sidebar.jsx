@@ -26,7 +26,6 @@ const menuItems = [
 export function Sidebar() {
   const { theme, bgColor, textColor, mainColor, sidebarOpen, toggleSidebar } =
     useContext(ThemeContext);
-  console.log("toggleSidebar =>", toggleSidebar);
   const location = useLocation();
   const pathname = location.pathname;
 

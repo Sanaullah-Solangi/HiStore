@@ -16,19 +16,22 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoaderContextProvider from "./contexts/LoaderContext.jsx";
+import UserContextProvider from "./contexts/UserContext.jsx";
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <LoaderContextProvider>
-        <LogoUrlProvider>
-          <ThemeContextProvider>
-            <CartContextProvider>
-              <AppRouter />
-            </CartContextProvider>
-          </ThemeContextProvider>
-        </LogoUrlProvider>
-      </LoaderContextProvider>
+      <UserContextProvider>
+        <LoaderContextProvider>
+          <LogoUrlProvider>
+            <ThemeContextProvider>
+              <CartContextProvider>
+                <AppRouter />
+              </CartContextProvider>
+            </ThemeContextProvider>
+          </LogoUrlProvider>
+        </LoaderContextProvider>
+      </UserContextProvider>
     </QueryClientProvider>
     <ToastContainer
       position="top-center"
@@ -40,7 +43,7 @@ createRoot(document.getElementById("root")).render(
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme="colored"
+      theme="light"
       transition={Bounce}
       className={"toastBody"}
     />

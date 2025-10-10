@@ -26,6 +26,7 @@ import {
   getCountFromServer,
 } from "../../utils/firebase";
 import StatusMessage from "../../components/ui/StatusMessage";
+import sendRequest from "../../helpers/sendRequest.js";
 const categoriesArray = [
   "all",
   "beauty",
@@ -91,7 +92,6 @@ function AllProducts() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearched, setIsSearched] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     searchProducts();
     setIsSearched(true);
@@ -132,34 +132,27 @@ function AllProducts() {
     if (!isSearched) {
       try {
         setLoader(true);
-        const prodRef = collection(db, "Products");
-        const productQueryConditions = [
-          category !== "all" && where("category", "==", category),
-          sortBy !== "none" && orderBy(sortBy, sortDirection),
-          limit(itemLimit),
-        ].filter(Boolean);
 
-        const productQuery = query(
-          collection(db, "Products"),
-          ...productQueryConditions
-        );
-        const totalProducts = await getCountFromServer(prodRef);
-        const products = await getDocs(productQuery);
-        const data = products.docs.map((doc) => {
-          return doc.data();
-        });
-        // const response = await fetch(
-        //   `https://dummyjson.com/products/${
-        //     category == "all" ? "" : `category/${category}`
-        //   }?limit=${itemLimit}&skip=${skip}&sortBy=${
-        //     sortBy == "none" ? "" : sortBy
-        //   }&order=${sortDirection}`
-        // );
-        // const res = await response.json();
+        let url = `https://dummyjson.com/products/${
+          category == "all" ? "" : `category/${category}`
+        }?limit=${itemLimit}&skip=${skip}&sortBy=${
+          sortBy == "none" ? "" : sortBy
+        }&order=${sortDirection}`;
+
+        const result = await sendRequest(url);
+        console.log("result -------->", result);
+        const data = result.products;
         setProducts(data);
-        setTotal(totalProducts.data().count);
+        setTotal(data?.length);
         setLoader(false);
         setLoadMore(!loadMore);
+
+        // const response = await fetch(url);
+        // const res = await response.json();
+        // setProducts(res.products);
+        // setTotal(res.products.length);
+        // setLoader(false);
+        // setLoadMore(!loadMore);
         return data;
       } catch (error) {
         setLoader(false);
@@ -174,16 +167,22 @@ function AllProducts() {
     if (isSearched) {
       try {
         setLoader(true);
-        fetch(`https://dummyjson.com/products/search?q=${searchTerm}`)
-          .then((res) => res.json())
-          .then((res) => {
-            setProducts(res.products);
-            setLoader(false);
-            setLoadMore(!loadMore);
-            console.clear();
-            console.log(res.products);
-            console.log("Men Search per chal rha hun");
-          });
+        let url = `https://dummyjson.com/products/search?q=${searchTerm}`;
+        const result = await sendRequest(url);
+        const data = result.json();
+        setProducts(data.products);
+        setLoader(false);
+        setLoadMore(!loadMore);
+        // fetch(`https://dummyjson.com/products/search?q=${searchTerm}`)
+        //   .then((res) => res.json())
+        //   .then((res) => {
+        //     setProducts(res.products);
+        //     setLoader(false);
+        //     setLoadMore(!loadMore);
+        //     console.clear();
+        //     console.log(res.products);
+        //     console.log("Men Search per chal rha hun");
+        //   });
       } catch (error) {
         console.log(error);
       }

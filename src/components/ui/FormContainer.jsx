@@ -10,7 +10,7 @@ function FormContainer({
   paragraph,
   children,
 }) {
-  const { bgColor, color } = useContext(ThemeContext);
+  const { bgColor, textColor } = useContext(ThemeContext);
 
   return (
     <div
@@ -50,13 +50,13 @@ function FormContainer({
         }`}
       >
         <h1
-          style={{ color: `${color}` }}
+          style={{ color: `${textColor}` }}
           className="w-full text-left font-bold text-6xl"
         >
           {heading}
         </h1>
         <p
-          style={{ color: `${color}` }}
+          style={{ color: `${textColor}` }}
           className="w-full text-left text-2xl my-5"
         >
           {paragraph}

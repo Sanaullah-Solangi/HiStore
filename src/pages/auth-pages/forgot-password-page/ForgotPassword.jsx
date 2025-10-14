@@ -24,7 +24,6 @@ function ForgotPassword() {
         "POST",
         { email }
       );
-      const data = result.json();
       // const res = await fetch(
       //   "http://localhost:4002/api/password/forgot-password",
       //   {
@@ -37,8 +36,8 @@ function ForgotPassword() {
       //   }
       // );
 
-      console.log("response email", email);
-      console.log("response =>", res);
+      console.log("result email", email);
+      console.log("result =>", result);
       // const response = await sendPasswordResetEmail(auth, email);
       // Swal.fire({
       //   customClass: {

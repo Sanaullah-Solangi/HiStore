@@ -13,10 +13,10 @@ import AuthNavLink from "../../../components/ui/AuthNavLink";
 
 const inputFields = [
   {
-    name: "username",
-    message: "please input your username!",
-    label: "Username",
-    id: "username",
+    name: "name",
+    message: "please input your name!",
+    label: "Name",
+    id: "name",
     type: "text",
   },
   {

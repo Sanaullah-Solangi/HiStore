@@ -20,8 +20,7 @@ const ProductDetails = () => {
       const result = await sendRequest(`https://dummyjson.com/products/${id}`);
       console.log("result in ProductDetails ------>", result);
       setProductInfo(result);
-      setNotFound(true);
-      res.message ? setNotFound(true) : setNotFound(false);
+      setNotFound(false);
       console.log("data in products details -------->", data);
     } catch (error) {
       console.log(error);

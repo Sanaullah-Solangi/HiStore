@@ -6,7 +6,7 @@ import FormInput from "../../../components/ui/FormInput";
 import Button from "../../../components/ui/Button";
 import Swal from "sweetalert2";
 import GoogleLogin from "../../../components/ui/GoogleLogin";
-import sendRequest from "../../../helpers/sendRequest";
+import sendRequest from "../../../helpers/sendRequest.js";
 import { ApiRoutes } from "../../../constants";
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/UserContext";

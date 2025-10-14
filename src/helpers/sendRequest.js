@@ -1,25 +1,25 @@
-const sendRequest = async (url, method, data) => {
-  console.log("url ===>", url);
-  console.log("method ===>", method);
-  console.log("data ===>", data);
+const sendRequest = async (url, method = "GET", data) => {
   try {
     const options = {
-      headers: {
-        "Content-Type": "application/json",
-      },
+      method,
+      headers: { "Content-Type": "application/json" },
     };
+
     if (data) {
       options.body = JSON.stringify(data);
-    }
-    if (method) {
-      options.method = method;
     }
 
     const response = await fetch(url, options);
     const result = await response.json();
-    return result;
+
+    if (!response.ok) {
+      throw result;
+    }
+
+    return result; // ✅ success case
   } catch (error) {
     console.log("error in sendRequest =>", error);
+    throw error;
   }
 };
 

@@ -7,7 +7,7 @@ const api = axios.create({
   headers: { "X-Custom-Header": "foobar" },
 });
 
-instance.interceptors.request.use(
+api.interceptors.request.use(
   function (config) {
     console.log("config -------->", config);
     return config;
@@ -17,7 +17,7 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(
+api.interceptors.response.use(
   function (response) {
     return response;
   },

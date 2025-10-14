@@ -1,7 +1,7 @@
 const DEV_URL = import.meta.env.VITE_DEV_URL;
 const PROD_URL = import.meta.env.VITE_PROD_URL;
 export const BASE_URL = DEV_URL;
-
+console.log("BASE_URL --->", BASE_URL);
 export const ApiRoutes = {
   auth: {
     login: BASE_URL + "auth/login",

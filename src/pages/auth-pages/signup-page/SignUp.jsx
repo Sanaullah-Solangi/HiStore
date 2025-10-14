@@ -8,6 +8,8 @@ import sendRequest from "../../../helpers/sendRequest";
 import { UserContext } from "../../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import showSweatAlert from "../../../helpers/showSweatAleart";
+import api from "../../../constants/api.js";
+import formatErrorMessage from "../../../helpers/formatErrorMessage.js";
 
 // SIGN UP PAGE COMPONENT
 function SignUp() {
@@ -22,12 +24,14 @@ function SignUp() {
       setLoader(true);
       const payload = formInstance.getFieldValue();
       console.log("payload =>", payload);
-      const { success, data, message } = await sendRequest(
+      // const result = await api.post(ApiRoutes.auth.register, payload);
+      // console.log("axios response --->", result);
+      const result = await sendRequest(
         ApiRoutes.auth.register,
         "POST",
         payload
       );
-      if (success) {
+      if (result?.success) {
         localStorage.setItem("username", payload.username);
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data._id);
@@ -42,14 +46,13 @@ function SignUp() {
       }
 
       formInstance.resetFields();
-      console.log("result =>", success, message);
-      console.log("response data while registration ===>", data);
+      console.log("result =>", JSON.parse(result.message));
       setLoader(false);
     } catch (error) {
       formInstance.resetFields();
-
-      console.log(error.message);
-      showSweatAlert("Registration Failed", error.message, "error", {
+      const messages = formatErrorMessage(error);
+      console.log(error);
+      showSweatAlert("Registration Failed", messages, "error", {
         confirmButtonText: "Retry",
         confirmButtonColor: "#d33",
       });

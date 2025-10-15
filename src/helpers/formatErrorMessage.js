@@ -1,9 +1,9 @@
-const formatErrorMessage = (error) => {
+const formatErrorMessage = (message) => {
   let errorMessage;
   try {
-    errorMessage = JSON.parse(error.message);
+    errorMessage = JSON.parse(message);
   } catch (err) {
-    errorMessage = error.message;
+    errorMessage = message;
   }
   let messages = null;
 

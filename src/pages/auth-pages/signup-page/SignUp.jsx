@@ -24,19 +24,20 @@ function SignUp() {
       setLoader(true);
       const payload = formInstance.getFieldValue();
       console.log("payload =>", payload);
-      // const result = await api.post(ApiRoutes.auth.register, payload);
-      // console.log("axios response --->", result);
-      const result = await sendRequest(
-        ApiRoutes.auth.register,
-        "POST",
-        payload
-      );
-      if (result?.success) {
-        localStorage.setItem("username", payload.username);
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userId", data._id);
+      const result = await api.post(ApiRoutes.auth.register, payload);
+      console.log("axios response --->", result);
+      // const result = await sendRequest(
+      //   ApiRoutes.auth.register,
+      //   "POST",
+      //   payload
+      // );
+      // if (result?.success) {
+      if (result?.data?.success) {
+        // localStorage.setItem("name", payload.name);
+        // localStorage.setItem("token", data.token);
+        // localStorage.setItem("userId", data._id);
         // setUser(data);
-        showSweatAlert("Congratulations!", message, "success", {
+        showSweatAlert("Congratulations!", result?.data?.message, "success", {
           confirmButtonText: "Proceed",
           confirmButtonColor: "#3085d6",
           showConfirmButton: true,
@@ -46,12 +47,13 @@ function SignUp() {
       }
 
       formInstance.resetFields();
-      console.log("result =>", JSON.parse(result.message));
+      // console.log("result =>", JSON.parse(result.message));
       setLoader(false);
     } catch (error) {
       formInstance.resetFields();
-      const messages = formatErrorMessage(error);
-      console.log(error);
+      console.log("error --->", error);
+      console.log("error.message ---->", error?.response.data.message);
+      const messages = formatErrorMessage(error?.response?.data?.message);
       showSweatAlert("Registration Failed", messages, "error", {
         confirmButtonText: "Retry",
         confirmButtonColor: "#d33",
